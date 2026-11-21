@@ -102,16 +102,68 @@ export class GeminiAdapter implements PlatformAdapter {
       }
 
       /* ========================================================= */
-      /* COSMICLAYER CONCEPT 1: FULL GLASS GEMINI SIDEBAR          */
+      /* COSMICLAYER: COMPREHENSIVE FUTURISTIC GEMINI SIDEBAR      */
       /* ========================================================= */
       bard-sidenav,
+      mat-sidenav,
       .side-navigation-v2,
-      nav.side-nav {
-        background-color: rgba(7, 46, 51, 0.72) !important;
+      nav.side-nav,
+      div.side-navigation,
+      div[class*="side-nav"] {
+        background-color: rgba(7, 46, 51, 0.78) !important;
         backdrop-filter: blur(24px) !important;
         -webkit-backdrop-filter: blur(24px) !important;
-        border-right: 1px solid rgba(41, 77, 97, 0.35) !important;
-        box-shadow: 0 0 40px rgba(5, 22, 26, 0.6) !important;
+        border-right: 1px solid rgba(41, 77, 97, 0.45) !important;
+        box-shadow: 4px 0 35px rgba(5, 22, 26, 0.7) !important;
+      }
+
+      /* Make structural wrappers inside Gemini sidebar transparent */
+      bard-sidenav > div,
+      mat-sidenav > div,
+      .side-navigation-v2 > div {
+        background-color: transparent !important;
+      }
+
+      /* Gemini "New chat" button */
+      button[aria-label*="New chat"],
+      .new-chat-button,
+      button.mat-mdc-button-base:has(span:contains("New chat")) {
+        background: linear-gradient(105deg, rgba(15, 150, 156, 0.25) 0%, rgba(12, 112, 117, 0.35) 100%) !important;
+        border: 1px solid rgba(15, 150, 156, 0.5) !important;
+        border-radius: 12px !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        transition: all 0.25s ease !important;
+      }
+      button[aria-label*="New chat"]:hover,
+      .new-chat-button:hover {
+        background: linear-gradient(105deg, #0f969c 0%, #0c7075 100%) !important;
+        border-color: rgba(109, 165, 192, 0.7) !important;
+        box-shadow: 0 0 20px rgba(15, 150, 156, 0.5) !important;
+      }
+
+      /* Gemini Sidebar Nav items */
+      .conversation,
+      .chat-history-item,
+      nav.side-nav a,
+      bard-sidenav a {
+        border-radius: 12px !important;
+        padding: 7px 12px !important;
+        margin: 2px 0 !important;
+        font-size: 13px !important;
+        color: #d1e8ef !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      }
+
+      .conversation:hover:not(.selected),
+      .chat-history-item:hover:not(.selected),
+      nav.side-nav a:hover,
+      bard-sidenav a:hover {
+        background: rgba(15, 150, 156, 0.16) !important;
+        border-color: rgba(15, 150, 156, 0.4) !important;
+        border-radius: 10px !important;
+        transform: translateX(3px) !important;
+        box-shadow: 0 2px 14px rgba(15, 150, 156, 0.25) !important;
       }
 
       /* ========================================================= */
@@ -122,20 +174,25 @@ export class GeminiAdapter implements PlatformAdapter {
       div[aria-selected="true"],
       a.selected {
         background: linear-gradient(105deg, #0f969c 0%, #0c7075 55%, #072e33 100%) !important;
-        box-shadow: 0 4px 20px rgba(15, 150, 156, 0.45),
+        box-shadow: 0 4px 20px rgba(15, 150, 156, 0.5),
                     0 0 12px rgba(12, 112, 117, 0.4),
                     inset 0 1px 1px rgba(109, 165, 192, 0.6) !important;
+        border: 1px solid rgba(15, 150, 156, 0.65) !important;
         border-radius: 12px !important;
         color: #ffffff !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
         transition: all 0.3s cubic-bezier(0.34, 1.45, 0.64, 1) !important;
       }
 
-      .conversation:hover:not(.selected) {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border-radius: 10px !important;
-        transform: translateX(3px) !important;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      /* Futuristic Scrollbar for Gemini */
+      bard-sidenav::-webkit-scrollbar,
+      mat-sidenav::-webkit-scrollbar {
+        width: 5px !important;
+      }
+      bard-sidenav::-webkit-scrollbar-thumb,
+      mat-sidenav::-webkit-scrollbar-thumb {
+        background: rgba(15, 150, 156, 0.4) !important;
+        border-radius: 9999px !important;
       }
 
       ${computeNavbarCss(settings, "gemini")}
