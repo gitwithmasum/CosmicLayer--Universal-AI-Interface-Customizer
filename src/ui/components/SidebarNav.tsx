@@ -81,6 +81,9 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
       style={{
         width: collapsed ? "74px" : "260px",
         flexShrink: 0,
+        height: "100%",
+        overflowY: "auto",
+        overflowX: "hidden",
         padding: "16px 12px",
         borderRight: "1px solid rgba(41, 77, 97, 0.35)",
         background: "rgba(7, 46, 51, 0.65)",

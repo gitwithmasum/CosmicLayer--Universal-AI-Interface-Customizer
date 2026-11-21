@@ -29,8 +29,7 @@ export const Navbar: React.FC<NavbarProps> = ({ settings, onUpdate, onReset }) =
         WebkitBackdropFilter: "blur(20px)",
         borderBottom: "1px solid rgba(41, 77, 97, 0.35)",
         boxShadow: "0 4px 20px rgba(5, 22, 26, 0.6)",
-        position: "sticky",
-        top: 0,
+        flexShrink: 0,
         zIndex: 50
       }}
     >

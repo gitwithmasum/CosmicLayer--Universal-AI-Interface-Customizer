@@ -71,56 +71,70 @@ export const App: React.FC = () => {
 
   return (
     <div style={{
-      minHeight: "100vh",
+      height: "100vh",
+      maxHeight: "100vh",
       display: "flex",
       flexDirection: "column",
+      overflow: "hidden",
       background: "radial-gradient(ellipse at 0% 50%, rgba(15, 150, 156, 0.16), transparent 55%), radial-gradient(ellipse at 100% 50%, rgba(12, 112, 117, 0.20), transparent 55%), radial-gradient(ellipse at 50% 0%, rgba(109, 165, 192, 0.08), transparent 60%), #05161a"
     }}>
-      {/* Top Navigation */}
+      {/* Top Navigation Bar — Fixed at top */}
       <Navbar settings={settings} onUpdate={handleUpdate} onReset={handleReset} />
 
-      {/* Main App Body with Sidebar */}
-      <div style={{ display: "flex", flex: 1, minHeight: "calc(100vh - 75px)" }}>
+      {/* Main App Body with Fixed Sidebar & Scrollable Content Area */}
+      <div style={{ display: "flex", flex: 1, minHeight: 0, overflow: "hidden" }}>
+        {/* Left Sidebar Navigation — Fixed on left */}
         <SidebarNav activeTab={activeTab} onSelectTab={setActiveTab} />
 
-        {/* Tab View Content */}
-        <main style={{ flex: 1, padding: "32px 40px", maxWidth: "1280px" }}>
-          {activeTab === "overview" && (
-            <OverviewTab
-              settings={settings}
-              onUpdate={handleUpdate}
-              onNavigateTab={setActiveTab}
-              onExport={handleExport}
-            />
-          )}
+        {/* Tab View Content — ONLY this body container scrolls */}
+        <main
+          style={{
+            flex: 1,
+            height: "100%",
+            overflowY: "auto",
+            overflowX: "hidden",
+            minHeight: 0,
+            padding: "32px 40px"
+          }}
+        >
+          <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+            {activeTab === "overview" && (
+              <OverviewTab
+                settings={settings}
+                onUpdate={handleUpdate}
+                onNavigateTab={setActiveTab}
+                onExport={handleExport}
+              />
+            )}
 
-          {activeTab === "appearance" && (
-            <AppearanceStudioTab settings={settings} onUpdate={handleUpdate} />
-          )}
+            {activeTab === "appearance" && (
+              <AppearanceStudioTab settings={settings} onUpdate={handleUpdate} />
+            )}
 
-          {activeTab === "background" && (
-            <BackgroundStudioTab settings={settings} onUpdate={handleUpdate} />
-          )}
+            {activeTab === "background" && (
+              <BackgroundStudioTab settings={settings} onUpdate={handleUpdate} />
+            )}
 
-          {activeTab === "integrations" && (
-            <PlatformIntegrationsTab settings={settings} onUpdate={handleUpdate} />
-          )}
+            {activeTab === "integrations" && (
+              <PlatformIntegrationsTab settings={settings} onUpdate={handleUpdate} />
+            )}
 
-          {activeTab === "themes" && (
-            <ThemeLibraryTab settings={settings} onUpdate={handleUpdate} />
-          )}
+            {activeTab === "themes" && (
+              <ThemeLibraryTab settings={settings} onUpdate={handleUpdate} />
+            )}
 
-          {activeTab === "settings" && (
-            <SettingsTab
-              settings={settings}
-              onUpdate={handleUpdate}
-              onReset={handleReset}
-            />
-          )}
+            {activeTab === "settings" && (
+              <SettingsTab
+                settings={settings}
+                onUpdate={handleUpdate}
+                onReset={handleReset}
+              />
+            )}
 
-          {activeTab === "privacy" && (
-            <PrivacyCenterTab settings={settings} />
-          )}
+            {activeTab === "privacy" && (
+              <PrivacyCenterTab settings={settings} />
+            )}
+          </div>
         </main>
       </div>
     </div>
