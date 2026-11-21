@@ -3,6 +3,7 @@ import {
   LayoutDashboard,
   Palette,
   Image,
+  LayoutTemplate,
   Cpu,
   Sparkles,
   Settings,
@@ -14,6 +15,7 @@ export type TabId =
   | "overview"
   | "appearance"
   | "background"
+  | "navbar"
   | "integrations"
   | "themes"
   | "settings"
@@ -34,6 +36,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { id: "overview", label: "Home", icon: LayoutDashboard },
   { id: "appearance", label: "Studio", icon: Palette },
+  { id: "navbar", label: "Navbar Studio", icon: LayoutTemplate, tag: "AI Header" },
   { id: "background", label: "Wallpapers", icon: Image },
   { id: "themes", label: "Themes", icon: Sparkles, tag: "10" },
   { id: "integrations", label: "Platforms", icon: Cpu, tag: "3 Ready" },

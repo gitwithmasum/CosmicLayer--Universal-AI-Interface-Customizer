@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { MessageSquare, Bot, User, Sparkles, SlidersHorizontal, Plus, Folder, Search } from "lucide-react";
 import type { CosmicSettings } from "../../shared/types";
+import { NAVBAR_PRESETS, DEFAULT_SETTINGS } from "../../shared/types";
 import { THEMES } from "../../shared/themes";
 import { computeBackgroundString, computeFilterString } from "../../content/adapters/base";
 
@@ -285,16 +286,107 @@ export const LiveMockupPreview: React.FC<LiveMockupPreviewProps> = ({ settings, 
           </div>
         </div>
 
-        {/* Simulated Conversation Container */}
-        <div style={{
-          flex: 1,
-          padding: compact ? "16px" : "24px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          zIndex: 2,
-          overflowY: "auto"
-        }}>
+        {/* Right Chat Column with Simulated AI Chat Top Navbar */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", zIndex: 2, overflow: "hidden" }}>
+          {/* Simulated AI Chat Top Navbar */}
+          {(() => {
+            const nav = settings.navbar || DEFAULT_SETTINGS.navbar;
+            const preset = NAVBAR_PRESETS[nav.stylePreset] || NAVBAR_PRESETS["oceanic-teal"];
+            const alpha = Math.max(30, Math.min(95, nav.opacity)) / 100;
+            let navBg = preset.bgRgba;
+            if (navBg.startsWith("rgba(")) {
+              navBg = navBg.replace(/[\d\.]+\)$/, `${alpha})`);
+            }
+            const modelNames = {
+              chatgpt: "ChatGPT 4o",
+              claude: "Claude 3.5 Sonnet",
+              gemini: "Gemini 1.5 Pro"
+            };
+
+            return (
+              <div
+                style={{
+                  height: "44px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "0 16px",
+                  background: nav.enabled ? navBg : "rgba(5, 22, 26, 0.8)",
+                  backdropFilter: nav.enabled ? `blur(${nav.glassBlur}px)` : "none",
+                  WebkitBackdropFilter: nav.enabled ? `blur(${nav.glassBlur}px)` : "none",
+                  borderBottom: `1px solid ${nav.enabled ? preset.borderColor : "rgba(41, 77, 97, 0.35)"}`,
+                  position: "relative",
+                  flexShrink: 0
+                }}
+              >
+                {/* Neon Glow Line */}
+                {nav.enabled && nav.showNeonGlowLine && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: "2px",
+                      background: nav.glowLineColor || preset.accentGradient,
+                      boxShadow: `0 0 10px ${preset.glowColor}`
+                    }}
+                  />
+                )}
+
+                {/* Model Capsule */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: nav.styleModelCapsule ? "4px 12px" : "3px 8px",
+                    borderRadius: nav.styleModelCapsule ? "9999px" : "6px",
+                    background: nav.styleModelCapsule ? preset.capsuleBg : "rgba(255, 255, 255, 0.08)",
+                    border: `1px solid ${nav.styleModelCapsule ? preset.capsuleBorder : "rgba(255, 255, 255, 0.15)"}`,
+                    boxShadow: nav.styleModelCapsule ? `0 2px 10px ${preset.glowColor}` : "none",
+                    color: "#ffffff",
+                    fontSize: "10px",
+                    fontWeight: 700
+                  }}
+                >
+                  <Sparkles size={11} color="#ffffff" />
+                  <span>{modelNames[platform]}</span>
+                </div>
+
+                {/* Cosmic Badge Indicator */}
+                {nav.enabled && nav.showCosmicBadge && (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px",
+                      padding: "2px 8px",
+                      borderRadius: "9999px",
+                      background: "rgba(5, 22, 26, 0.85)",
+                      border: "1px solid rgba(15, 150, 156, 0.5)",
+                      fontSize: "9px",
+                      fontWeight: 700,
+                      color: "#6da5c0"
+                    }}
+                  >
+                    <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#0f969c" }} />
+                    <span>C🪐SMIC</span>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
+
+          {/* Simulated Conversation Container */}
+          <div style={{
+            flex: 1,
+            padding: compact ? "16px" : "24px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            overflowY: "auto"
+          }}>
           {/* Simulated Chat Messages */}
           <div style={{ display: "flex", flexDirection: "column", gap: "14px", maxWidth: "600px", margin: "0 auto", width: "100%" }}>
             {/* User Message */}
@@ -361,6 +453,7 @@ export const LiveMockupPreview: React.FC<LiveMockupPreviewProps> = ({ settings, 
               <SlidersHorizontal size={13} color="#0f969c" />
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>

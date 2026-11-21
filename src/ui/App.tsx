@@ -12,6 +12,7 @@ import { Navbar } from "./components/Navbar";
 import { SidebarNav, type TabId } from "./components/SidebarNav";
 import { OverviewTab } from "./components/OverviewTab";
 import { AppearanceStudioTab } from "./components/AppearanceStudioTab";
+import { NavbarStudioTab } from "./components/NavbarStudioTab";
 import { BackgroundStudioTab } from "./components/BackgroundStudioTab";
 import { PlatformIntegrationsTab } from "./components/PlatformIntegrationsTab";
 import { ThemeLibraryTab } from "./components/ThemeLibraryTab";
@@ -109,6 +110,10 @@ export const App: React.FC = () => {
 
             {activeTab === "appearance" && (
               <AppearanceStudioTab settings={settings} onUpdate={handleUpdate} />
+            )}
+
+            {activeTab === "navbar" && (
+              <NavbarStudioTab settings={settings} onUpdate={handleUpdate} />
             )}
 
             {activeTab === "background" && (

@@ -3,6 +3,7 @@ import {
   Sparkles,
   Palette,
   Image as ImageIcon,
+  LayoutTemplate,
   CheckCircle2,
   Shuffle,
   Download,
@@ -97,6 +98,12 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
               onClick={() => onNavigateTab("background")}
             >
               <ImageIcon size={15} /> Customize Wallpaper
+            </button>
+            <button
+              className="cosmic-btn cosmic-btn-secondary"
+              onClick={() => onNavigateTab("navbar")}
+            >
+              <LayoutTemplate size={15} /> AI Navbar Studio
             </button>
             <button
               className="cosmic-btn cosmic-btn-secondary"

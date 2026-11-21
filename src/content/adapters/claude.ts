@@ -4,6 +4,8 @@ import {
   removeCustomStylesAndLayer,
   computeBackgroundString,
   computeFilterString,
+  computeNavbarCss,
+  ensureCosmicNavbarBadge,
   STYLE_CONTAINER_ID,
   LAYER_CONTAINER_ID
 } from "./base";
@@ -44,6 +46,7 @@ export class ClaudeAdapter implements PlatformAdapter {
       this.observer = null;
     }
     removeCustomStylesAndLayer();
+    ensureCosmicNavbarBadge(false);
     document.documentElement.removeAttribute("data-cosmiclayer-theme");
   }
 
@@ -145,7 +148,11 @@ export class ClaudeAdapter implements PlatformAdapter {
         border-color: rgba(125, 231, 255, 0.5) !important;
         box-shadow: 0 0 18px rgba(0, 210, 255, 0.35) !important;
       }
+
+      ${computeNavbarCss(settings, "claude")}
     `;
+
+    ensureCosmicNavbarBadge(Boolean(settings.enabled && settings.navbar?.enabled && settings.navbar?.showCosmicBadge && settings.navbar?.platforms.claude));
 
     void layer;
   }

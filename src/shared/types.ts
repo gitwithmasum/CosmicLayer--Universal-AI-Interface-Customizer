@@ -13,6 +13,109 @@ export type ThemeId =
 export type BackgroundPosition = "center" | "top" | "bottom" | "left" | "right";
 export type BackgroundSize = "cover" | "contain" | "100% 100%" | "120% auto";
 
+export type NavbarStylePreset =
+  | "oceanic-teal"
+  | "cyber-neon"
+  | "minimalist-frost"
+  | "stellar-amber"
+  | "stealth-void";
+
+export type GlowLinePosition = "bottom" | "top" | "both" | "none";
+
+export interface NavbarSettings {
+  enabled: boolean;
+  stylePreset: NavbarStylePreset;
+  glassBlur: number;    // 0 - 30 px
+  opacity: number;      // 30 - 95 %
+  showNeonGlowLine: boolean;
+  glowLineColor: string; // CSS gradient or hex string
+  glowLinePosition: GlowLinePosition;
+  styleModelCapsule: boolean; // Style AI model selector like Concept 4 stretchy capsule
+  showCosmicBadge: boolean;   // Show mini C🪐SMIC indicator in chat navbar
+  platforms: {
+    chatgpt: boolean;
+    claude: boolean;
+    gemini: boolean;
+  };
+}
+
+export interface NavbarPresetDefinition {
+  id: NavbarStylePreset;
+  name: string;
+  tagline: string;
+  bgRgba: string;
+  borderColor: string;
+  glowColor: string;
+  accentGradient: string;
+  capsuleBg: string;
+  capsuleBorder: string;
+}
+
+export const NAVBAR_PRESETS: Record<NavbarStylePreset, NavbarPresetDefinition> = {
+  "oceanic-teal": {
+    id: "oceanic-teal",
+    name: "Oceanic Teal Glass",
+    tagline: "Deep oceanic teal with bioluminescent cyan glow",
+    bgRgba: "rgba(7, 46, 51, 0.75)",
+    borderColor: "rgba(41, 77, 97, 0.45)",
+    glowColor: "rgba(15, 150, 156, 0.5)",
+    accentGradient: "linear-gradient(90deg, #072e33 0%, #0c7075 35%, #0f969c 70%, #6da5c0 100%)",
+    capsuleBg: "linear-gradient(105deg, #0f969c 0%, #0c7075 55%, #072e33 100%)",
+    capsuleBorder: "rgba(15, 150, 156, 0.6)"
+  },
+  "cyber-neon": {
+    id: "cyber-neon",
+    name: "Cyber Neon Violet & Cyan",
+    tagline: "Futuristic synthwave glow with dual neon edge",
+    bgRgba: "rgba(13, 10, 28, 0.82)",
+    borderColor: "rgba(147, 51, 234, 0.45)",
+    glowColor: "rgba(6, 182, 212, 0.55)",
+    accentGradient: "linear-gradient(90deg, #9333ea 0%, #a855f7 40%, #06b6d4 80%, #38bdf8 100%)",
+    capsuleBg: "linear-gradient(105deg, rgba(147, 51, 234, 0.7) 0%, rgba(6, 182, 212, 0.7) 100%)",
+    capsuleBorder: "rgba(6, 182, 212, 0.7)"
+  },
+  "minimalist-frost": {
+    id: "minimalist-frost",
+    name: "Minimalist Frost Glass",
+    tagline: "Subtle translucent frost with sleek titanium borders",
+    bgRgba: "rgba(15, 23, 42, 0.65)",
+    borderColor: "rgba(109, 165, 192, 0.3)",
+    glowColor: "rgba(109, 165, 192, 0.35)",
+    accentGradient: "linear-gradient(90deg, rgba(109, 165, 192, 0.1) 0%, rgba(109, 165, 192, 0.8) 50%, rgba(109, 165, 192, 0.1) 100%)",
+    capsuleBg: "rgba(109, 165, 192, 0.18)",
+    capsuleBorder: "rgba(109, 165, 192, 0.45)"
+  },
+  "stellar-amber": {
+    id: "stellar-amber",
+    name: "Stellar Amber Flare",
+    tagline: "Warm stellar radiation with incandescent golden flare",
+    bgRgba: "rgba(22, 12, 8, 0.8)",
+    borderColor: "rgba(245, 158, 11, 0.4)",
+    glowColor: "rgba(245, 158, 11, 0.5)",
+    accentGradient: "linear-gradient(90deg, #b45309 0%, #f59e0b 50%, #ef4444 100%)",
+    capsuleBg: "linear-gradient(105deg, #f59e0b 0%, #b45309 60%, #78350f 100%)",
+    capsuleBorder: "rgba(245, 158, 11, 0.7)"
+  },
+  "stealth-void": {
+    id: "stealth-void",
+    name: "Stealth Void AMOLED",
+    tagline: "Pitch AMOLED black with laser emerald accent",
+    bgRgba: "rgba(3, 7, 18, 0.92)",
+    borderColor: "rgba(16, 185, 129, 0.4)",
+    glowColor: "rgba(16, 185, 129, 0.45)",
+    accentGradient: "linear-gradient(90deg, #065f46 0%, #10b981 50%, #34d399 100%)",
+    capsuleBg: "linear-gradient(105deg, #065f46 0%, #047857 60%, #022c22 100%)",
+    capsuleBorder: "rgba(16, 185, 129, 0.6)"
+  }
+};
+
+export const GLOW_LINE_GRADIENTS = [
+  { id: "teal-cyan", name: "Teal Bioluminescence", value: "linear-gradient(90deg, #072e33 0%, #0c7075 30%, #0f969c 60%, #6da5c0 100%)" },
+  { id: "cyber-neon", name: "Synthwave Purple & Cyan", value: "linear-gradient(90deg, #9333ea 0%, #a855f7 40%, #06b6d4 80%, #38bdf8 100%)" },
+  { id: "golden-flare", name: "Solar Sunburst", value: "linear-gradient(90deg, #b45309 0%, #f59e0b 50%, #f97316 100%)" },
+  { id: "emerald-aurora", name: "Emerald Aurora", value: "linear-gradient(90deg, #065f46 0%, #10b981 50%, #34d399 100%)" }
+];
+
 export interface ThemeDefinition {
   id: ThemeId;
   name: string;
@@ -56,6 +159,8 @@ export interface CosmicSettings {
     claude: boolean;
     gemini: boolean;
   };
+  // AI Chat Navbar Studio
+  navbar: NavbarSettings;
 }
 
 export const DEFAULT_GRADIENTS: { id: string; name: string; css: string }[] = [
@@ -125,5 +230,21 @@ export const DEFAULT_SETTINGS: CosmicSettings = {
     chatgpt: true,
     claude: true,
     gemini: true
+  },
+  navbar: {
+    enabled: true,
+    stylePreset: "oceanic-teal",
+    glassBlur: 20,
+    opacity: 75,
+    showNeonGlowLine: true,
+    glowLineColor: "linear-gradient(90deg, #072e33 0%, #0c7075 30%, #0f969c 60%, #6da5c0 100%)",
+    glowLinePosition: "bottom",
+    styleModelCapsule: true,
+    showCosmicBadge: true,
+    platforms: {
+      chatgpt: true,
+      claude: true,
+      gemini: true
+    }
   }
 };

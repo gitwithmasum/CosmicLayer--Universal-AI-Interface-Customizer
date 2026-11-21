@@ -131,6 +131,14 @@ function mergeWithDefaults(partial: Partial<CosmicSettings>): CosmicSettings {
     platforms: {
       ...DEFAULT_SETTINGS.platforms,
       ...(partial.platforms || {})
+    },
+    navbar: {
+      ...DEFAULT_SETTINGS.navbar,
+      ...(partial.navbar || {}),
+      platforms: {
+        ...DEFAULT_SETTINGS.navbar.platforms,
+        ...(partial.navbar?.platforms || {})
+      }
     }
   };
 }

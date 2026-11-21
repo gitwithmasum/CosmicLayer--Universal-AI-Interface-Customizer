@@ -4,6 +4,8 @@ import {
   removeCustomStylesAndLayer,
   computeBackgroundString,
   computeFilterString,
+  computeNavbarCss,
+  ensureCosmicNavbarBadge,
   STYLE_CONTAINER_ID,
   LAYER_CONTAINER_ID
 } from "./base";
@@ -44,6 +46,7 @@ export class GeminiAdapter implements PlatformAdapter {
       this.observer = null;
     }
     removeCustomStylesAndLayer();
+    ensureCosmicNavbarBadge(false);
     document.documentElement.removeAttribute("data-cosmiclayer-theme");
   }
 
@@ -134,7 +137,11 @@ export class GeminiAdapter implements PlatformAdapter {
         transform: translateX(3px) !important;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
       }
+
+      ${computeNavbarCss(settings, "gemini")}
     `;
+
+    ensureCosmicNavbarBadge(Boolean(settings.enabled && settings.navbar?.enabled && settings.navbar?.showCosmicBadge && settings.navbar?.platforms.gemini));
 
     void layer;
   }

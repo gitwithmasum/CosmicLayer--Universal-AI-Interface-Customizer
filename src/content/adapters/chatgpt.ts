@@ -4,6 +4,8 @@ import {
   removeCustomStylesAndLayer,
   computeBackgroundString,
   computeFilterString,
+  computeNavbarCss,
+  ensureCosmicNavbarBadge,
   STYLE_CONTAINER_ID,
   LAYER_CONTAINER_ID
 } from "./base";
@@ -44,6 +46,7 @@ export class ChatGPTAdapter implements PlatformAdapter {
       this.observer = null;
     }
     removeCustomStylesAndLayer();
+    ensureCosmicNavbarBadge(false);
     document.documentElement.removeAttribute("data-cosmiclayer-theme");
   }
 
@@ -189,7 +192,11 @@ export class ChatGPTAdapter implements PlatformAdapter {
         border-radius: 10px !important;
         font-weight: 700 !important;
       }
+
+      ${computeNavbarCss(settings, "chatgpt")}
     `;
+
+    ensureCosmicNavbarBadge(Boolean(settings.enabled && settings.navbar?.enabled && settings.navbar?.showCosmicBadge && settings.navbar?.platforms.chatgpt));
 
     void layer;
   }
