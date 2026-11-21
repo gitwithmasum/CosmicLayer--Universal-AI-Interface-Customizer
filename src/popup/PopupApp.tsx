@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import {
-  Sparkles,
   Upload,
   RotateCcw,
   Maximize2,
@@ -8,6 +7,7 @@ import {
   Check,
   Image as ImageIcon
 } from "lucide-react";
+import { CosmicLogo } from "../ui/components/CosmicLogo";
 import type { CosmicSettings } from "../shared/types";
 import { DEFAULT_SETTINGS } from "../shared/types";
 import { THEME_LIST, THEMES } from "../shared/themes";
@@ -86,28 +86,7 @@ export const PopupApp: React.FC = () => {
       {/* Top Header */}
       <div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <div style={{
-              width: "32px",
-              height: "32px",
-              borderRadius: "8px",
-              background: "linear-gradient(135deg, #0ea5e9, #8b5cf6)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: "0 0 14px rgba(14, 165, 233, 0.4)"
-            }}>
-              <Sparkles size={16} color="#fff" />
-            </div>
-            <div>
-              <div style={{ fontFamily: "var(--cosmic-font-heading)", fontSize: "15px", fontWeight: 700, color: "#fff" }}>
-                CosmicLayer
-              </div>
-              <div style={{ fontSize: "9px", color: "var(--cosmic-text-muted)", letterSpacing: "1px", textTransform: "uppercase" }}>
-                AI Interface Customizer
-              </div>
-            </div>
-          </div>
+          <CosmicLogo size={32} showText={true} />
 
           {/* Quick Active Status & Toggle */}
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>

@@ -12,6 +12,7 @@ import {
 import type { CosmicSettings } from "../../shared/types";
 import { THEMES, THEME_LIST } from "../../shared/themes";
 import { LiveMockupPreview } from "./LiveMockupPreview";
+import { CosmicLogo } from "./CosmicLogo";
 import type { TabId } from "./SidebarNav";
 
 interface OverviewTabProps {
@@ -50,11 +51,14 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
         overflow: "hidden"
       }}>
         <div style={{ maxWidth: "620px", position: "relative", zIndex: 2 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
-            <span className="cosmic-badge cosmic-badge-cyan">
-              <Sparkles size={11} /> Universal AI Interface Customizer
-            </span>
-            <span className="cosmic-badge cosmic-badge-gold">Foundation v0.1.0</span>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px", flexWrap: "wrap", gap: "10px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <span className="cosmic-badge cosmic-badge-cyan">
+                <Sparkles size={11} /> Universal AI Interface Customizer
+              </span>
+              <span className="cosmic-badge cosmic-badge-gold">Foundation v0.1.0</span>
+            </div>
+            <CosmicLogo size={36} showText={false} />
           </div>
 
           <h1 style={{
