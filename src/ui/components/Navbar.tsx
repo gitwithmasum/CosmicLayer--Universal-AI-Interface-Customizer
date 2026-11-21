@@ -48,25 +48,9 @@ export const Navbar: React.FC<NavbarProps> = ({ settings, onUpdate, onReset }) =
         }}
       />
 
-      {/* Left: Brand Identity + Subtle Minimal Version Pill */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <CosmicLogo size={34} showText={true} />
-
-        <span
-          style={{
-            padding: "2px 8px",
-            borderRadius: "9999px",
-            background: "rgba(41, 77, 97, 0.35)",
-            border: "1px solid rgba(109, 165, 192, 0.25)",
-            color: "#6da5c0",
-            fontSize: "11px",
-            fontWeight: 500,
-            fontFamily: "var(--cosmic-font-mono)",
-            letterSpacing: "0.2px"
-          }}
-        >
-          v{settings.version}
-        </span>
+      {/* Left: Brand Identity (Single clean horizontal row without version badge) */}
+      <div style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
+        <CosmicLogo size={36} showText={true} />
       </div>
 
       {/* Right Controls: Minimalist Status Pill, Master Toggle & Reset Button */}

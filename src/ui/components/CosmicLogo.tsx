@@ -7,11 +7,22 @@ interface CosmicLogoProps {
 }
 
 export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "", showText = false }) => {
-  const fontSize = Math.max(15, Math.round(size * 0.46));
-  const planetSize = Math.max(16, Math.round(fontSize * 0.95));
+  const fontSize = Math.max(16, Math.round(size * 0.48));
+  const planetSize = Math.max(16, Math.round(fontSize * 0.96));
 
   return (
-    <div className={`flex items-center gap-2.5 ${className}`}>
+    <div
+      style={{
+        display: "inline-flex",
+        flexDirection: "row",
+        alignItems: "center",
+        flexWrap: "nowrap",
+        whiteSpace: "nowrap",
+        gap: "10px",
+        lineHeight: 1
+      }}
+      className={className}
+    >
       {/* Hexagonal 'C' Monogram with 3D Planet, Orbital Ring & Diamond Star Lens Flares */}
       <div
         style={{
@@ -165,11 +176,8 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
 
           {/* 6. Diamond Star Lens Flare at "C"-এর ভেতরের কোণা (Inner Vertex at 38, 50) */}
           <g transform="translate(39, 50)">
-            {/* Diffuse Flare Halo */}
             <circle cx="0" cy="0" r="11" fill="url(#lensHalo)" />
-            {/* Anamorphic Horizontal Flare Streak */}
             <ellipse cx="0" cy="0" rx="18" ry="1.2" fill="url(#flareStreak)" />
-            {/* Primary Diamond Needles (Vertical & Horizontal) */}
             <path
               d="M 0 -14 Q 0.6 -3.5 1.6 0 Q 0.6 3.5 0 14 Q -0.6 3.5 -1.6 0 Q -0.6 -3.5 0 -14 Z"
               fill="url(#flareSpikeV)"
@@ -178,7 +186,6 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
               d="M -14 0 Q -3.5 0.6 0 1.6 Q 3.5 0.6 14 0 Q 3.5 -0.6 0 -1.6 Q -3.5 -0.6 -14 0 Z"
               fill="url(#flareSpikeH)"
             />
-            {/* Diagonal Diamond Needles (45 degrees) */}
             <g transform="rotate(45)">
               <path
                 d="M 0 -9 Q 0.5 -2.2 1.1 0 Q 0.5 2.2 0 9 Q -0.5 2.2 -1.1 0 Q -0.5 -2.2 0 -9 Z"
@@ -191,17 +198,13 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
                 opacity="0.85"
               />
             </g>
-            {/* Sparkling Hot-White Core */}
             <circle cx="0" cy="0" r="2" fill="#ffffff" filter="drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 6px #00f0ff)" />
           </g>
 
           {/* 7. Diamond Star Lens Flare on the Orbital Ring (Foreground at 20, 62) */}
           <g transform="translate(20, 62) scale(0.85)">
-            {/* Diffuse Flare Halo */}
             <circle cx="0" cy="0" r="9" fill="url(#lensHalo)" />
-            {/* Anamorphic Flare Streak Tilted Along Ring Axis (-26 deg) */}
             <ellipse cx="0" cy="0" rx="15" ry="1" fill="url(#flareStreak)" transform="rotate(-26)" />
-            {/* Diamond Needles */}
             <path
               d="M 0 -12 Q 0.5 -3 1.4 0 Q 0.5 3 0 12 Q -0.5 3 -1.4 0 Q -0.5 -3 0 -12 Z"
               fill="url(#flareSpikeV)"
@@ -210,7 +213,6 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
               d="M -12 0 Q -3 0.5 0 1.4 Q 3 0.5 12 0 Q 3 -0.5 0 -1.4 Q -3 -0.5 -12 0 Z"
               fill="url(#flareSpikeH)"
             />
-            {/* Diagonal Needles */}
             <g transform="rotate(45)">
               <path
                 d="M 0 -7.5 Q 0.4 -2 0.9 0 Q 0.4 2 0 7.5 Q -0.4 2 -0.9 0 Q -0.4 -2 0 -7.5 Z"
@@ -223,7 +225,6 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
                 opacity="0.8"
               />
             </g>
-            {/* Hot-White Core */}
             <circle cx="0" cy="0" r="1.6" fill="#ffffff" filter="drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 5px #00f0ff)" />
           </g>
 
@@ -243,7 +244,10 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
           style={{
             display: "inline-flex",
             alignItems: "center",
-            gap: "2px",
+            flexDirection: "row",
+            flexWrap: "nowrap",
+            whiteSpace: "nowrap",
+            gap: "0px",
             userSelect: "none",
             lineHeight: 1
           }}
@@ -254,7 +258,7 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
               fontFamily: "var(--cosmic-font-heading)",
               fontSize: `${fontSize}px`,
               fontWeight: 800,
-              letterSpacing: "1.2px",
+              letterSpacing: "0.2px",
               color: "#ffffff",
               textShadow: "0 0 12px rgba(255, 255, 255, 0.45)"
             }}
@@ -271,7 +275,7 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
-              margin: "0 1px",
+              margin: "0 1.5px",
               flexShrink: 0
             }}
           >
@@ -286,8 +290,8 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
               <defs>
                 {/* Mini Planet Body Gradient */}
                 <radialGradient id="miniPlanetGrad" cx="35%" cy="35%" r="65%">
-                  <stop offset="0%" stopColor="#38bdf8" />
-                  <stop offset="45%" stopColor="#0f969c" />
+                  <stop offset="0%" stopColor="#7de7ff" />
+                  <stop offset="40%" stopColor="#00f0ff" />
                   <stop offset="75%" stopColor="#072e33" />
                   <stop offset="100%" stopColor="#05161a" />
                 </radialGradient>
@@ -295,15 +299,16 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
                 {/* Mini Atmosphere Rim Glow */}
                 <radialGradient id="miniAtmoGlow" cx="40%" cy="40%" r="55%">
                   <stop offset="65%" stopColor="transparent" />
-                  <stop offset="88%" stopColor="rgba(0, 240, 255, 0.45)" />
-                  <stop offset="100%" stopColor="rgba(0, 240, 255, 0.9)" />
+                  <stop offset="85%" stopColor="rgba(0, 240, 255, 0.5)" />
+                  <stop offset="100%" stopColor="rgba(0, 240, 255, 0.95)" />
                 </radialGradient>
 
                 {/* Mini Orbital Ring Gradient */}
                 <linearGradient id="miniRingGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#c084fc" />
-                  <stop offset="50%" stopColor="#00f0ff" />
-                  <stop offset="100%" stopColor="#38bdf8" />
+                  <stop offset="0%" stopColor="#d946ef" />
+                  <stop offset="35%" stopColor="#a855f7" />
+                  <stop offset="70%" stopColor="#00f0ff" />
+                  <stop offset="100%" stopColor="#7de7ff" />
                 </linearGradient>
               </defs>
 
@@ -311,37 +316,37 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
               <path
                 d="M 3 16 C 3 9.5, 29 9.5, 29 16"
                 stroke="url(#miniRingGrad)"
-                strokeWidth="1.6"
+                strokeWidth="1.8"
                 strokeLinecap="round"
                 transform="rotate(-22 16 16)"
-                opacity="0.55"
+                opacity="0.6"
               />
 
               {/* Mini Planetary Sphere */}
               <circle
                 cx="16"
                 cy="16"
-                r="6.5"
+                r="6.8"
                 fill="url(#miniPlanetGrad)"
-                stroke="rgba(0, 240, 255, 0.35)"
+                stroke="rgba(0, 240, 255, 0.45)"
                 strokeWidth="0.8"
               />
-              <circle cx="16" cy="16" r="6.5" fill="url(#miniAtmoGlow)" />
+              <circle cx="16" cy="16" r="6.8" fill="url(#miniAtmoGlow)" />
 
               {/* Front Segment of Mini Orbital Ring */}
               <path
                 d="M 29 16 C 29 22.5, 3 22.5, 3 16"
                 stroke="url(#miniRingGrad)"
-                strokeWidth="2.2"
+                strokeWidth="2.4"
                 strokeLinecap="round"
                 transform="rotate(-22 16 16)"
               />
 
               {/* Micro Diamond Sparkle on Ring */}
               <g transform="translate(26, 12)">
-                <ellipse cx="0" cy="0" rx="2.5" ry="0.6" fill="#ffffff" transform="rotate(-22)" />
-                <ellipse cx="0" cy="0" rx="0.6" ry="2.5" fill="#ffffff" transform="rotate(-22)" />
-                <circle cx="0" cy="0" r="0.8" fill="#ffffff" filter="drop-shadow(0 0 2px #00f0ff)" />
+                <ellipse cx="0" cy="0" rx="3" ry="0.7" fill="#ffffff" transform="rotate(-22)" />
+                <ellipse cx="0" cy="0" rx="0.7" ry="3" fill="#ffffff" transform="rotate(-22)" />
+                <circle cx="0" cy="0" r="1" fill="#ffffff" filter="drop-shadow(0 0 2px #00f0ff)" />
               </g>
             </svg>
           </div>
@@ -352,7 +357,7 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
               fontFamily: "var(--cosmic-font-heading)",
               fontSize: `${fontSize}px`,
               fontWeight: 800,
-              letterSpacing: "1.2px",
+              letterSpacing: "0.8px",
               color: "#ffffff",
               textShadow: "0 0 12px rgba(255, 255, 255, 0.45)"
             }}
@@ -366,8 +371,8 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
               fontFamily: "var(--cosmic-font-heading)",
               fontSize: `${fontSize}px`,
               fontWeight: 800,
-              letterSpacing: "1.8px",
-              marginLeft: "6px",
+              letterSpacing: "1.2px",
+              marginLeft: "7px",
               background: "linear-gradient(90deg, #d946ef 0%, #a855f7 35%, #00f0ff 85%, #7de7ff 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
