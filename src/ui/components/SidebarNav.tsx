@@ -89,7 +89,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
         boxShadow: "0 20px 50px rgba(5, 22, 26, 0.65), inset 0 1px 0 rgba(109, 165, 192, 0.12)",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
+        justifyContent: "flex-start",
         transition: "width 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
         position: "relative",
         zIndex: 40
@@ -249,88 +249,6 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
               </button>
             );
           })}
-        </div>
-      </div>
-
-      {/* Footer Section: Clean Profile Status Card */}
-      <div style={{
-        marginTop: "20px",
-        paddingTop: "14px",
-        borderTop: "1px solid rgba(41, 77, 97, 0.35)"
-      }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: collapsed ? "center" : "space-between",
-            padding: collapsed ? "6px" : "8px 12px",
-            borderRadius: "14px",
-            background: "rgba(5, 22, 26, 0.65)",
-            border: "1px solid rgba(41, 77, 97, 0.45)",
-            transition: "border-color 0.2s ease"
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            {/* Avatar with active green/teal dot */}
-            <div style={{ position: "relative" }}>
-              <div style={{
-                width: "32px",
-                height: "32px",
-                borderRadius: "50%",
-                background: "linear-gradient(135deg, #0f969c, #072e33)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "11px",
-                fontWeight: 700,
-                color: "#ffffff",
-                border: "1px solid rgba(109, 165, 192, 0.3)"
-              }}>
-                MB
-              </div>
-              <span style={{
-                position: "absolute",
-                bottom: "-1px",
-                right: "-1px",
-                width: "8px",
-                height: "8px",
-                borderRadius: "50%",
-                background: "#0f969c",
-                border: "1.5px solid #05161a",
-                boxShadow: "0 0 6px #0f969c"
-              }} />
-            </div>
-
-            {!collapsed && (
-              <div>
-                <div style={{ fontSize: "12px", fontWeight: 700, color: "#f0fdfa", lineHeight: 1.2 }}>
-                  Masum Billah
-                </div>
-                <div style={{ fontSize: "10px", color: "#6da5c0" }}>
-                  Free Plan
-                </div>
-              </div>
-            )}
-          </div>
-
-          {!collapsed && (
-            <div
-              style={{
-                width: "28px",
-                height: "28px",
-                borderRadius: "8px",
-                background: "rgba(15, 150, 156, 0.18)",
-                border: "1px solid rgba(15, 150, 156, 0.4)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "13px"
-              }}
-              title="Pro Plan Tier"
-            >
-              👑
-            </div>
-          )}
         </div>
       </div>
     </nav>

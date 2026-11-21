@@ -235,7 +235,7 @@ export const LiveMockupPreview: React.FC<LiveMockupPreviewProps> = ({ settings, 
             </div>
           </div>
 
-          {/* User Profile Card at Bottom */}
+          {/* User Account Status at Bottom */}
           <div style={{
             padding: "6px 8px",
             borderRadius: "10px",
@@ -258,14 +258,14 @@ export const LiveMockupPreview: React.FC<LiveMockupPreviewProps> = ({ settings, 
                 fontWeight: 700,
                 color: "#ffffff"
               }}>
-                MB
+                AI
               </div>
               {!compact && (
                 <div>
                   <div style={{ fontSize: "10px", fontWeight: 700, color: "#ffffff", lineHeight: 1.1 }}>
-                    Masum Billah
+                    Cosmic User
                   </div>
-                  <div style={{ fontSize: "8px", color: "#6da5c0" }}>Free</div>
+                  <div style={{ fontSize: "8px", color: "#6da5c0" }}>Free Tier</div>
                 </div>
               )}
             </div>
@@ -279,7 +279,7 @@ export const LiveMockupPreview: React.FC<LiveMockupPreviewProps> = ({ settings, 
                 color: "#6da5c0",
                 border: "1px solid rgba(15, 150, 156, 0.4)"
               }}>
-                Upgrade
+                Pro
               </span>
             )}
           </div>
