@@ -151,76 +151,41 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
         </svg>
       </div>
 
-      {/* Futuristic Cyber Typography */}
+      {/* Minimalist Space-Tech Typography */}
       {showText && (
-        <div className="flex flex-col select-none">
-          {/* Top Line: C-O-S-M-I-C with Planet O */}
-          <div className="flex items-center gap-1 leading-none">
-            <span
-              style={{
-                fontFamily: "var(--cosmic-font-heading)",
-                fontSize: "19px",
-                fontWeight: 800,
-                letterSpacing: "3px",
-                color: "#ffffff",
-                textShadow: "0 0 16px rgba(255, 255, 255, 0.35)"
-              }}
-            >
-              C
-            </span>
-            {/* The Planet-O */}
-            <div style={{ width: "16px", height: "16px", position: "relative", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
-                <circle cx="12" cy="12" r="6" fill="#1e293b" stroke="#7de7ff" strokeWidth="1.4" />
-                <ellipse cx="12" cy="12" rx="11" ry="3.5" stroke="#38bdf8" strokeWidth="1.2" transform="rotate(-25 12 12)" />
-              </svg>
-            </div>
-            <span
-              style={{
-                fontFamily: "var(--cosmic-font-heading)",
-                fontSize: "19px",
-                fontWeight: 800,
-                letterSpacing: "3px",
-                color: "#ffffff",
-                textShadow: "0 0 16px rgba(255, 255, 255, 0.35)"
-              }}
-            >
-              SMIC
-            </span>
-            <span
-              style={{
-                fontFamily: "var(--cosmic-font-heading)",
-                fontSize: "19px",
-                fontWeight: 800,
-                letterSpacing: "3px",
-                marginLeft: "6px",
-                background: "linear-gradient(90deg, #d946ef 0%, #a855f7 35%, #00f0ff 85%, #7de7ff 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                filter: "drop-shadow(0 0 12px rgba(0, 240, 255, 0.4))"
-              }}
-            >
-              LAYER
-            </span>
-          </div>
-
-          {/* Bottom Subtitle with Cyber Circuit Lines */}
-          <div className="flex items-center gap-2 mt-1">
-            <span style={{ height: "1px", width: "12px", background: "linear-gradient(90deg, transparent, #38bdf8)" }} />
-            <span
-              style={{
-                fontFamily: "var(--cosmic-font-heading)",
-                fontSize: "9px",
-                fontWeight: 700,
-                letterSpacing: "2.5px",
-                color: "var(--cosmic-accent-cyan)",
-                textTransform: "uppercase"
-              }}
-            >
-              EXPLORE • CUSTOMIZE • EVOLVE
-            </span>
-            <span style={{ height: "1px", width: "12px", background: "linear-gradient(90deg, #38bdf8, transparent)" }} />
-          </div>
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "2px",
+            userSelect: "none",
+            lineHeight: 1
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "var(--cosmic-font-heading)",
+              fontSize: `${Math.max(15, Math.round(size * 0.46))}px`,
+              fontWeight: 700,
+              letterSpacing: "0.3px",
+              color: "#ffffff"
+            }}
+          >
+            Cosmic
+          </span>
+          <span
+            style={{
+              fontFamily: "var(--cosmic-font-heading)",
+              fontSize: `${Math.max(15, Math.round(size * 0.46))}px`,
+              fontWeight: 700,
+              letterSpacing: "0.3px",
+              background: "linear-gradient(135deg, #00f0ff 0%, #a855f7 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent"
+            }}
+          >
+            Layer
+          </span>
         </div>
       )}
     </div>
