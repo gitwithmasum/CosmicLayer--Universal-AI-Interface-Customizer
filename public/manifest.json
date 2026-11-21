@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "CosmicLayer — Universal AI Interface Customizer",
+  "short_name": "CosmicLayer",
+  "version": "0.1.0",
+  "description": "Personalize supported AI workspaces with immersive backgrounds and elegant visual themes.",
+  "permissions": ["storage", "activeTab"],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://claude.ai/*",
+    "https://gemini.google.com/*"
+  ],
+  "action": {
+    "default_title": "Open CosmicLayer",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
