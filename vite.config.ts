@@ -9,13 +9,9 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
+        main: resolve(__dirname, "index.html"),
         popup: resolve(__dirname, "popup.html"),
-        content: resolve(__dirname, "src/content/index.ts")
-      },
-      output: {
-        entryFileNames: (chunk) => chunk.name === "content" ? "content.js" : "assets/[name].js",
-        chunkFileNames: "assets/[name]-[hash].js",
-        assetFileNames: "assets/[name]-[hash][extname]"
+        options: resolve(__dirname, "options.html")
       }
     }
   }

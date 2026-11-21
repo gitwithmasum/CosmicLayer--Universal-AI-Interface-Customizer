@@ -1,0 +1,285 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import './variables.css';
+
+/* Modern Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  min-height: 100vh;
+  background-color: var(--cosmic-bg-primary);
+  color: var(--cosmic-text-primary);
+  font-family: var(--cosmic-font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(8, 13, 27, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(78, 115, 175, 0.3);
+  border-radius: var(--cosmic-radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(125, 231, 255, 0.45);
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--cosmic-accent-cyan);
+  outline-offset: 2px;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: var(--cosmic-bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--cosmic-border-subtle);
+  border-radius: var(--cosmic-radius-lg);
+  box-shadow: var(--cosmic-shadow-md);
+  transition: border-color var(--cosmic-transition-normal), box-shadow var(--cosmic-transition-normal);
+}
+
+.glass-panel:hover {
+  border-color: var(--cosmic-border-medium);
+}
+
+.glass-card {
+  background: var(--cosmic-bg-surface);
+  border: 1px solid var(--cosmic-border-subtle);
+  border-radius: var(--cosmic-radius-md);
+  padding: 18px;
+  transition: all var(--cosmic-transition-normal);
+}
+
+.glass-card:hover {
+  border-color: var(--cosmic-border-focus);
+  background: var(--cosmic-bg-card-hover);
+  transform: translateY(-1px);
+}
+
+/* Cosmic Buttons */
+.cosmic-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--cosmic-radius-md);
+  font-family: var(--cosmic-font-heading);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--cosmic-transition-fast);
+  text-decoration: none;
+  user-select: none;
+}
+
+.cosmic-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.cosmic-btn-primary {
+  background: linear-gradient(135deg, #1b3a5b, #19254b);
+  border-color: rgba(125, 231, 255, 0.4);
+  color: var(--cosmic-accent-cyan);
+  box-shadow: 0 0 16px rgba(125, 231, 255, 0.15);
+}
+
+.cosmic-btn-primary:hover {
+  background: linear-gradient(135deg, #234c76, #24356c);
+  border-color: var(--cosmic-accent-cyan);
+  box-shadow: 0 0 24px rgba(125, 231, 255, 0.3);
+  color: #ffffff;
+}
+
+.cosmic-btn-secondary {
+  background: rgba(20, 31, 61, 0.6);
+  border-color: var(--cosmic-border-medium);
+  color: var(--cosmic-text-primary);
+}
+
+.cosmic-btn-secondary:hover {
+  background: rgba(28, 43, 85, 0.85);
+  border-color: rgba(125, 231, 255, 0.3);
+}
+
+.cosmic-btn-danger {
+  background: rgba(244, 63, 94, 0.15);
+  border-color: rgba(244, 63, 94, 0.35);
+  color: #fca5a5;
+}
+
+.cosmic-btn-danger:hover {
+  background: rgba(244, 63, 94, 0.28);
+  border-color: #f43f5e;
+  color: #ffffff;
+}
+
+.cosmic-btn-sm {
+  padding: 6px 12px;
+  font-size: 11px;
+}
+
+/* Badges & Tags */
+.cosmic-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: var(--cosmic-radius-full);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.cosmic-badge-cyan {
+  background: rgba(125, 231, 255, 0.12);
+  border: 1px solid rgba(125, 231, 255, 0.3);
+  color: var(--cosmic-accent-cyan);
+}
+
+.cosmic-badge-violet {
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  color: #c084fc;
+}
+
+.cosmic-badge-gold {
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  color: var(--cosmic-accent-gold);
+}
+
+.cosmic-badge-emerald {
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  color: var(--cosmic-accent-emerald);
+}
+
+.cosmic-badge-muted {
+  background: rgba(100, 116, 139, 0.15);
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  color: var(--cosmic-text-muted);
+}
+
+/* Form Controls & Range Inputs */
+.cosmic-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 4px;
+  background: rgba(40, 60, 100, 0.6);
+  outline: none;
+  transition: background var(--cosmic-transition-fast);
+}
+
+.cosmic-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--cosmic-accent-cyan);
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--cosmic-accent-cyan-glow);
+  transition: transform var(--cosmic-transition-fast), box-shadow var(--cosmic-transition-fast);
+}
+
+.cosmic-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 16px var(--cosmic-accent-cyan);
+}
+
+.cosmic-input {
+  width: 100%;
+  padding: 9px 12px;
+  background: var(--cosmic-bg-input);
+  border: 1px solid var(--cosmic-border-subtle);
+  border-radius: var(--cosmic-radius-md);
+  color: var(--cosmic-text-primary);
+  font-family: var(--cosmic-font-body);
+  font-size: 13px;
+  transition: border-color var(--cosmic-transition-fast);
+}
+
+.cosmic-input:focus {
+  border-color: var(--cosmic-accent-cyan);
+  outline: none;
+}
+
+/* Switch Toggle */
+.cosmic-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.cosmic-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.cosmic-switch-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: rgba(30, 41, 59, 0.9);
+  border: 1px solid var(--cosmic-border-subtle);
+  border-radius: 24px;
+  transition: var(--cosmic-transition-normal);
+}
+
+.cosmic-switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #94a3b8;
+  border-radius: 50%;
+  transition: var(--cosmic-transition-normal);
+}
+
+.cosmic-switch input:checked + .cosmic-switch-slider {
+  background: linear-gradient(135deg, #164e63, #0284c7);
+  border-color: var(--cosmic-accent-cyan);
+}
+
+.cosmic-switch input:checked + .cosmic-switch-slider:before {
+  transform: translateX(20px);
+  background-color: #ffffff;
+  box-shadow: 0 0 8px var(--cosmic-accent-cyan);
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
