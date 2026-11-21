@@ -63,7 +63,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
 
       const timer = setTimeout(() => {
         setStretching(null);
-      }, 240);
+      }, 320);
 
       prevIndexRef.current = activeIndex;
       return () => clearTimeout(timer);
@@ -82,11 +82,11 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
         width: collapsed ? "74px" : "260px",
         flexShrink: 0,
         padding: "16px 12px",
-        borderRight: "1px solid rgba(80, 140, 230, 0.22)",
-        background: "rgba(10, 16, 32, 0.78)",
+        borderRight: "1px solid rgba(41, 77, 97, 0.35)",
+        background: "rgba(7, 46, 51, 0.65)",
         backdropFilter: "blur(24px)",
         WebkitBackdropFilter: "blur(24px)",
-        boxShadow: "0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
+        boxShadow: "0 20px 50px rgba(5, 22, 26, 0.65), inset 0 1px 0 rgba(109, 165, 192, 0.12)",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -102,7 +102,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
           alignItems: "center",
           justifyContent: collapsed ? "center" : "space-between",
           padding: "4px 6px 14px",
-          borderBottom: "1px solid rgba(80, 140, 230, 0.18)",
+          borderBottom: "1px solid rgba(41, 77, 97, 0.35)",
           marginBottom: "14px"
         }}>
           {!collapsed && (
@@ -110,7 +110,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
               fontSize: "10px",
               fontWeight: 700,
               letterSpacing: "1.2px",
-              color: "var(--cosmic-text-muted)",
+              color: "#6da5c0",
               textTransform: "uppercase"
             }}>
               Navigation
@@ -125,9 +125,9 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
               width: "28px",
               height: "28px",
               borderRadius: "8px",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              background: "rgba(255, 255, 255, 0.05)",
-              color: "var(--cosmic-text-secondary)",
+              border: "1px solid rgba(41, 77, 97, 0.5)",
+              background: "rgba(41, 77, 97, 0.3)",
+              color: "#6da5c0",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -136,12 +136,12 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
               transition: "all 0.2s ease"
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(125, 231, 255, 0.15)";
-              e.currentTarget.style.color = "#7de7ff";
+              e.currentTarget.style.background = "rgba(15, 150, 156, 0.25)";
+              e.currentTarget.style.color = "#ffffff";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
-              e.currentTarget.style.color = "var(--cosmic-text-secondary)";
+              e.currentTarget.style.background = "rgba(41, 77, 97, 0.3)";
+              e.currentTarget.style.color = "#6da5c0";
             }}
           >
             {collapsed ? "»" : "«"}
@@ -150,7 +150,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
 
         {/* Navigation Items with Concept 4 Elastic Stretchy Pill */}
         <div style={{ position: "relative", display: "flex", flexDirection: "column", gap: "6px" }}>
-          {/* Concept 4 Stretchy Elastic Highlight Pill */}
+          {/* Concept 4 Stretchy Elastic Highlight Pill in Deep Teal Palette */}
           <div
             aria-hidden="true"
             style={{
@@ -160,8 +160,8 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
               top: `${pillTop}px`,
               height: "44px",
               borderRadius: "12px",
-              background: "linear-gradient(100deg, #00d2ff 0%, #3b82f6 40%, #9333ea 85%, #ec4899 100%)",
-              boxShadow: "0 0 25px rgba(0, 210, 255, 0.5), 0 0 45px rgba(147, 51, 234, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.6)",
+              background: "linear-gradient(105deg, #0f969c 0%, #0c7075 55%, #072e33 100%)",
+              boxShadow: "0 8px 24px rgba(15, 150, 156, 0.45), 0 0 12px rgba(12, 112, 117, 0.4), inset 0 1px 1px rgba(109, 165, 192, 0.6)",
               pointerEvents: "none",
               zIndex: 1,
               transform:
@@ -194,7 +194,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
                   borderRadius: "12px",
                   border: "none",
                   background: "transparent",
-                  color: isActive ? "#ffffff" : "var(--cosmic-text-secondary)",
+                  color: isActive ? "#ffffff" : "#6da5c0",
                   fontFamily: "var(--cosmic-font-heading)",
                   fontSize: "13px",
                   fontWeight: isActive ? 700 : 500,
@@ -205,19 +205,19 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.color = "#ffffff";
+                    e.currentTarget.style.color = "#f0fdfa";
                     e.currentTarget.style.transform = collapsed ? "none" : "translateX(3px)";
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.color = "var(--cosmic-text-secondary)";
+                    e.currentTarget.style.color = "#6da5c0";
                     e.currentTarget.style.transform = "none";
                   }
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <Icon size={17} color={isActive ? "#ffffff" : "currentColor"} />
+                  <Icon size={17} color={isActive ? "#ffffff" : "#6da5c0"} />
                   {!collapsed && <span>{item.label}</span>}
                 </div>
 
@@ -229,8 +229,8 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
                         fontWeight: 600,
                         padding: "2px 6px",
                         borderRadius: "10px",
-                        background: "rgba(100, 116, 139, 0.18)",
-                        color: "var(--cosmic-text-muted)"
+                        background: "rgba(41, 77, 97, 0.4)",
+                        color: "#6da5c0"
                       }}>
                         {item.tag}
                       </span>
@@ -256,7 +256,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
       <div style={{
         marginTop: "20px",
         paddingTop: "14px",
-        borderTop: "1px solid rgba(80, 140, 230, 0.18)"
+        borderTop: "1px solid rgba(41, 77, 97, 0.35)"
       }}>
         <div
           style={{
@@ -265,26 +265,26 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
             justifyContent: collapsed ? "center" : "space-between",
             padding: collapsed ? "6px" : "8px 12px",
             borderRadius: "14px",
-            background: "rgba(255, 255, 255, 0.03)",
-            border: "1px solid rgba(80, 140, 230, 0.22)",
+            background: "rgba(5, 22, 26, 0.65)",
+            border: "1px solid rgba(41, 77, 97, 0.45)",
             transition: "border-color 0.2s ease"
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            {/* Avatar with active green dot */}
+            {/* Avatar with active green/teal dot */}
             <div style={{ position: "relative" }}>
               <div style={{
                 width: "32px",
                 height: "32px",
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #0ea5e9, #4f46e5)",
+                background: "linear-gradient(135deg, #0f969c, #072e33)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: "11px",
                 fontWeight: 700,
                 color: "#ffffff",
-                border: "1px solid rgba(255, 255, 255, 0.2)"
+                border: "1px solid rgba(109, 165, 192, 0.3)"
               }}>
                 MB
               </div>
@@ -295,17 +295,18 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
                 width: "8px",
                 height: "8px",
                 borderRadius: "50%",
-                background: "#34d399",
-                border: "1.5px solid #0a1020"
+                background: "#0f969c",
+                border: "1.5px solid #05161a",
+                boxShadow: "0 0 6px #0f969c"
               }} />
             </div>
 
             {!collapsed && (
               <div>
-                <div style={{ fontSize: "12px", fontWeight: 700, color: "#ffffff", lineHeight: 1.2 }}>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "#f0fdfa", lineHeight: 1.2 }}>
                   Masum Billah
                 </div>
-                <div style={{ fontSize: "10px", color: "var(--cosmic-text-muted)" }}>
+                <div style={{ fontSize: "10px", color: "#6da5c0" }}>
                   Free Plan
                 </div>
               </div>
@@ -318,8 +319,8 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
                 width: "28px",
                 height: "28px",
                 borderRadius: "8px",
-                background: "rgba(251, 191, 36, 0.15)",
-                border: "1px solid rgba(251, 191, 36, 0.3)",
+                background: "rgba(15, 150, 156, 0.18)",
+                border: "1px solid rgba(15, 150, 156, 0.4)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",

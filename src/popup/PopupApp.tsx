@@ -74,7 +74,7 @@ export const PopupApp: React.FC = () => {
     <div style={{
       width: "380px",
       minHeight: "560px",
-      background: "radial-gradient(ellipse at 10% 0%, rgba(14, 165, 233, 0.2), transparent 45%), radial-gradient(ellipse at 90% 60%, rgba(168, 85, 247, 0.15), transparent 45%), #080d1b",
+      background: "radial-gradient(ellipse at 0% 25%, rgba(15, 150, 156, 0.22), transparent 55%), radial-gradient(ellipse at 100% 75%, rgba(12, 112, 117, 0.22), transparent 55%), #05161a",
       color: "var(--cosmic-text-primary)",
       fontFamily: "var(--cosmic-font-body)",
       padding: "16px 18px",
@@ -86,7 +86,7 @@ export const PopupApp: React.FC = () => {
       {/* Top Header */}
       <div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px" }}>
-          <CosmicLogo size={32} showText={true} />
+          <CosmicLogo size={30} showText={true} />
 
           {/* Quick Active Status & Toggle */}
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -95,9 +95,9 @@ export const PopupApp: React.FC = () => {
               fontWeight: 600,
               padding: "2px 7px",
               borderRadius: "10px",
-              background: settings.enabled ? "rgba(52, 211, 153, 0.15)" : "rgba(100, 116, 139, 0.2)",
-              color: settings.enabled ? "#34d399" : "#94a3b8",
-              border: `1px solid ${settings.enabled ? "rgba(52, 211, 153, 0.35)" : "rgba(100, 116, 139, 0.25)"}`
+              background: settings.enabled ? "rgba(15, 150, 156, 0.16)" : "rgba(41, 77, 97, 0.25)",
+              color: settings.enabled ? "#6da5c0" : "#436a7e",
+              border: `1px solid ${settings.enabled ? "rgba(15, 150, 156, 0.4)" : "rgba(41, 77, 97, 0.35)"}`
             }}>
               {settings.enabled ? "ACTIVE" : "PAUSED"}
             </span>
@@ -115,8 +115,8 @@ export const PopupApp: React.FC = () => {
 
         {/* Current Atmosphere Badge */}
         <div style={{
-          background: "rgba(10, 16, 32, 0.7)",
-          border: "1px solid var(--cosmic-border-subtle)",
+          background: "rgba(7, 46, 51, 0.75)",
+          border: "1px solid rgba(41, 77, 97, 0.4)",
           borderRadius: "var(--cosmic-radius-md)",
           padding: "10px 12px",
           display: "flex",
@@ -166,8 +166,8 @@ export const PopupApp: React.FC = () => {
                     gap: "7px",
                     padding: "7px 9px",
                     borderRadius: "6px",
-                    border: isSelected ? "1px solid var(--cosmic-accent-cyan)" : "1px solid var(--cosmic-border-subtle)",
-                    background: isSelected ? "rgba(14, 165, 233, 0.2)" : "rgba(10, 16, 32, 0.65)",
+                    border: isSelected ? "1px solid #0f969c" : "1px solid rgba(41, 77, 97, 0.4)",
+                    background: isSelected ? "rgba(15, 150, 156, 0.25)" : "rgba(7, 46, 51, 0.6)",
                     cursor: "pointer",
                     textAlign: "left",
                     transition: "all var(--cosmic-transition-fast)"
@@ -183,14 +183,14 @@ export const PopupApp: React.FC = () => {
                   <span style={{
                     fontSize: "11px",
                     fontWeight: isSelected ? 600 : 500,
-                    color: isSelected ? "var(--cosmic-accent-cyan)" : "var(--cosmic-text-secondary)",
+                    color: isSelected ? "#f0fdfa" : "#6da5c0",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis"
                   }}>
                     {theme.name}
                   </span>
-                  {isSelected && <Check size={11} color="var(--cosmic-accent-cyan)" style={{ marginLeft: "auto" }} />}
+                  {isSelected && <Check size={11} color="#0f969c" style={{ marginLeft: "auto" }} />}
                 </button>
               );
             })}
@@ -209,11 +209,11 @@ export const PopupApp: React.FC = () => {
               justifyContent: "space-between",
               padding: "8px 10px",
               borderRadius: "6px",
-              background: "rgba(10, 16, 32, 0.6)",
-              border: "1px solid var(--cosmic-border-subtle)"
+              background: "rgba(7, 46, 51, 0.65)",
+              border: "1px solid rgba(41, 77, 97, 0.4)"
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <ImageIcon size={14} color="var(--cosmic-accent-cyan)" />
+                <ImageIcon size={14} color="#0f969c" />
                 <span style={{ fontSize: "11px", color: "var(--cosmic-text-primary)", maxWidth: "180px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                   {settings.wallpaperName || "Custom Image"}
                 </span>

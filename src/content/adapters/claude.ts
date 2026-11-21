@@ -104,11 +104,11 @@ export class ClaudeAdapter implements PlatformAdapter {
       .bg-bg-100,
       .bg-bg-200,
       div:has(> nav[aria-label="Recent chats"]) {
-        background-color: rgba(10, 16, 32, 0.78) !important;
+        background-color: rgba(7, 46, 51, 0.72) !important;
         backdrop-filter: blur(24px) !important;
         -webkit-backdrop-filter: blur(24px) !important;
-        border-right: 1px solid rgba(80, 140, 230, 0.22) !important;
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.5) !important;
+        border-right: 1px solid rgba(41, 77, 97, 0.35) !important;
+        box-shadow: 0 0 40px rgba(5, 22, 26, 0.6) !important;
       }
 
       /* ========================================================= */
@@ -117,10 +117,10 @@ export class ClaudeAdapter implements PlatformAdapter {
       a[aria-current="page"],
       nav a.bg-bg-200,
       nav a[data-active="true"] {
-        background: linear-gradient(100deg, #00d2ff 0%, #3b82f6 40%, #9333ea 85%, #ec4899 100%) !important;
-        box-shadow: 0 0 25px rgba(0, 210, 255, 0.55),
-                    0 0 45px rgba(147, 51, 234, 0.35),
-                    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+        background: linear-gradient(105deg, #0f969c 0%, #0c7075 55%, #072e33 100%) !important;
+        box-shadow: 0 4px 20px rgba(15, 150, 156, 0.45),
+                    0 0 12px rgba(12, 112, 117, 0.4),
+                    inset 0 1px 1px rgba(109, 165, 192, 0.6) !important;
         border-radius: 12px !important;
         color: #ffffff !important;
         font-weight: 600 !important;

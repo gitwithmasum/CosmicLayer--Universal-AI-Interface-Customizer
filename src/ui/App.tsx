@@ -59,7 +59,7 @@ export const App: React.FC = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#080d1b",
+        background: "#05161a",
         color: "var(--cosmic-accent-cyan)",
         fontFamily: "var(--cosmic-font-heading)",
         fontSize: "14px"
@@ -74,7 +74,7 @@ export const App: React.FC = () => {
       minHeight: "100vh",
       display: "flex",
       flexDirection: "column",
-      background: "radial-gradient(ellipse at 15% 10%, rgba(14, 165, 233, 0.12), transparent 45%), radial-gradient(ellipse at 85% 85%, rgba(168, 85, 247, 0.10), transparent 50%), #080d1b"
+      background: "radial-gradient(ellipse at 0% 50%, rgba(15, 150, 156, 0.16), transparent 55%), radial-gradient(ellipse at 100% 50%, rgba(12, 112, 117, 0.20), transparent 55%), radial-gradient(ellipse at 50% 0%, rgba(109, 165, 192, 0.08), transparent 60%), #05161a"
     }}>
       {/* Top Navigation */}
       <Navbar settings={settings} onUpdate={handleUpdate} onReset={handleReset} />

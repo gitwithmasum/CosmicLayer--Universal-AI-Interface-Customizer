@@ -46,7 +46,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
       {/* Hero Section */}
       <div className="glass-panel" style={{
         padding: "32px",
-        background: "radial-gradient(ellipse at 10% 20%, rgba(14, 165, 233, 0.18), transparent 50%), radial-gradient(ellipse at 90% 80%, rgba(168, 85, 247, 0.15), transparent 50%), rgba(14, 22, 44, 0.75)",
+        background: "radial-gradient(ellipse at 15% 20%, rgba(15, 150, 156, 0.22), transparent 55%), radial-gradient(ellipse at 85% 80%, rgba(12, 112, 117, 0.22), transparent 55%), rgba(7, 46, 51, 0.75)",
         position: "relative",
         overflow: "hidden"
       }}>
@@ -71,7 +71,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
           }}>
             One Universe.{" "}
             <span style={{
-              background: "linear-gradient(90deg, #7de7ff, #c084fc 60%, #fbbf24)",
+              background: "linear-gradient(90deg, #f0fdfa 0%, #0f969c 50%, #6da5c0 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent"
             }}>
@@ -134,8 +134,8 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
               width: "12px",
               height: "12px",
               borderRadius: "50%",
-              background: settings.enabled ? "#34d399" : "#64748b",
-              boxShadow: settings.enabled ? "0 0 12px #34d399" : "none"
+              background: settings.enabled ? "#0f969c" : "#294d61",
+              boxShadow: settings.enabled ? "0 0 12px #0f969c" : "none"
             }} />
             <div style={{ fontFamily: "var(--cosmic-font-heading)", fontSize: "18px", fontWeight: 700 }}>
               {settings.enabled ? "Active" : "Paused"}
@@ -230,20 +230,20 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
       </div>
 
       {/* Architectural Scope Notice */}
-      <div className="glass-panel" style={{ padding: "20px 24px", background: "rgba(10, 15, 30, 0.55)" }}>
+      <div className="glass-panel" style={{ padding: "20px 24px", background: "rgba(7, 46, 51, 0.55)", borderColor: "rgba(41, 77, 97, 0.4)" }}>
         <div style={{ display: "flex", alignItems: "flex-start", gap: "14px" }}>
           <div style={{
             width: "36px",
             height: "36px",
             borderRadius: "10px",
-            background: "rgba(125, 231, 255, 0.12)",
-            border: "1px solid rgba(125, 231, 255, 0.25)",
+            background: "rgba(15, 150, 156, 0.16)",
+            border: "1px solid rgba(15, 150, 156, 0.4)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0
           }}>
-            <ShieldCheck size={18} color="var(--cosmic-accent-cyan)" />
+            <ShieldCheck size={18} color="#0f969c" />
           </div>
           <div>
             <h3 style={{ fontFamily: "var(--cosmic-font-heading)", fontSize: "14px", fontWeight: 600, color: "var(--cosmic-text-primary)", marginBottom: "4px" }}>

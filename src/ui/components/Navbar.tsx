@@ -24,10 +24,11 @@ export const Navbar: React.FC<NavbarProps> = ({ settings, onUpdate, onReset }) =
         alignItems: "center",
         justifyContent: "space-between",
         padding: "10px 24px",
-        background: "rgba(6, 10, 24, 0.78)",
+        background: "rgba(5, 22, 26, 0.85)",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
-        borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
+        borderBottom: "1px solid rgba(41, 77, 97, 0.35)",
+        boxShadow: "0 4px 20px rgba(5, 22, 26, 0.6)",
         position: "sticky",
         top: 0,
         zIndex: 50
@@ -42,7 +43,7 @@ export const Navbar: React.FC<NavbarProps> = ({ settings, onUpdate, onReset }) =
           left: 0,
           right: 0,
           height: "1px",
-          background: "linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.35) 40%, rgba(168, 85, 247, 0.35) 70%, transparent 100%)",
+          background: "linear-gradient(90deg, transparent 0%, rgba(15, 150, 156, 0.45) 40%, rgba(109, 165, 192, 0.45) 70%, transparent 100%)",
           pointerEvents: "none"
         }}
       />
@@ -55,9 +56,9 @@ export const Navbar: React.FC<NavbarProps> = ({ settings, onUpdate, onReset }) =
           style={{
             padding: "2px 8px",
             borderRadius: "9999px",
-            background: "rgba(255, 255, 255, 0.04)",
-            border: "1px solid rgba(255, 255, 255, 0.08)",
-            color: "var(--cosmic-text-muted)",
+            background: "rgba(41, 77, 97, 0.35)",
+            border: "1px solid rgba(109, 165, 192, 0.25)",
+            color: "#6da5c0",
             fontSize: "11px",
             fontWeight: 500,
             fontFamily: "var(--cosmic-font-mono)",
@@ -78,8 +79,8 @@ export const Navbar: React.FC<NavbarProps> = ({ settings, onUpdate, onReset }) =
             gap: "7px",
             padding: "4px 10px",
             borderRadius: "9999px",
-            background: settings.enabled ? "rgba(16, 185, 129, 0.08)" : "rgba(255, 255, 255, 0.03)",
-            border: `1px solid ${settings.enabled ? "rgba(52, 211, 153, 0.25)" : "rgba(255, 255, 255, 0.06)"}`,
+            background: settings.enabled ? "rgba(15, 150, 156, 0.14)" : "rgba(41, 77, 97, 0.25)",
+            border: `1px solid ${settings.enabled ? "rgba(15, 150, 156, 0.4)" : "rgba(41, 77, 97, 0.4)"}`,
             transition: "all var(--cosmic-transition-fast)"
           }}
         >
@@ -88,8 +89,8 @@ export const Navbar: React.FC<NavbarProps> = ({ settings, onUpdate, onReset }) =
               width: "6px",
               height: "6px",
               borderRadius: "50%",
-              background: settings.enabled ? "#34d399" : "#64748b",
-              boxShadow: settings.enabled ? "0 0 6px rgba(52, 211, 153, 0.7)" : "none",
+              background: settings.enabled ? "#0f969c" : "#6da5c0",
+              boxShadow: settings.enabled ? "0 0 8px rgba(15, 150, 156, 0.8)" : "none",
               display: "inline-block"
             }}
           />
@@ -97,7 +98,7 @@ export const Navbar: React.FC<NavbarProps> = ({ settings, onUpdate, onReset }) =
             style={{
               fontSize: "11px",
               fontWeight: 600,
-              color: settings.enabled ? "#34d399" : "#94a3b8",
+              color: settings.enabled ? "#6da5c0" : "#436a7e",
               letterSpacing: "0.3px"
             }}
           >
@@ -131,25 +132,25 @@ export const Navbar: React.FC<NavbarProps> = ({ settings, onUpdate, onReset }) =
             padding: "5px 11px",
             fontSize: "12px",
             fontWeight: 500,
-            color: "var(--cosmic-text-secondary)",
-            background: "rgba(255, 255, 255, 0.03)",
-            border: "1px solid rgba(255, 255, 255, 0.08)",
+            color: "#6da5c0",
+            background: "rgba(41, 77, 97, 0.35)",
+            border: "1px solid rgba(41, 77, 97, 0.5)",
             borderRadius: "6px",
             cursor: "pointer",
             transition: "all var(--cosmic-transition-fast)"
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "rgba(0, 240, 255, 0.35)";
+            e.currentTarget.style.borderColor = "rgba(15, 150, 156, 0.6)";
             e.currentTarget.style.color = "#ffffff";
-            e.currentTarget.style.background = "rgba(0, 240, 255, 0.08)";
+            e.currentTarget.style.background = "rgba(15, 150, 156, 0.18)";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.08)";
-            e.currentTarget.style.color = "var(--cosmic-text-secondary)";
-            e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)";
+            e.currentTarget.style.borderColor = "rgba(41, 77, 97, 0.5)";
+            e.currentTarget.style.color = "#6da5c0";
+            e.currentTarget.style.background = "rgba(41, 77, 97, 0.35)";
           }}
         >
-          <RotateCcw size={12} color="var(--cosmic-accent-cyan)" />
+          <RotateCcw size={12} color="#0f969c" />
           <span>Reset</span>
         </button>
       </div>

@@ -26,14 +26,14 @@ html, body {
   height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(8, 13, 27, 0.6);
+  background: rgba(5, 22, 26, 0.7);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(78, 115, 175, 0.3);
+  background: rgba(41, 77, 97, 0.6);
   border-radius: var(--cosmic-radius-full);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(125, 231, 255, 0.45);
+  background: var(--cosmic-accent-cyan);
 }
 
 /* Focus styles */
@@ -45,11 +45,11 @@ html, body {
 /* Glassmorphism Classes */
 .glass-panel {
   background: var(--cosmic-bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--cosmic-border-subtle);
   border-radius: var(--cosmic-radius-lg);
-  box-shadow: var(--cosmic-shadow-md);
+  box-shadow: 0 12px 36px rgba(5, 22, 26, 0.65), inset 0 1px 0 rgba(109, 165, 192, 0.12);
   transition: border-color var(--cosmic-transition-normal), box-shadow var(--cosmic-transition-normal);
 }
 
@@ -62,13 +62,15 @@ html, body {
   border: 1px solid var(--cosmic-border-subtle);
   border-radius: var(--cosmic-radius-md);
   padding: 18px;
+  box-shadow: 0 6px 20px rgba(5, 22, 26, 0.4);
   transition: all var(--cosmic-transition-normal);
 }
 
 .glass-card:hover {
   border-color: var(--cosmic-border-focus);
   background: var(--cosmic-bg-card-hover);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(5, 22, 26, 0.6), 0 0 16px rgba(15, 150, 156, 0.2);
 }
 
 /* Cosmic Buttons */
@@ -97,28 +99,30 @@ html, body {
 }
 
 .cosmic-btn-primary {
-  background: linear-gradient(135deg, #1b3a5b, #19254b);
-  border-color: rgba(125, 231, 255, 0.4);
-  color: var(--cosmic-accent-cyan);
-  box-shadow: 0 0 16px rgba(125, 231, 255, 0.15);
+  background: linear-gradient(135deg, #0f969c 0%, #0c7075 100%);
+  border-color: rgba(109, 165, 192, 0.4);
+  color: #ffffff;
+  box-shadow: 0 4px 18px rgba(15, 150, 156, 0.35);
 }
 
 .cosmic-btn-primary:hover {
-  background: linear-gradient(135deg, #234c76, #24356c);
-  border-color: var(--cosmic-accent-cyan);
-  box-shadow: 0 0 24px rgba(125, 231, 255, 0.3);
+  background: linear-gradient(135deg, #13adb3 0%, #0f969c 100%);
+  border-color: #6da5c0;
+  box-shadow: 0 6px 26px rgba(15, 150, 156, 0.55);
   color: #ffffff;
+  transform: translateY(-1px);
 }
 
 .cosmic-btn-secondary {
-  background: rgba(20, 31, 61, 0.6);
-  border-color: var(--cosmic-border-medium);
+  background: rgba(41, 77, 97, 0.35);
+  border-color: rgba(109, 165, 192, 0.25);
   color: var(--cosmic-text-primary);
 }
 
 .cosmic-btn-secondary:hover {
-  background: rgba(28, 43, 85, 0.85);
-  border-color: rgba(125, 231, 255, 0.3);
+  background: rgba(41, 77, 97, 0.65);
+  border-color: rgba(15, 150, 156, 0.5);
+  color: #ffffff;
 }
 
 .cosmic-btn-danger {
@@ -152,32 +156,32 @@ html, body {
 }
 
 .cosmic-badge-cyan {
-  background: rgba(125, 231, 255, 0.12);
-  border: 1px solid rgba(125, 231, 255, 0.3);
-  color: var(--cosmic-accent-cyan);
+  background: rgba(15, 150, 156, 0.16);
+  border: 1px solid rgba(15, 150, 156, 0.45);
+  color: #6da5c0;
 }
 
 .cosmic-badge-violet {
-  background: rgba(168, 85, 247, 0.12);
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  color: #c084fc;
+  background: rgba(109, 165, 192, 0.16);
+  border: 1px solid rgba(109, 165, 192, 0.4);
+  color: #6da5c0;
 }
 
 .cosmic-badge-gold {
-  background: rgba(251, 191, 36, 0.12);
-  border: 1px solid rgba(251, 191, 36, 0.3);
-  color: var(--cosmic-accent-gold);
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #6da5c0;
 }
 
 .cosmic-badge-emerald {
-  background: rgba(52, 211, 153, 0.12);
-  border: 1px solid rgba(52, 211, 153, 0.3);
-  color: var(--cosmic-accent-emerald);
+  background: rgba(15, 150, 156, 0.16);
+  border: 1px solid rgba(15, 150, 156, 0.45);
+  color: #0f969c;
 }
 
 .cosmic-badge-muted {
-  background: rgba(100, 116, 139, 0.15);
-  border: 1px solid rgba(100, 116, 139, 0.3);
+  background: rgba(41, 77, 97, 0.3);
+  border: 1px solid rgba(41, 77, 97, 0.45);
   color: var(--cosmic-text-muted);
 }
 
@@ -188,7 +192,7 @@ html, body {
   width: 100%;
   height: 6px;
   border-radius: 4px;
-  background: rgba(40, 60, 100, 0.6);
+  background: rgba(41, 77, 97, 0.5);
   outline: none;
   transition: background var(--cosmic-transition-fast);
 }
@@ -201,7 +205,7 @@ html, body {
   border-radius: 50%;
   background: var(--cosmic-accent-cyan);
   cursor: pointer;
-  box-shadow: 0 0 10px var(--cosmic-accent-cyan-glow);
+  box-shadow: 0 0 10px rgba(15, 150, 156, 0.6);
   transition: transform var(--cosmic-transition-fast), box-shadow var(--cosmic-transition-fast);
 }
 
@@ -245,7 +249,7 @@ html, body {
   position: absolute;
   cursor: pointer;
   inset: 0;
-  background-color: rgba(30, 41, 59, 0.9);
+  background-color: rgba(7, 46, 51, 0.85);
   border: 1px solid var(--cosmic-border-subtle);
   border-radius: 24px;
   transition: var(--cosmic-transition-normal);
@@ -258,20 +262,20 @@ html, body {
   width: 16px;
   left: 3px;
   bottom: 3px;
-  background-color: #94a3b8;
+  background-color: #6da5c0;
   border-radius: 50%;
   transition: var(--cosmic-transition-normal);
 }
 
 .cosmic-switch input:checked + .cosmic-switch-slider {
-  background: linear-gradient(135deg, #164e63, #0284c7);
+  background: linear-gradient(135deg, #0c7075, #0f969c);
   border-color: var(--cosmic-accent-cyan);
 }
 
 .cosmic-switch input:checked + .cosmic-switch-slider:before {
   transform: translateX(20px);
   background-color: #ffffff;
-  box-shadow: 0 0 8px var(--cosmic-accent-cyan);
+  box-shadow: 0 0 10px #0f969c;
 }
 
 /* Reduced Motion Override */
