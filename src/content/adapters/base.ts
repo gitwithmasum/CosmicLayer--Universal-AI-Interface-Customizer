@@ -30,6 +30,76 @@ export function removeCustomStylesAndLayer(): void {
   document.getElementById(STYLE_CONTAINER_ID)?.remove();
   document.getElementById(LAYER_CONTAINER_ID)?.remove();
   document.getElementById(BADGE_CONTAINER_ID)?.remove();
+  clearSidebarHarmonization();
+}
+
+export function clearSidebarHarmonization(): void {
+  const existingSidebar = document.querySelector('[data-cosmiclayer-sidebar="true"]');
+  if (existingSidebar) {
+    existingSidebar.removeAttribute("data-cosmiclayer-sidebar");
+  }
+}
+
+export function findAndHarmonizeSidebar(): HTMLElement | null {
+  // Strategy 1: Known platform containers
+  const known = document.querySelector<HTMLElement>(
+    'aside, [data-testid="workspace-sidebar"], [data-testid="sidebar"], #stage-slideover-sidebar, bard-sidenav, mat-sidenav, .side-navigation-v2, nav[aria-label="Chat history"], nav[aria-label="Recent chats"]'
+  );
+
+  let sidebar = known;
+
+  // Strategy 2: Search elements docked on left edge
+  if (!sidebar) {
+    const candidates = document.querySelectorAll<HTMLElement>("div, nav, aside");
+    for (let i = 0; i < candidates.length; i++) {
+      const el = candidates[i];
+      if (el.id === LAYER_CONTAINER_ID || el.id === BADGE_CONTAINER_ID) continue;
+      const rect = el.getBoundingClientRect();
+      if (rect.left <= 60 && rect.width >= 160 && rect.width <= 420 && rect.height >= window.innerHeight * 0.6) {
+        sidebar = el;
+        break;
+      }
+    }
+  }
+
+  if (!sidebar) return null;
+
+  // Tag sidebar container
+  sidebar.setAttribute("data-cosmiclayer-sidebar", "true");
+
+  // Clear opaque background from nested non-interactive structural divs so glass shows through
+  const innerDivs = sidebar.querySelectorAll<HTMLElement>("div");
+  innerDivs.forEach((child) => {
+    if (child.getAttribute("role") === "button" || child.tagName === "BUTTON" || child.tagName === "A") {
+      return;
+    }
+    const bg = window.getComputedStyle(child).backgroundColor;
+    if (bg && bg !== "transparent" && bg !== "rgba(0, 0, 0, 0)") {
+      child.style.setProperty("background-color", "transparent", "important");
+    }
+  });
+
+  // Tag navigation items inside sidebar
+  const items = sidebar.querySelectorAll<HTMLElement>('a, button, li > div, div[role="button"]');
+  items.forEach((item) => {
+    item.setAttribute("data-cosmiclayer-sidebar-item", "true");
+    
+    // Check if this item is currently active/selected
+    const isCurrent =
+      item.getAttribute("aria-current") === "page" ||
+      item.getAttribute("data-active") === "true" ||
+      item.classList.contains("selected") ||
+      item.classList.contains("bg-token-sidebar-surface-secondary") ||
+      item.classList.contains("bg-bg-200");
+
+    if (isCurrent) {
+      item.setAttribute("data-cosmiclayer-active-item", "true");
+    } else {
+      item.removeAttribute("data-cosmiclayer-active-item");
+    }
+  });
+
+  return sidebar;
 }
 
 export function ensureCosmicNavbarBadge(show: boolean): void {

@@ -6,6 +6,7 @@ import {
   computeFilterString,
   computeNavbarCss,
   ensureCosmicNavbarBadge,
+  findAndHarmonizeSidebar,
   STYLE_CONTAINER_ID,
   LAYER_CONTAINER_ID
 } from "./base";
@@ -204,10 +205,52 @@ export class ClaudeAdapter implements PlatformAdapter {
         border-radius: 9999px !important;
       }
 
+      /* ========================================================= */
+      /* UNIVERSAL DATA-ATTRIBUTE SIDEBAR RULES                    */
+      /* ========================================================= */
+      [data-cosmiclayer-sidebar="true"] {
+        background: rgba(7, 46, 51, 0.78) !important;
+        backdrop-filter: blur(24px) !important;
+        -webkit-backdrop-filter: blur(24px) !important;
+        border-right: 1px solid rgba(41, 77, 97, 0.45) !important;
+        box-shadow: 4px 0 35px rgba(5, 22, 26, 0.7) !important;
+      }
+
+      [data-cosmiclayer-sidebar-item="true"]:hover {
+        background: rgba(15, 150, 156, 0.16) !important;
+        border-color: rgba(15, 150, 156, 0.4) !important;
+        color: #ffffff !important;
+        transform: translateX(3px) !important;
+        box-shadow: 0 2px 14px rgba(15, 150, 156, 0.25) !important;
+      }
+
+      [data-cosmiclayer-active-item="true"],
+      [data-cosmiclayer-sidebar="true"] [data-cosmiclayer-active-item="true"] {
+        background: linear-gradient(105deg, #0f969c 0%, #0c7075 55%, #072e33 100%) !important;
+        box-shadow: 0 4px 20px rgba(15, 150, 156, 0.5),
+                    0 0 12px rgba(12, 112, 117, 0.4),
+                    inset 0 1px 1px rgba(109, 165, 192, 0.6) !important;
+        border: 1px solid rgba(15, 150, 156, 0.65) !important;
+        border-radius: 12px !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+      }
+
+      [data-cosmiclayer-active-item="true"] * {
+        color: #ffffff !important;
+        font-weight: 700 !important;
+      }
+
       ${computeNavbarCss(settings, "claude")}
     `;
 
     ensureCosmicNavbarBadge(Boolean(settings.enabled && settings.navbar?.enabled && settings.navbar?.showCosmicBadge && settings.navbar?.platforms.claude));
+
+    try {
+      findAndHarmonizeSidebar();
+    } catch {
+      // safe fallback
+    }
 
     void layer;
   }
@@ -224,6 +267,8 @@ export class ClaudeAdapter implements PlatformAdapter {
           const layer = document.getElementById(LAYER_CONTAINER_ID);
           if (!layer) {
             this.injectStylesAndLayer(this.currentSettings);
+          } else {
+            findAndHarmonizeSidebar();
           }
         }
       }, 500);
@@ -231,7 +276,7 @@ export class ClaudeAdapter implements PlatformAdapter {
 
     this.observer.observe(document.documentElement, {
       childList: true,
-      subtree: false
+      subtree: true
     });
   }
 }

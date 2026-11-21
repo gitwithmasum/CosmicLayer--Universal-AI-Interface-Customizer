@@ -6,9 +6,13 @@
   "description": "Personalize supported AI workspaces with immersive backgrounds and elegant visual themes.",
   "permissions": ["storage", "activeTab"],
   "host_permissions": [
-    "https://chatgpt.com/*",
-    "https://claude.ai/*",
-    "https://gemini.google.com/*"
+    "*://chatgpt.com/*",
+    "*://*.chatgpt.com/*",
+    "*://chat.openai.com/*",
+    "*://*.chat.openai.com/*",
+    "*://claude.ai/*",
+    "*://*.claude.ai/*",
+    "*://gemini.google.com/*"
   ],
   "action": {
     "default_title": "Open CosmicLayer",
@@ -24,9 +28,13 @@
   "content_scripts": [
     {
       "matches": [
-        "https://chatgpt.com/*",
-        "https://claude.ai/*",
-        "https://gemini.google.com/*"
+        "*://chatgpt.com/*",
+        "*://*.chatgpt.com/*",
+        "*://chat.openai.com/*",
+        "*://*.chat.openai.com/*",
+        "*://claude.ai/*",
+        "*://*.claude.ai/*",
+        "*://gemini.google.com/*"
       ],
       "js": ["content.js"],
       "run_at": "document_idle"
