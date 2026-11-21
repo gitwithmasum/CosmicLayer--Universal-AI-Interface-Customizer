@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MessageSquare, Bot, User, Sparkles, SlidersHorizontal } from "lucide-react";
+import { MessageSquare, Bot, User, Sparkles, SlidersHorizontal, Plus, Folder, Search } from "lucide-react";
 import type { CosmicSettings } from "../../shared/types";
 import { THEMES } from "../../shared/themes";
 import { computeBackgroundString, computeFilterString } from "../../content/adapters/base";
@@ -76,7 +76,7 @@ export const LiveMockupPreview: React.FC<LiveMockupPreviewProps> = ({ settings, 
       {/* Simulated Browser Viewport */}
       <div style={{
         position: "relative",
-        height: compact ? "280px" : "360px",
+        height: compact ? "300px" : "390px",
         overflow: "hidden",
         display: "flex",
         background: "#080d1b"
@@ -110,42 +110,179 @@ export const LiveMockupPreview: React.FC<LiveMockupPreviewProps> = ({ settings, 
           />
         )}
 
-        {/* Simulated Sidebar */}
+        {/* Simulated AI Chat Glass Sidebar (Concept 1 Layout + Concept 4 Highlight) */}
         <div style={{
-          width: compact ? "80px" : "180px",
-          borderRight: "1px solid rgba(255, 255, 255, 0.08)",
-          background: "rgba(10, 15, 30, 0.75)",
+          width: compact ? "110px" : "210px",
+          borderRight: "1px solid rgba(80, 140, 230, 0.22)",
+          background: "rgba(10, 16, 32, 0.78)",
           backdropFilter: `blur(${settings.glassBlur}px)`,
-          padding: "16px 12px",
+          WebkitBackdropFilter: `blur(${settings.glassBlur}px)`,
+          padding: "14px 10px",
           display: "flex",
           flexDirection: "column",
-          gap: "10px",
+          justifyContent: "space-between",
           zIndex: 2,
           flexShrink: 0
         }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", color: theme.accentColor, fontWeight: 700, fontSize: "12px" }}>
-            <Sparkles size={14} />
-            {!compact && <span>{platform.toUpperCase()}</span>}
-          </div>
-          <div style={{ height: "1px", background: "rgba(255, 255, 255, 0.08)" }} />
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              style={{
+          <div>
+            {/* Sidebar Top: Logo + Search */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px", padding: "0 4px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#ffffff", fontWeight: 700, fontSize: "13px" }}>
+                <Sparkles size={14} color="var(--cosmic-accent-cyan)" />
+                {!compact && <span>{platform.toUpperCase()}</span>}
+              </div>
+              {!compact && <Search size={12} color="var(--cosmic-text-muted)" />}
+            </div>
+
+            {/* New Chat Button */}
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              padding: "7px 10px",
+              borderRadius: "10px",
+              background: "rgba(14, 165, 233, 0.12)",
+              border: "1px solid rgba(125, 231, 255, 0.25)",
+              color: "#ffffff",
+              fontSize: "11px",
+              fontWeight: 600,
+              marginBottom: "10px",
+              cursor: "pointer"
+            }}>
+              <Plus size={12} color="#7de7ff" />
+              {!compact && <span>New chat</span>}
+            </div>
+
+            {/* Project Folder */}
+            {!compact && (
+              <div style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "8px",
+                gap: "6px",
                 padding: "6px 8px",
-                borderRadius: "6px",
-                background: i === 1 ? "rgba(255, 255, 255, 0.08)" : "transparent",
-                color: i === 1 ? "var(--cosmic-text-primary)" : "var(--cosmic-text-muted)",
-                fontSize: "11px"
-              }}
-            >
-              <MessageSquare size={12} />
-              {!compact && <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Chat Session {i}</span>}
+                borderRadius: "8px",
+                fontSize: "10px",
+                color: "var(--cosmic-text-secondary)",
+                marginBottom: "8px"
+              }}>
+                <Folder size={12} color="#fbbf24" />
+                <span>CP / SelaiSathi</span>
+              </div>
+            )}
+
+            {/* Conversation List with Concept 4 Glowing Stretchy Capsule */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+              {/* The ACTIVE CHAT with Concept 4 Glowing Capsule */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "7px 10px",
+                  borderRadius: "10px",
+                  background: "linear-gradient(100deg, #00d2ff 0%, #3b82f6 40%, #9333ea 85%, #ec4899 100%)",
+                  boxShadow: "0 0 20px rgba(0, 210, 255, 0.5), 0 0 35px rgba(147, 51, 234, 0.3)",
+                  color: "#ffffff",
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  cursor: "pointer"
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "6px", minWidth: 0 }}>
+                  <MessageSquare size={11} color="#ffffff" />
+                  {!compact && (
+                    <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      চ্যাট ব্যাকগ্রাউন্ড পরিবর্তন
+                    </span>
+                  )}
+                </div>
+                {!compact && <span style={{ fontSize: "10px" }}>›</span>}
+              </div>
+
+              {/* Inactive Chat Items */}
+              {!compact && (
+                <>
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: "6px 10px",
+                    borderRadius: "8px",
+                    color: "var(--cosmic-text-secondary)",
+                    fontSize: "11px"
+                  }}>
+                    <MessageSquare size={11} color="var(--cosmic-text-muted)" />
+                    <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      Weekly encrypted VAULT
+                    </span>
+                  </div>
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: "6px 10px",
+                    borderRadius: "8px",
+                    color: "var(--cosmic-text-secondary)",
+                    fontSize: "11px"
+                  }}>
+                    <MessageSquare size={11} color="var(--cosmic-text-muted)" />
+                    <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      Inventory UI Polish
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
-          ))}
+          </div>
+
+          {/* User Profile Card at Bottom (Masum Billah, Free, Upgrade) */}
+          <div style={{
+            padding: "6px 8px",
+            borderRadius: "10px",
+            background: "rgba(255, 255, 255, 0.04)",
+            border: "1px solid rgba(80, 140, 230, 0.22)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between"
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <div style={{
+                width: "22px",
+                height: "22px",
+                borderRadius: "50%",
+                background: "#7c3aed",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "9px",
+                fontWeight: 700,
+                color: "#ffffff"
+              }}>
+                MB
+              </div>
+              {!compact && (
+                <div>
+                  <div style={{ fontSize: "10px", fontWeight: 700, color: "#ffffff", lineHeight: 1.1 }}>
+                    Masum Billah
+                  </div>
+                  <div style={{ fontSize: "8px", color: "var(--cosmic-text-muted)" }}>Free</div>
+                </div>
+              )}
+            </div>
+            {!compact && (
+              <span style={{
+                fontSize: "8px",
+                fontWeight: 700,
+                padding: "2px 5px",
+                borderRadius: "4px",
+                background: "rgba(251, 191, 36, 0.15)",
+                color: "#fbbf24",
+                border: "1px solid rgba(251, 191, 36, 0.3)"
+              }}>
+                Upgrade
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Simulated Conversation Container */}
@@ -172,7 +309,7 @@ export const LiveMockupPreview: React.FC<LiveMockupPreviewProps> = ({ settings, 
                 color: "#f1f5f9",
                 maxWidth: "85%"
               }}>
-                Shape this workspace with a futuristic cosmic atmosphere!
+                চ্যাট ব্যাকগ্রাউন্ড ও সাইডবারে প্রিমিয়াম কসমিক গ্লাস এবং স্ট্রেচি ক্যাপসুল ইফেক্ট যুক্ত করো!
               </div>
               <div style={{ width: "26px", height: "26px", borderRadius: "50%", background: "#3b82f6", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <User size={14} color="#fff" />
@@ -198,7 +335,7 @@ export const LiveMockupPreview: React.FC<LiveMockupPreviewProps> = ({ settings, 
                 <div style={{ fontWeight: 600, color: theme.accentColor, marginBottom: "4px" }}>
                   CosmicLayer Active — {theme.name}
                 </div>
-                Your workspace identity is harmonized. Notice the glassmorphism translucency, balanced contrast, and local-first rendering.
+                সাইডবারের সাধারণ ফ্ল্যাট ব্যাকগ্রাউন্ড পরিবর্তিত হয়ে প্রিমিয়াম কসমিক গ্লাস হয়েছে। অ্যাক্টিভ চ্যাট আইটেমে এখন নিয়ন সায়ান-পার্পল স্ট্রেচি ক্যাপসুল যুক্ত হয়েছে!
               </div>
             </div>
           </div>

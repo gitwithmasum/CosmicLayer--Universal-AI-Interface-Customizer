@@ -91,18 +91,59 @@ export class ClaudeAdapter implements PlatformAdapter {
       }
 
       /* Subtle background harmonization for Claude */
-      /* Protects message typography, conversation tokens, and artifact panes */
       body,
       #root,
       main {
         background-color: transparent !important;
       }
 
-      /* Non-destructive glass sheen for Claude surface containers */
+      /* ========================================================= */
+      /* COSMICLAYER CONCEPT 1: FULL GLASS CLAUDE SIDEBAR          */
+      /* ========================================================= */
+      nav,
       .bg-bg-100,
-      .bg-bg-200 {
-        background-color: rgba(14, 18, 30, 0.85) !important;
-        backdrop-filter: blur(12px) !important;
+      .bg-bg-200,
+      div:has(> nav[aria-label="Recent chats"]) {
+        background-color: rgba(10, 16, 32, 0.78) !important;
+        backdrop-filter: blur(24px) !important;
+        -webkit-backdrop-filter: blur(24px) !important;
+        border-right: 1px solid rgba(80, 140, 230, 0.22) !important;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.5) !important;
+      }
+
+      /* ========================================================= */
+      /* COSMICLAYER CONCEPT 4: ELASTIC STRETCHY GLOWING CAPSULE   */
+      /* ========================================================= */
+      a[aria-current="page"],
+      nav a.bg-bg-200,
+      nav a[data-active="true"] {
+        background: linear-gradient(100deg, #00d2ff 0%, #3b82f6 40%, #9333ea 85%, #ec4899 100%) !important;
+        box-shadow: 0 0 25px rgba(0, 210, 255, 0.55),
+                    0 0 45px rgba(147, 51, 234, 0.35),
+                    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+        border-radius: 12px !important;
+        color: #ffffff !important;
+        font-weight: 600 !important;
+        transition: all 0.3s cubic-bezier(0.34, 1.45, 0.64, 1) !important;
+      }
+
+      nav a:hover:not([aria-current="page"]) {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border-radius: 10px !important;
+        transform: translateX(3px) !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      }
+
+      /* Claude New Chat Button */
+      a[href="/new"] {
+        border: 1px solid rgba(125, 231, 255, 0.25) !important;
+        background: rgba(14, 165, 233, 0.12) !important;
+        border-radius: 12px !important;
+      }
+      a[href="/new"]:hover {
+        background: rgba(14, 165, 233, 0.25) !important;
+        border-color: rgba(125, 231, 255, 0.5) !important;
+        box-shadow: 0 0 18px rgba(0, 210, 255, 0.35) !important;
       }
     `;
 

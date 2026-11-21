@@ -91,7 +91,6 @@ export class GeminiAdapter implements PlatformAdapter {
       }
 
       /* Subtle background harmonization for Gemini interface */
-      /* Protects conversation responses, markdown, math expressions, and prompt input */
       body,
       bard-app,
       .chat-app,
@@ -99,11 +98,41 @@ export class GeminiAdapter implements PlatformAdapter {
         background-color: transparent !important;
       }
 
-      /* Non-destructive background softening for navigation side rail */
+      /* ========================================================= */
+      /* COSMICLAYER CONCEPT 1: FULL GLASS GEMINI SIDEBAR          */
+      /* ========================================================= */
       bard-sidenav,
-      .side-navigation-v2 {
-        background-color: rgba(9, 13, 24, 0.90) !important;
-        backdrop-filter: blur(12px) !important;
+      .side-navigation-v2,
+      nav.side-nav {
+        background-color: rgba(10, 16, 32, 0.78) !important;
+        backdrop-filter: blur(24px) !important;
+        -webkit-backdrop-filter: blur(24px) !important;
+        border-right: 1px solid rgba(80, 140, 230, 0.22) !important;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.5) !important;
+      }
+
+      /* ========================================================= */
+      /* COSMICLAYER CONCEPT 4: ELASTIC STRETCHY GLOWING CAPSULE   */
+      /* ========================================================= */
+      .conversation.selected,
+      .chat-history-item.selected,
+      div[aria-selected="true"],
+      a.selected {
+        background: linear-gradient(100deg, #00d2ff 0%, #3b82f6 40%, #9333ea 85%, #ec4899 100%) !important;
+        box-shadow: 0 0 25px rgba(0, 210, 255, 0.55),
+                    0 0 45px rgba(147, 51, 234, 0.35),
+                    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+        border-radius: 12px !important;
+        color: #ffffff !important;
+        font-weight: 600 !important;
+        transition: all 0.3s cubic-bezier(0.34, 1.45, 0.64, 1) !important;
+      }
+
+      .conversation:hover:not(.selected) {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border-radius: 10px !important;
+        transform: translateX(3px) !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
       }
     `;
 
