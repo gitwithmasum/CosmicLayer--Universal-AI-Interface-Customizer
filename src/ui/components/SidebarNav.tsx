@@ -7,8 +7,6 @@ import {
   Sparkles,
   Settings,
   ShieldCheck,
-  ChevronRight,
-  Folder,
   type LucideIcon
 } from "lucide-react";
 
@@ -81,9 +79,9 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
     <nav
       aria-label="Main Navigation"
       style={{
-        width: collapsed ? "74px" : "280px",
+        width: collapsed ? "74px" : "260px",
         flexShrink: 0,
-        padding: "20px 14px",
+        padding: "16px 12px",
         borderRight: "1px solid rgba(80, 140, 230, 0.22)",
         background: "rgba(10, 16, 32, 0.78)",
         backdropFilter: "blur(24px)",
@@ -98,68 +96,25 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
       }}
     >
       <div>
-        {/* Brand Header with Planet Logo & Collapse Button */}
+        {/* Clean Sidebar Top Header: No duplicate logo, just clean section title & collapse toggle */}
         <div style={{
           display: "flex",
           alignItems: "center",
           justifyContent: collapsed ? "center" : "space-between",
-          paddingBottom: "16px",
+          padding: "4px 6px 14px",
           borderBottom: "1px solid rgba(80, 140, 230, 0.18)",
-          marginBottom: "16px"
+          marginBottom: "14px"
         }}>
           {!collapsed && (
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              {/* Glowing Planet Logo */}
-              <div style={{
-                width: "36px",
-                height: "36px",
-                borderRadius: "50%",
-                background: "linear-gradient(135deg, #00d2ff, #8b5cf6 60%, #ec4899)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: "0 0 18px rgba(0, 210, 255, 0.55), inset 0 1px 1px rgba(255,255,255,0.6)",
-                flexShrink: 0
-              }}>
-                <span style={{ fontSize: "16px" }}>🪐</span>
-              </div>
-              <div>
-                <div style={{
-                  fontFamily: "var(--cosmic-font-heading)",
-                  fontSize: "15px",
-                  fontWeight: 700,
-                  color: "#ffffff",
-                  letterSpacing: "-0.2px",
-                  lineHeight: 1.15
-                }}>
-                  CosmicLayer
-                </div>
-                <div style={{
-                  fontSize: "9px",
-                  fontWeight: 600,
-                  color: "var(--cosmic-accent-cyan)",
-                  letterSpacing: "1px",
-                  textTransform: "uppercase"
-                }}>
-                  Universal Customizer
-                </div>
-              </div>
-            </div>
-          )}
-
-          {collapsed && (
-            <div style={{
-              width: "36px",
-              height: "36px",
-              borderRadius: "50%",
-              background: "linear-gradient(135deg, #00d2ff, #8b5cf6)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: "0 0 14px rgba(0, 210, 255, 0.5)"
+            <span style={{
+              fontSize: "10px",
+              fontWeight: 700,
+              letterSpacing: "1.2px",
+              color: "var(--cosmic-text-muted)",
+              textTransform: "uppercase"
             }}>
-              <span style={{ fontSize: "16px" }}>🪐</span>
-            </div>
+              Navigation
+            </span>
           )}
 
           {/* Collapse/Expand Toggle Button */}
@@ -297,62 +252,12 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ activeTab, onSelectTab }
         </div>
       </div>
 
-      {/* Footer Section: Projects (SelaiSathi) + Profile (Masum Billah) */}
+      {/* Footer Section: Clean Profile Status Card */}
       <div style={{
         marginTop: "20px",
         paddingTop: "14px",
-        borderTop: "1px solid rgba(80, 140, 230, 0.18)",
-        display: "flex",
-        flexDirection: "column",
-        gap: "12px"
+        borderTop: "1px solid rgba(80, 140, 230, 0.18)"
       }}>
-        {/* Projects Section (Concept 1 layout) */}
-        {!collapsed && (
-          <div>
-            <div style={{
-              fontSize: "10px",
-              fontWeight: 700,
-              letterSpacing: "0.8px",
-              color: "var(--cosmic-text-muted)",
-              textTransform: "uppercase",
-              marginBottom: "8px",
-              padding: "0 4px"
-            }}>
-              Projects
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "8px 12px",
-                borderRadius: "10px",
-                background: "rgba(255, 255, 255, 0.03)",
-                border: "1px solid rgba(255, 255, 255, 0.06)",
-                cursor: "pointer",
-                transition: "all 0.2s ease"
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "rgba(125, 231, 255, 0.08)";
-                e.currentTarget.style.borderColor = "rgba(125, 231, 255, 0.25)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)";
-                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.06)";
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <Folder size={14} color="#7de7ff" />
-                <span style={{ fontSize: "12px", fontWeight: 500, color: "var(--cosmic-text-primary)" }}>
-                  SelaiSathi
-                </span>
-              </div>
-              <ChevronRight size={12} color="var(--cosmic-text-muted)" />
-            </div>
-          </div>
-        )}
-
-        {/* User Profile Card (Masum Billah, Free Plan, Crown) */}
         <div
           style={{
             display: "flex",

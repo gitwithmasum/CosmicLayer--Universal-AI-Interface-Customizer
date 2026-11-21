@@ -166,7 +166,7 @@ export const LiveMockupPreview: React.FC<LiveMockupPreviewProps> = ({ settings, 
                 marginBottom: "8px"
               }}>
                 <Folder size={12} color="#fbbf24" />
-                <span>CP / SelaiSathi</span>
+                <span>Workspaces / Projects</span>
               </div>
             )}
 

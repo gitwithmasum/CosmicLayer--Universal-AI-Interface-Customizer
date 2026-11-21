@@ -164,7 +164,7 @@ export class ChatGPTAdapter implements PlatformAdapter {
         box-shadow: 0 0 18px rgba(0, 210, 255, 0.35) !important;
       }
 
-      /* Project folders & workspace containers (e.g. CP, SelaiSathi) */
+      /* Project folders & workspace containers */
       nav[aria-label="Chat history"] div:has(> button > div) {
         border-radius: 10px !important;
       }
