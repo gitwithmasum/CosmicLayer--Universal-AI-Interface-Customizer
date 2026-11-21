@@ -48,14 +48,14 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
 
   let sidebar = known;
 
-  // Strategy 2: Search elements docked on left edge
+  // Strategy 2: Search elements docked on left edge (handles both full 260px sidebar and 60px collapsed icon rail)
   if (!sidebar) {
     const candidates = document.querySelectorAll<HTMLElement>("div, nav, aside");
     for (let i = 0; i < candidates.length; i++) {
       const el = candidates[i];
       if (el.id === LAYER_CONTAINER_ID || el.id === BADGE_CONTAINER_ID) continue;
       const rect = el.getBoundingClientRect();
-      if (rect.left <= 60 && rect.width >= 160 && rect.width <= 420 && rect.height >= window.innerHeight * 0.6) {
+      if (rect.left <= 60 && rect.width >= 40 && rect.width <= 440 && rect.height >= window.innerHeight * 0.6) {
         sidebar = el;
         break;
       }
@@ -64,33 +64,53 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
 
   if (!sidebar) return null;
 
-  // Tag sidebar container
-  sidebar.setAttribute("data-cosmiclayer-sidebar", "true");
+  // 1. Clear background on all ancestors of sidebar up to documentElement so wallpaper shines through!
+  let parent = sidebar.parentElement;
+  while (parent && parent !== document.documentElement && parent !== document.body) {
+    parent.style.setProperty("background-color", "transparent", "important");
+    parent.style.setProperty("background", "transparent", "important");
+    parent = parent.parentElement;
+  }
 
-  // Clear opaque background from nested non-interactive structural divs so glass shows through
-  const innerDivs = sidebar.querySelectorAll<HTMLElement>("div");
+  // 2. Tag sidebar container and apply translucent frosted glass
+  sidebar.setAttribute("data-cosmiclayer-sidebar", "true");
+  sidebar.style.setProperty("background", "linear-gradient(180deg, rgba(7, 46, 51, 0.40) 0%, rgba(5, 22, 26, 0.32) 100%)", "important");
+  sidebar.style.setProperty("backdrop-filter", "blur(18px) saturate(160%)", "important");
+  sidebar.style.setProperty("-webkit-backdrop-filter", "blur(18px) saturate(160%)", "important");
+  sidebar.style.setProperty("border-right", "1px solid rgba(41, 77, 97, 0.45)", "important");
+  sidebar.style.setProperty("box-shadow", "4px 0 25px rgba(5, 22, 26, 0.5)", "important");
+
+  // 3. Clear opaque background from nested non-interactive structural divs so glass & wallpaper show through
+  const innerDivs = sidebar.querySelectorAll<HTMLElement>("div, nav, section, ul, ol");
   innerDivs.forEach((child) => {
-    if (child.getAttribute("role") === "button" || child.tagName === "BUTTON" || child.tagName === "A") {
+    if (
+      child.getAttribute("role") === "button" ||
+      child.tagName === "BUTTON" ||
+      child.tagName === "A" ||
+      child.hasAttribute("data-cosmiclayer-active-item")
+    ) {
       return;
     }
     const bg = window.getComputedStyle(child).backgroundColor;
     if (bg && bg !== "transparent" && bg !== "rgba(0, 0, 0, 0)") {
       child.style.setProperty("background-color", "transparent", "important");
+      child.style.setProperty("background", "transparent", "important");
     }
   });
 
-  // Tag navigation items inside sidebar
+  // 4. Tag navigation items inside sidebar
   const items = sidebar.querySelectorAll<HTMLElement>('a, button, li > div, div[role="button"]');
   items.forEach((item) => {
     item.setAttribute("data-cosmiclayer-sidebar-item", "true");
-    
-    // Check if this item is currently active/selected
+
+    // Clean up default gray active classes
     const isCurrent =
       item.getAttribute("aria-current") === "page" ||
       item.getAttribute("data-active") === "true" ||
       item.classList.contains("selected") ||
       item.classList.contains("bg-token-sidebar-surface-secondary") ||
-      item.classList.contains("bg-bg-200");
+      item.classList.contains("bg-bg-200") ||
+      item.classList.contains("bg-bg-300");
 
     if (isCurrent) {
       item.setAttribute("data-cosmiclayer-active-item", "true");
@@ -99,17 +119,29 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
     }
   });
 
+  // 5. Tag section headers (Pinned, Recents, Projects, etc.)
+  const headings = sidebar.querySelectorAll<HTMLElement>("h2, h3, div.text-xs, div[class*='text-text-500'], div[class*='text-token-text-tertiary']");
+  headings.forEach((heading) => {
+    heading.setAttribute("data-cosmiclayer-section-header", "true");
+  });
+
   return sidebar;
 }
 
-export function ensureCosmicNavbarBadge(show: boolean): void {
+export function ensureCosmicNavbarBadge(show: boolean, platform: "chatgpt" | "claude" | "gemini" = "chatgpt"): void {
   const existing = document.getElementById(BADGE_CONTAINER_ID);
   if (!show) {
     existing?.remove();
     return;
   }
 
-  if (existing) return;
+  // Offset right so it never collides with action/upgrade buttons on each platform
+  const rightOffset = platform === "chatgpt" ? "210px" : platform === "gemini" ? "160px" : "70px";
+
+  if (existing) {
+    existing.style.right = rightOffset;
+    return;
+  }
 
   const badge = document.createElement("div");
   badge.id = BADGE_CONTAINER_ID;
@@ -120,7 +152,7 @@ export function ensureCosmicNavbarBadge(show: boolean): void {
   badge.style.cssText = `
     position: fixed;
     top: 14px;
-    right: 84px;
+    right: ${rightOffset};
     z-index: 99999;
     display: inline-flex;
     align-items: center;

@@ -111,9 +111,9 @@ export class GeminiAdapter implements PlatformAdapter {
       nav.side-nav,
       div.side-navigation,
       div[class*="side-nav"] {
-        background-color: rgba(7, 46, 51, 0.78) !important;
-        backdrop-filter: blur(24px) !important;
-        -webkit-backdrop-filter: blur(24px) !important;
+        background: linear-gradient(180deg, rgba(7, 46, 51, 0.40) 0%, rgba(5, 22, 26, 0.32) 100%) !important;
+        backdrop-filter: blur(18px) saturate(160%) !important;
+        -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
         border-right: 1px solid rgba(41, 77, 97, 0.45) !important;
         box-shadow: 4px 0 35px rgba(5, 22, 26, 0.7) !important;
       }
@@ -233,10 +233,23 @@ export class GeminiAdapter implements PlatformAdapter {
         font-weight: 700 !important;
       }
 
+      /* Gemini Prompt Input Box Harmonization */
+      .input-area-container,
+      div:has(> rich-textarea),
+      rich-textarea,
+      .chat-window .input-area {
+        background: rgba(5, 22, 26, 0.65) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        border: 1px solid rgba(41, 77, 97, 0.45) !important;
+        border-radius: 20px !important;
+        box-shadow: 0 4px 20px rgba(5, 22, 26, 0.5) !important;
+      }
+
       ${computeNavbarCss(settings, "gemini")}
     `;
 
-    ensureCosmicNavbarBadge(Boolean(settings.enabled && settings.navbar?.enabled && settings.navbar?.showCosmicBadge && settings.navbar?.platforms.gemini));
+    ensureCosmicNavbarBadge(Boolean(settings.enabled && settings.navbar?.enabled && settings.navbar?.showCosmicBadge && settings.navbar?.platforms.gemini), "gemini");
 
     try {
       findAndHarmonizeSidebar();

@@ -106,13 +106,11 @@ export class ClaudeAdapter implements PlatformAdapter {
       /* ========================================================= */
       aside,
       nav,
-      .bg-bg-100,
-      .bg-bg-200,
       div:has(> nav[aria-label="Recent chats"]),
       div:has(> nav) {
-        background-color: rgba(7, 46, 51, 0.78) !important;
-        backdrop-filter: blur(24px) !important;
-        -webkit-backdrop-filter: blur(24px) !important;
+        background: linear-gradient(180deg, rgba(7, 46, 51, 0.40) 0%, rgba(5, 22, 26, 0.32) 100%) !important;
+        backdrop-filter: blur(18px) saturate(160%) !important;
+        -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
         border-right: 1px solid rgba(41, 77, 97, 0.45) !important;
         box-shadow: 4px 0 35px rgba(5, 22, 26, 0.7) !important;
       }
@@ -120,7 +118,10 @@ export class ClaudeAdapter implements PlatformAdapter {
       /* Make structural wrappers inside sidebar transparent */
       aside > div,
       nav > div,
-      nav div.overflow-y-auto {
+      nav div.overflow-y-auto,
+      .bg-bg-100,
+      .bg-bg-200,
+      .bg-bg-300 {
         background-color: transparent !important;
       }
 
@@ -241,10 +242,22 @@ export class ClaudeAdapter implements PlatformAdapter {
         font-weight: 700 !important;
       }
 
+      /* Claude Prompt Input Container Harmonization */
+      fieldset,
+      div:has(> fieldset),
+      div:has(> div[contenteditable="true"]) {
+        background: rgba(5, 22, 26, 0.65) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        border: 1px solid rgba(41, 77, 97, 0.45) !important;
+        border-radius: 18px !important;
+        box-shadow: 0 4px 20px rgba(5, 22, 26, 0.5) !important;
+      }
+
       ${computeNavbarCss(settings, "claude")}
     `;
 
-    ensureCosmicNavbarBadge(Boolean(settings.enabled && settings.navbar?.enabled && settings.navbar?.showCosmicBadge && settings.navbar?.platforms.claude));
+    ensureCosmicNavbarBadge(Boolean(settings.enabled && settings.navbar?.enabled && settings.navbar?.showCosmicBadge && settings.navbar?.platforms.claude), "claude");
 
     try {
       findAndHarmonizeSidebar();
