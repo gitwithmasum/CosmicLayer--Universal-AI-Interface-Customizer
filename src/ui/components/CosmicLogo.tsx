@@ -7,9 +7,12 @@ interface CosmicLogoProps {
 }
 
 export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "", showText = false }) => {
+  const fontSize = Math.max(15, Math.round(size * 0.46));
+  const planetSize = Math.max(16, Math.round(fontSize * 0.95));
+
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
-      {/* Hexagonal 'C' Monogram with 3D Planet, Orbital Ring & Star Flare */}
+    <div className={`flex items-center gap-2.5 ${className}`}>
+      {/* Hexagonal 'C' Monogram with 3D Planet, Orbital Ring & Diamond Star Lens Flares */}
       <div
         style={{
           width: `${size}px`,
@@ -27,7 +30,7 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
           style={{ overflow: "visible" }}
         >
           <defs>
-            {/* Planet Sphere Gradient — Deep Oceanic Teal */}
+            {/* Planet Sphere Gradient — Deep Oceanic Teal / Space Void */}
             <radialGradient id="planetBody" cx="35%" cy="35%" r="65%">
               <stop offset="0%" stopColor="#0c7075" />
               <stop offset="45%" stopColor="#072e33" />
@@ -39,7 +42,7 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
             <radialGradient id="atmoGlow" cx="40%" cy="40%" r="55%">
               <stop offset="70%" stopColor="transparent" />
               <stop offset="92%" stopColor="rgba(15, 150, 156, 0.45)" />
-              <stop offset="100%" stopColor="rgba(109, 165, 192, 0.85)" />
+              <stop offset="100%" stopColor="rgba(0, 240, 255, 0.85)" />
             </radialGradient>
 
             {/* Hexagon 3D Face Gradient — Clean Silver/Ice */}
@@ -52,25 +55,50 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
 
             {/* Hexagon Inner Bevel Accent — Cyan Teal to Ice */}
             <linearGradient id="hexBevel" x1="30" y1="15" x2="70" y2="85" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#0f969c" />
-              <stop offset="60%" stopColor="#0c7075" />
-              <stop offset="100%" stopColor="#6da5c0" />
+              <stop offset="0%" stopColor="#00f0ff" />
+              <stop offset="50%" stopColor="#0f969c" />
+              <stop offset="100%" stopColor="#a855f7" />
             </linearGradient>
 
-            {/* Neon Orbital Ring Gradient — #0C7075 -> #0F969C -> #6DA5C0 */}
+            {/* Neon Orbital Ring Gradient — Violet to Cyan */}
             <linearGradient id="neonOrbit" x1="0" y1="50" x2="100" y2="50" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#0c7075" />
-              <stop offset="45%" stopColor="#0f969c" />
-              <stop offset="85%" stopColor="#6da5c0" />
-              <stop offset="100%" stopColor="#0f969c" />
+              <stop offset="0%" stopColor="#d946ef" />
+              <stop offset="35%" stopColor="#a855f7" />
+              <stop offset="70%" stopColor="#00f0ff" />
+              <stop offset="100%" stopColor="#38bdf8" />
             </linearGradient>
 
-            {/* Star Flare Glow */}
-            <radialGradient id="starFlare" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#ffffff" />
-              <stop offset="40%" stopColor="#6da5c0" />
-              <stop offset="100%" stopColor="transparent" />
+            {/* Diamond Star Lens Flare Gradients & Halos */}
+            <radialGradient id="lensHalo" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+              <stop offset="30%" stopColor="#00f0ff" stopOpacity="0.6" />
+              <stop offset="65%" stopColor="#a855f7" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="transparent" stopOpacity="0" />
             </radialGradient>
+
+            <linearGradient id="flareSpikeV" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="transparent" />
+              <stop offset="38%" stopColor="#00f0ff" stopOpacity="0.8" />
+              <stop offset="50%" stopColor="#ffffff" />
+              <stop offset="62%" stopColor="#00f0ff" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="transparent" />
+            </linearGradient>
+
+            <linearGradient id="flareSpikeH" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="transparent" />
+              <stop offset="38%" stopColor="#00f0ff" stopOpacity="0.8" />
+              <stop offset="50%" stopColor="#ffffff" />
+              <stop offset="62%" stopColor="#00f0ff" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="transparent" />
+            </linearGradient>
+
+            <linearGradient id="flareStreak" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="transparent" />
+              <stop offset="25%" stopColor="#a855f7" stopOpacity="0.5" />
+              <stop offset="50%" stopColor="#00f0ff" stopOpacity="0.95" />
+              <stop offset="75%" stopColor="#a855f7" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="transparent" />
+            </linearGradient>
 
             {/* Filter for Drop Glow */}
             <filter id="cosmicGlow" x="-30%" y="-30%" width="160%" height="160%">
@@ -83,10 +111,10 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
           </defs>
 
           {/* 1. Atmosphere Glow Behind Planet */}
-          <circle cx="50" cy="50" r="42" fill="url(#atmoGlow)" opacity="0.65" />
+          <circle cx="50" cy="50" r="42" fill="url(#atmoGlow)" opacity="0.6" />
 
           {/* 2. Planetary Sphere */}
-          <circle cx="50" cy="50" r="34" fill="url(#planetBody)" stroke="rgba(109, 165, 192, 0.3)" strokeWidth="1" />
+          <circle cx="50" cy="50" r="34" fill="url(#planetBody)" stroke="rgba(0, 240, 255, 0.3)" strokeWidth="1" />
           <circle cx="50" cy="50" r="34" fill="url(#atmoGlow)" />
 
           {/* 3. Orbital Ring - Back Segment (depth behind C) */}
@@ -96,7 +124,7 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
             strokeWidth="3.2"
             strokeLinecap="round"
             transform="rotate(-26 50 50)"
-            opacity="0.5"
+            opacity="0.55"
             filter="url(#cosmicGlow)"
           />
 
@@ -109,14 +137,14 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
             transform="translate(2, 3)"
           />
 
-          {/* Hexagonal 'C' Body */}
+          {/* Hexagonal 'C' Metallic Body */}
           <path
             d="M 65 22 L 35 22 L 18 50 L 35 78 L 65 78 L 73 65 L 48 65 L 38 50 L 48 35 L 73 35 Z"
             fill="url(#hexFace)"
             stroke="url(#hexBevel)"
             strokeWidth="1.8"
             strokeLinejoin="round"
-            filter="drop-shadow(0 0 10px rgba(15, 150, 156, 0.45))"
+            filter="drop-shadow(0 0 10px rgba(0, 240, 255, 0.45))"
           />
 
           {/* Inner Highlight Facet for 3D Chisel Effect */}
@@ -135,23 +163,81 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
             filter="url(#cosmicGlow)"
           />
 
-          {/* 6. Diamond Star Spark Flare at the Vertex of the C */}
-          <g transform="translate(68, 47)">
-            <ellipse cx="0" cy="0" rx="9" ry="2" fill="url(#starFlare)" transform="rotate(45)" />
-            <ellipse cx="0" cy="0" rx="9" ry="2" fill="url(#starFlare)" transform="rotate(-45)" />
-            <circle cx="0" cy="0" r="2" fill="#ffffff" filter="drop-shadow(0 0 4px #0f969c)" />
+          {/* 6. Diamond Star Lens Flare at "C"-এর ভেতরের কোণা (Inner Vertex at 38, 50) */}
+          <g transform="translate(39, 50)">
+            {/* Diffuse Flare Halo */}
+            <circle cx="0" cy="0" r="11" fill="url(#lensHalo)" />
+            {/* Anamorphic Horizontal Flare Streak */}
+            <ellipse cx="0" cy="0" rx="18" ry="1.2" fill="url(#flareStreak)" />
+            {/* Primary Diamond Needles (Vertical & Horizontal) */}
+            <path
+              d="M 0 -14 Q 0.6 -3.5 1.6 0 Q 0.6 3.5 0 14 Q -0.6 3.5 -1.6 0 Q -0.6 -3.5 0 -14 Z"
+              fill="url(#flareSpikeV)"
+            />
+            <path
+              d="M -14 0 Q -3.5 0.6 0 1.6 Q 3.5 0.6 14 0 Q 3.5 -0.6 0 -1.6 Q -3.5 -0.6 -14 0 Z"
+              fill="url(#flareSpikeH)"
+            />
+            {/* Diagonal Diamond Needles (45 degrees) */}
+            <g transform="rotate(45)">
+              <path
+                d="M 0 -9 Q 0.5 -2.2 1.1 0 Q 0.5 2.2 0 9 Q -0.5 2.2 -1.1 0 Q -0.5 -2.2 0 -9 Z"
+                fill="url(#flareSpikeV)"
+                opacity="0.85"
+              />
+              <path
+                d="M -9 0 Q -2.2 0.5 0 1.1 Q 2.2 0.5 9 0 Q 2.2 -0.5 0 -1.1 Q -2.2 -0.5 -9 0 Z"
+                fill="url(#flareSpikeH)"
+                opacity="0.85"
+              />
+            </g>
+            {/* Sparkling Hot-White Core */}
+            <circle cx="0" cy="0" r="2" fill="#ffffff" filter="drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 6px #00f0ff)" />
           </g>
 
-          {/* 7. Secondary Star Flare on the Ring */}
-          <g transform="translate(18, 60)">
-            <ellipse cx="0" cy="0" rx="6" ry="1.5" fill="url(#starFlare)" />
-            <ellipse cx="0" cy="0" rx="1.5" ry="6" fill="url(#starFlare)" />
-            <circle cx="0" cy="0" r="1.5" fill="#ffffff" />
+          {/* 7. Diamond Star Lens Flare on the Orbital Ring (Foreground at 20, 62) */}
+          <g transform="translate(20, 62) scale(0.85)">
+            {/* Diffuse Flare Halo */}
+            <circle cx="0" cy="0" r="9" fill="url(#lensHalo)" />
+            {/* Anamorphic Flare Streak Tilted Along Ring Axis (-26 deg) */}
+            <ellipse cx="0" cy="0" rx="15" ry="1" fill="url(#flareStreak)" transform="rotate(-26)" />
+            {/* Diamond Needles */}
+            <path
+              d="M 0 -12 Q 0.5 -3 1.4 0 Q 0.5 3 0 12 Q -0.5 3 -1.4 0 Q -0.5 -3 0 -12 Z"
+              fill="url(#flareSpikeV)"
+            />
+            <path
+              d="M -12 0 Q -3 0.5 0 1.4 Q 3 0.5 12 0 Q 3 -0.5 0 -1.4 Q -3 -0.5 -12 0 Z"
+              fill="url(#flareSpikeH)"
+            />
+            {/* Diagonal Needles */}
+            <g transform="rotate(45)">
+              <path
+                d="M 0 -7.5 Q 0.4 -2 0.9 0 Q 0.4 2 0 7.5 Q -0.4 2 -0.9 0 Q -0.4 -2 0 -7.5 Z"
+                fill="url(#flareSpikeV)"
+                opacity="0.8"
+              />
+              <path
+                d="M -7.5 0 Q -2 0.4 0 0.9 Q 2 0.4 7.5 0 Q 2 -0.4 0 -0.9 Q -2 -0.4 -7.5 0 Z"
+                fill="url(#flareSpikeH)"
+                opacity="0.8"
+              />
+            </g>
+            {/* Hot-White Core */}
+            <circle cx="0" cy="0" r="1.6" fill="#ffffff" filter="drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 5px #00f0ff)" />
+          </g>
+
+          {/* 8. Subtle Diamond Sparkle at Outer Vertex (71, 35) */}
+          <g transform="translate(71, 35) scale(0.55)">
+            <ellipse cx="0" cy="0" rx="10" ry="1.2" fill="url(#flareStreak)" />
+            <path d="M 0 -8 Q 0.5 -2 1 0 Q 0.5 2 0 8 Q -0.5 2 -1 0 Q -0.5 -2 0 -8 Z" fill="url(#flareSpikeV)" />
+            <path d="M -8 0 Q -2 0.5 0 1 Q 2 0.5 8 0 Q 2 -0.5 0 -1 Q -2 -0.5 -8 0 Z" fill="url(#flareSpikeH)" />
+            <circle cx="0" cy="0" r="1.4" fill="#ffffff" filter="drop-shadow(0 0 3px #00f0ff)" />
           </g>
         </svg>
       </div>
 
-      {/* Minimalist Space-Tech Typography */}
+      {/* Futuristic Typography: C🪐SMIC  LAYER */}
       {showText && (
         <div
           style={{
@@ -162,29 +248,133 @@ export const CosmicLogo: React.FC<CosmicLogoProps> = ({ size = 42, className = "
             lineHeight: 1
           }}
         >
+          {/* C */}
           <span
             style={{
               fontFamily: "var(--cosmic-font-heading)",
-              fontSize: `${Math.max(15, Math.round(size * 0.46))}px`,
-              fontWeight: 700,
-              letterSpacing: "0.3px",
-              color: "#f0fdfa"
+              fontSize: `${fontSize}px`,
+              fontWeight: 800,
+              letterSpacing: "1.2px",
+              color: "#ffffff",
+              textShadow: "0 0 12px rgba(255, 255, 255, 0.45)"
             }}
           >
-            Cosmic
+            C
           </span>
+
+          {/* 'O' as a Mini 3D Planet with Orbital Ring */}
+          <div
+            style={{
+              width: `${planetSize}px`,
+              height: `${planetSize}px`,
+              position: "relative",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 1px",
+              flexShrink: 0
+            }}
+          >
+            <svg
+              viewBox="0 0 32 32"
+              width="100%"
+              height="100%"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{ overflow: "visible" }}
+            >
+              <defs>
+                {/* Mini Planet Body Gradient */}
+                <radialGradient id="miniPlanetGrad" cx="35%" cy="35%" r="65%">
+                  <stop offset="0%" stopColor="#38bdf8" />
+                  <stop offset="45%" stopColor="#0f969c" />
+                  <stop offset="75%" stopColor="#072e33" />
+                  <stop offset="100%" stopColor="#05161a" />
+                </radialGradient>
+
+                {/* Mini Atmosphere Rim Glow */}
+                <radialGradient id="miniAtmoGlow" cx="40%" cy="40%" r="55%">
+                  <stop offset="65%" stopColor="transparent" />
+                  <stop offset="88%" stopColor="rgba(0, 240, 255, 0.45)" />
+                  <stop offset="100%" stopColor="rgba(0, 240, 255, 0.9)" />
+                </radialGradient>
+
+                {/* Mini Orbital Ring Gradient */}
+                <linearGradient id="miniRingGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#c084fc" />
+                  <stop offset="50%" stopColor="#00f0ff" />
+                  <stop offset="100%" stopColor="#38bdf8" />
+                </linearGradient>
+              </defs>
+
+              {/* Back Segment of Mini Orbital Ring */}
+              <path
+                d="M 3 16 C 3 9.5, 29 9.5, 29 16"
+                stroke="url(#miniRingGrad)"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                transform="rotate(-22 16 16)"
+                opacity="0.55"
+              />
+
+              {/* Mini Planetary Sphere */}
+              <circle
+                cx="16"
+                cy="16"
+                r="6.5"
+                fill="url(#miniPlanetGrad)"
+                stroke="rgba(0, 240, 255, 0.35)"
+                strokeWidth="0.8"
+              />
+              <circle cx="16" cy="16" r="6.5" fill="url(#miniAtmoGlow)" />
+
+              {/* Front Segment of Mini Orbital Ring */}
+              <path
+                d="M 29 16 C 29 22.5, 3 22.5, 3 16"
+                stroke="url(#miniRingGrad)"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                transform="rotate(-22 16 16)"
+              />
+
+              {/* Micro Diamond Sparkle on Ring */}
+              <g transform="translate(26, 12)">
+                <ellipse cx="0" cy="0" rx="2.5" ry="0.6" fill="#ffffff" transform="rotate(-22)" />
+                <ellipse cx="0" cy="0" rx="0.6" ry="2.5" fill="#ffffff" transform="rotate(-22)" />
+                <circle cx="0" cy="0" r="0.8" fill="#ffffff" filter="drop-shadow(0 0 2px #00f0ff)" />
+              </g>
+            </svg>
+          </div>
+
+          {/* SMIC */}
           <span
             style={{
               fontFamily: "var(--cosmic-font-heading)",
-              fontSize: `${Math.max(15, Math.round(size * 0.46))}px`,
-              fontWeight: 700,
-              letterSpacing: "0.3px",
-              background: "linear-gradient(135deg, #0f969c 0%, #6da5c0 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent"
+              fontSize: `${fontSize}px`,
+              fontWeight: 800,
+              letterSpacing: "1.2px",
+              color: "#ffffff",
+              textShadow: "0 0 12px rgba(255, 255, 255, 0.45)"
             }}
           >
-            Layer
+            SMIC
+          </span>
+
+          {/* LAYER: Neon Violet to Cyan Radiant Gradient */}
+          <span
+            style={{
+              fontFamily: "var(--cosmic-font-heading)",
+              fontSize: `${fontSize}px`,
+              fontWeight: 800,
+              letterSpacing: "1.8px",
+              marginLeft: "6px",
+              background: "linear-gradient(90deg, #d946ef 0%, #a855f7 35%, #00f0ff 85%, #7de7ff 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              filter: "drop-shadow(0 0 10px rgba(0, 240, 255, 0.5)) drop-shadow(0 0 18px rgba(168, 85, 247, 0.35))"
+            }}
+          >
+            LAYER
           </span>
         </div>
       )}
