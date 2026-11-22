@@ -118,10 +118,7 @@ export class ChatGPTAdapter implements PlatformAdapter {
       #stage-slideover-sidebar,
       [data-testid="workspace-sidebar"],
       nav[aria-label="Chat history"],
-      div[data-testid="sidebar-container"],
-      div[class*="bg-token-sidebar-surface-primary"],
-      div.flex.h-full.w-full.flex-col.overflow-hidden.bg-token-sidebar-surface-primary,
-      div.flex.h-full.w-full.flex-col.bg-token-sidebar-surface-primary {
+      div[data-testid="sidebar-container"] {
         background: linear-gradient(180deg, rgba(7, 46, 51, 0.40) 0%, rgba(5, 22, 26, 0.32) 100%) !important;
         backdrop-filter: blur(18px) saturate(160%) !important;
         -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
@@ -134,22 +131,42 @@ export class ChatGPTAdapter implements PlatformAdapter {
         z-index: 50 !important;
       }
 
+      /* Collapsed sidebar rail natural dock */
+      aside[data-cosmiclayer-collapsed="true"],
+      [data-testid="workspace-sidebar"][data-cosmiclayer-collapsed="true"],
+      [data-cosmiclayer-sidebar="true"][data-cosmiclayer-collapsed="true"] {
+        height: auto !important;
+        max-height: none !important;
+        position: static !important;
+        top: auto !important;
+        border-top: none !important;
+      }
+
       /* Make inner structural wrappers transparent so glass glows through */
       aside > div,
       #stage-slideover-sidebar > div,
       [data-testid="workspace-sidebar"] > div,
       nav[aria-label="Chat history"] > div,
-      nav[aria-label="Chat history"] div.overflow-y-auto {
+      nav[aria-label="Chat history"] div.overflow-y-auto,
+      div.flex.h-full.w-full.flex-col.overflow-hidden.bg-token-sidebar-surface-primary,
+      div.flex.h-full.w-full.flex-col.bg-token-sidebar-surface-primary {
         background-color: transparent !important;
+        background: transparent !important;
       }
 
-      /* Sidebar Top Header ("ChatGPT" Title + Search + Close) - expanded only */
+      /* Sidebar Top Header ("ChatGPT" Title + Search + Close) - matches 56px navbar */
       [data-testid="workspace-sidebar"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
       nav[aria-label="Chat history"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
       aside:not([data-cosmiclayer-collapsed="true"]) > div:first-child {
-        background: rgba(5, 22, 26, 0.35) !important;
+        height: 56px !important;
+        min-height: 56px !important;
+        max-height: 56px !important;
+        box-sizing: border-box !important;
+        background: rgba(7, 46, 51, 0.40) !important;
         border-bottom: 1px solid rgba(41, 77, 97, 0.45) !important;
-        padding: 12px 14px !important;
+        padding: 0 14px !important;
+        display: flex !important;
+        align-items: center !important;
       }
 
       /* "ChatGPT" Logo / Title text in Sidebar */
@@ -399,6 +416,15 @@ export class ChatGPTAdapter implements PlatformAdapter {
         font-weight: 700 !important;
       }
 
+      /* ChatGPT Bottom Outer Bar transparency so wallpaper flows to bottom */
+      div[class*="bottom-0"],
+      div[class*="bg-token-main-surface-primary"],
+      footer,
+      main > div:last-child {
+        background-color: transparent !important;
+        background: transparent !important;
+      }
+
       /* Bottom Input Box Harmonization (Ask ChatGPT) */
       form:has(textarea),
       div:has(> #prompt-textarea),
@@ -408,6 +434,7 @@ export class ChatGPTAdapter implements PlatformAdapter {
         backdrop-filter: blur(20px) !important;
         -webkit-backdrop-filter: blur(20px) !important;
         border: 1px solid rgba(41, 77, 97, 0.45) !important;
+        border-radius: 20px !important;
         box-shadow: 0 4px 20px rgba(5, 22, 26, 0.5) !important;
       }
 

@@ -105,9 +105,8 @@ export class ClaudeAdapter implements PlatformAdapter {
       /* COSMICLAYER: COMPREHENSIVE FUTURISTIC CLAUDE SIDEBAR      */
       /* ========================================================= */
       aside,
-      nav,
       div:has(> nav[aria-label="Recent chats"]),
-      div:has(> nav) {
+      div:has(> nav):not(aside div):not(aside nav) {
         background: linear-gradient(180deg, rgba(7, 46, 51, 0.40) 0%, rgba(5, 22, 26, 0.32) 100%) !important;
         backdrop-filter: blur(18px) saturate(160%) !important;
         -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
@@ -118,6 +117,22 @@ export class ClaudeAdapter implements PlatformAdapter {
         height: 100vh !important;
         max-height: 100vh !important;
         z-index: 50 !important;
+      }
+
+      /* Claude Sidebar Top Header (Claude title + collapse button) - exactly 56px */
+      aside > div:first-child,
+      nav > div:first-child,
+      aside header,
+      nav header {
+        height: 56px !important;
+        min-height: 56px !important;
+        max-height: 56px !important;
+        box-sizing: border-box !important;
+        background: rgba(7, 46, 51, 0.40) !important;
+        border-bottom: 1px solid rgba(41, 77, 97, 0.45) !important;
+        padding: 0 14px !important;
+        display: flex !important;
+        align-items: center !important;
       }
 
       /* Make structural wrappers inside sidebar transparent */

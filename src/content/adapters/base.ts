@@ -88,10 +88,18 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
   sidebar.style.setProperty("border-right", "1px solid rgba(41, 77, 97, 0.45)", "important");
   sidebar.style.setProperty("box-shadow", "4px 0 25px rgba(5, 22, 26, 0.5)", "important");
   sidebar.style.setProperty("z-index", "50", "important");
-  sidebar.style.setProperty("position", "sticky", "important");
-  sidebar.style.setProperty("top", "0", "important");
-  sidebar.style.setProperty("height", "100vh", "important");
-  sidebar.style.setProperty("max-height", "100vh", "important");
+
+  if (!isCollapsed) {
+    sidebar.style.setProperty("position", "sticky", "important");
+    sidebar.style.setProperty("top", "0", "important");
+    sidebar.style.setProperty("height", "100vh", "important");
+    sidebar.style.setProperty("max-height", "100vh", "important");
+  } else {
+    sidebar.style.removeProperty("height");
+    sidebar.style.removeProperty("max-height");
+    sidebar.style.removeProperty("top");
+    sidebar.style.removeProperty("position");
+  }
 
   // 3. Clear opaque background from nested non-interactive structural divs so glass & wallpaper show through
   const innerDivs = sidebar.querySelectorAll<HTMLElement>("div, nav, section, ul, ol");
@@ -202,13 +210,16 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
   }
 
   const glowLineCss = nav.showNeonGlowLine ? `
-    /* Signature Glowing Neon Accent Underline / Topline (strictly outside sidebar) */
+    /* Signature Glowing Neon Accent Underline / Topline across top bar and sidebar header */
     header:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::after,
     div.draggable.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::after,
     div.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::after,
     [data-testid="top-bar"]:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *)::after,
     mat-toolbar:not(bard-sidenav *)::after,
-    .gemini-header:not(bard-sidenav *)::after {
+    .gemini-header:not(bard-sidenav *)::after,
+    [data-cosmiclayer-sidebar="true"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::after,
+    [data-testid="workspace-sidebar"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::after,
+    nav[aria-label="Chat history"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::after {
       content: "" !important;
       position: absolute !important;
       left: 0 !important;
@@ -226,7 +237,10 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
     div.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::before,
     [data-testid="top-bar"]:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *)::before,
     mat-toolbar:not(bard-sidenav *)::before,
-    .gemini-header:not(bard-sidenav *)::before {
+    .gemini-header:not(bard-sidenav *)::before,
+    [data-cosmiclayer-sidebar="true"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::before,
+    [data-testid="workspace-sidebar"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::before,
+    nav[aria-label="Chat history"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::before {
       content: "" !important;
       position: absolute !important;
       top: 0 !important;
@@ -284,6 +298,10 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
     mat-toolbar:not(bard-sidenav *),
     .gemini-header:not(bard-sidenav *),
     bard-app > header:not(bard-sidenav *) {
+      height: 56px !important;
+      min-height: 56px !important;
+      max-height: 56px !important;
+      box-sizing: border-box !important;
       background: ${bgColor} !important;
       backdrop-filter: blur(${nav.glassBlur}px) !important;
       -webkit-backdrop-filter: blur(${nav.glassBlur}px) !important;
@@ -292,21 +310,67 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
       position: sticky !important;
       top: 0 !important;
       z-index: 35 !important;
+      display: flex !important;
+      align-items: center !important;
     }
 
-    /* Sidebar Top Header Row Harmonization (expanded state only) */
+    /* Sidebar Top Header Row Harmonization (expanded state only) - Matches exact 56px height & border */
     [data-cosmiclayer-sidebar="true"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
     [data-testid="workspace-sidebar"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
-    nav[aria-label="Chat history"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child {
+    nav[aria-label="Chat history"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
+    aside:not([data-cosmiclayer-collapsed="true"]) > div:first-child {
+      height: 56px !important;
+      min-height: 56px !important;
+      max-height: 56px !important;
+      box-sizing: border-box !important;
       border-bottom: 1px solid ${preset.borderColor} !important;
-      background: rgba(5, 22, 26, 0.35) !important;
+      background: ${bgColor} !important;
+      backdrop-filter: blur(${nav.glassBlur}px) !important;
+      -webkit-backdrop-filter: blur(${nav.glassBlur}px) !important;
+      display: flex !important;
+      align-items: center !important;
+      padding: 0 16px !important;
+      position: relative !important;
     }
 
-    /* Collapsed rail connects cleanly without horizontal cuts */
+    /* Collapsed rail connects cleanly without horizontal cuts or awkward gaps */
+    [data-cosmiclayer-collapsed="true"],
+    [data-cosmiclayer-sidebar="true"][data-cosmiclayer-collapsed="true"],
+    aside[data-cosmiclayer-collapsed="true"] {
+      border-top: none !important;
+      margin-top: 0 !important;
+      padding-top: 4px !important;
+      background: linear-gradient(180deg, rgba(7, 46, 51, 0.40) 0%, rgba(5, 22, 26, 0.32) 100%) !important;
+    }
+
     [data-cosmiclayer-collapsed="true"] > div:first-child,
     [data-cosmiclayer-sidebar="true"][data-cosmiclayer-collapsed="true"] > div:first-child {
       border-bottom: none !important;
       background: transparent !important;
+      padding: 0 !important;
+    }
+
+    /* Sidebar Toggle Button (harmonizes with collapsed rail below it) */
+    button[data-testid="close-sidebar-button"],
+    button[aria-label*="sidebar"],
+    button[aria-label*="navigation"],
+    header button:first-child,
+    div.sticky.top-0 > div:first-child button {
+      background: rgba(15, 150, 156, 0.15) !important;
+      border: 1px solid rgba(15, 150, 156, 0.4) !important;
+      border-radius: 10px !important;
+      color: #6da5c0 !important;
+      transition: all 0.2s ease !important;
+    }
+    button[data-testid="close-sidebar-button"]:hover,
+    button[aria-label*="sidebar"]:hover,
+    button[aria-label*="navigation"]:hover,
+    header button:first-child:hover,
+    div.sticky.top-0 > div:first-child button:hover {
+      background: rgba(15, 150, 156, 0.3) !important;
+      border-color: rgba(15, 150, 156, 0.7) !important;
+      box-shadow: 0 0 12px rgba(15, 150, 156, 0.45) !important;
+      color: #ffffff !important;
     }
 
     /* Header Action Buttons (strictly outside sidebar) */

@@ -109,8 +109,7 @@ export class GeminiAdapter implements PlatformAdapter {
       mat-sidenav,
       .side-navigation-v2,
       nav.side-nav,
-      div.side-navigation,
-      div[class*="side-nav"] {
+      div.side-navigation {
         background: linear-gradient(180deg, rgba(7, 46, 51, 0.40) 0%, rgba(5, 22, 26, 0.32) 100%) !important;
         backdrop-filter: blur(18px) saturate(160%) !important;
         -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
@@ -121,6 +120,31 @@ export class GeminiAdapter implements PlatformAdapter {
         height: 100vh !important;
         max-height: 100vh !important;
         z-index: 50 !important;
+      }
+
+      /* Collapsed Gemini sidenav dock */
+      bard-sidenav[data-cosmiclayer-collapsed="true"],
+      mat-sidenav[data-cosmiclayer-collapsed="true"],
+      .side-navigation-v2[data-cosmiclayer-collapsed="true"] {
+        height: auto !important;
+        max-height: none !important;
+        position: static !important;
+        top: auto !important;
+      }
+
+      /* Gemini Sidebar Top Row - matches 56px navbar */
+      bard-sidenav:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
+      mat-sidenav:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
+      .side-navigation-v2:not([data-cosmiclayer-collapsed="true"]) > div:first-child {
+        height: 56px !important;
+        min-height: 56px !important;
+        max-height: 56px !important;
+        box-sizing: border-box !important;
+        background: rgba(7, 46, 51, 0.40) !important;
+        border-bottom: 1px solid rgba(41, 77, 97, 0.45) !important;
+        display: flex !important;
+        align-items: center !important;
+        padding: 0 14px !important;
       }
 
       /* Make structural wrappers inside Gemini sidebar transparent */
