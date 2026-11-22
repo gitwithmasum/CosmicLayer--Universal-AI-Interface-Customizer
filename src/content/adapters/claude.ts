@@ -105,18 +105,12 @@ export class ClaudeAdapter implements PlatformAdapter {
       /* COSMICLAYER: COMPREHENSIVE FUTURISTIC CLAUDE SIDEBAR      */
       /* ========================================================= */
       aside,
-      div:has(> nav[aria-label="Recent chats"]),
-      div:has(> nav):not(aside div):not(aside nav) {
+      [data-cosmiclayer-sidebar="true"] {
         background: linear-gradient(180deg, rgba(7, 46, 51, 0.40) 0%, rgba(5, 22, 26, 0.32) 100%) !important;
         backdrop-filter: blur(18px) saturate(160%) !important;
         -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
         border-right: 1px solid rgba(41, 77, 97, 0.45) !important;
         box-shadow: 4px 0 35px rgba(5, 22, 26, 0.7) !important;
-        position: sticky !important;
-        top: 0 !important;
-        height: 100vh !important;
-        max-height: 100vh !important;
-        z-index: 50 !important;
       }
 
       /* Claude Sidebar Top Header (Claude title + collapse button) - exactly 56px */
@@ -268,12 +262,10 @@ export class ClaudeAdapter implements PlatformAdapter {
       }
 
       /* Claude Prompt Input Container Harmonization */
-      fieldset,
-      div:has(> fieldset),
-      div:has(> div[contenteditable="true"]) {
-        background: rgba(5, 22, 26, 0.65) !important;
-        backdrop-filter: blur(20px) !important;
-        -webkit-backdrop-filter: blur(20px) !important;
+      fieldset {
+        background: rgba(5, 22, 26, 0.75) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
         border: 1px solid rgba(41, 77, 97, 0.45) !important;
         border-radius: 18px !important;
         box-shadow: 0 4px 20px rgba(5, 22, 26, 0.5) !important;

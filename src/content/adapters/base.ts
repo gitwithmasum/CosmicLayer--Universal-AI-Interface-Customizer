@@ -220,15 +220,14 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
 }
 
 export function updateCosmicNavbarBadgePosition(badge: HTMLElement, platform: "chatgpt" | "claude" | "gemini"): void {
-  let rightPx = 280;
+  let rightPx = platform === "claude" ? 240 : 280;
 
   try {
     const candidates = Array.from(
-      document.querySelectorAll<HTMLElement>(
-        'header button, header a, div.draggable.sticky.top-0 button, div.draggable.sticky.top-0 a, [data-testid="top-bar"] button, [data-testid="top-bar"] a'
-      )
+      document.querySelectorAll<HTMLElement>("button, a")
     ).filter((el) => {
       if (el.id === BADGE_CONTAINER_ID || el.closest(`#${BADGE_CONTAINER_ID}`)) return false;
+      if (el.closest('[data-cosmiclayer-sidebar="true"], aside, nav')) return false;
       const rect = el.getBoundingClientRect();
       return (
         rect.width > 0 &&
@@ -250,10 +249,10 @@ export function updateCosmicNavbarBadgePosition(badge: HTMLElement, platform: "c
       const calculatedRight = window.innerWidth - minLeft + 16;
       rightPx = Math.max(240, Math.round(calculatedRight));
     } else {
-      rightPx = platform === "claude" ? 180 : 280;
+      rightPx = platform === "claude" ? 240 : 280;
     }
   } catch {
-    rightPx = 280;
+    rightPx = platform === "claude" ? 240 : 280;
   }
 
   badge.style.right = `${rightPx}px`;
