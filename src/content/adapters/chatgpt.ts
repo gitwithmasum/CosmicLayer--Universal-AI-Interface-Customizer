@@ -124,19 +124,12 @@ export class ChatGPTAdapter implements PlatformAdapter {
       aside,
       #stage-slideover-sidebar,
       [data-testid="workspace-sidebar"],
-      [data-cosmiclayer-sidebar="true"],
-      div[data-testid="sidebar-container"],
-      div[class*="bg-token-sidebar-surface-primary"] {
+      [data-cosmiclayer-sidebar="true"] {
         background: linear-gradient(180deg, rgba(7, 46, 51, 0.40) 0%, rgba(5, 22, 26, 0.32) 100%) !important;
         backdrop-filter: blur(18px) saturate(160%) !important;
         -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
         border-right: 1px solid rgba(41, 77, 97, 0.45) !important;
         box-shadow: 4px 0 35px rgba(5, 22, 26, 0.7) !important;
-        position: sticky !important;
-        top: 0 !important;
-        height: 100vh !important;
-        max-height: 100vh !important;
-        z-index: 50 !important;
       }
 
       /* Collapsed sidebar rail natural dock */
@@ -349,13 +342,12 @@ export class ChatGPTAdapter implements PlatformAdapter {
 
       /* ========================================================= */
       /* SIDEBAR PROFILE CARD (Avatar, Username, Plan, Upgrade)     */
-      /* FUTURISTIC GLASS CONTAINER MATCHING TARGET DESIGN          */
+      /* FUTURISTIC GLASS CONTAINER DOCKED FIRMLY AT THE BOTTOM    */
       /* ========================================================= */
       [data-cosmiclayer-profile-card="true"],
-      div:has(> button[data-testid="profile-button"]),
-      aside div.p-2:has(button[data-testid="profile-button"]),
-      div.flex.w-full.items-center.gap-2.p-2:has(button[data-testid="profile-button"]),
-      aside div:has(> [data-testid="profile-button"]) {
+      aside > div.sticky.bottom-0,
+      aside > div:last-child:has(button),
+      div:has(> button[data-testid="profile-button"]) {
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
@@ -363,15 +355,21 @@ export class ChatGPTAdapter implements PlatformAdapter {
         gap: 8px !important;
         width: calc(100% - 16px) !important;
         min-width: 0 !important;
+        height: auto !important;
+        max-height: none !important;
         background: rgba(7, 46, 51, 0.75) !important;
         backdrop-filter: blur(16px) saturate(160%) !important;
         -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
         border: 1px solid rgba(15, 150, 156, 0.45) !important;
         border-radius: 14px !important;
         padding: 6px 10px !important;
-        margin: 8px 8px 10px 8px !important;
+        margin: auto 8px 10px 8px !important;
         box-shadow: 0 4px 20px rgba(5, 22, 26, 0.6), inset 0 1px 0 rgba(109, 165, 192, 0.25) !important;
         box-sizing: border-box !important;
+        position: relative !important;
+        top: auto !important;
+        bottom: 0 !important;
+        z-index: 10 !important;
       }
 
       /* Profile Button Row inside Card */
@@ -665,13 +663,8 @@ export class ChatGPTAdapter implements PlatformAdapter {
       }
 
       /* Prevent conversation content and generated images from being hidden behind bottom input bar */
-      main div.overflow-y-auto,
-      main div[class*="react-scroll-to-bottom"] > div,
-      main [class*="conversation"],
-      main [data-testid*="conversation"],
-      main div.flex-1.overflow-y-auto,
-      main div.flex.flex-col.text-sm {
-        padding-bottom: 240px !important;
+      main div.overflow-y-auto {
+        padding-bottom: 120px !important;
       }
 
       /* Inner header wrapper transparency so duplicate headers are prevented */

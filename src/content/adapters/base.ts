@@ -50,16 +50,18 @@ export function clearSidebarHarmonization(): void {
 }
 
 export function harmonizeProfileCard(sidebar: HTMLElement): void {
-  // Look for the user profile container or button at the bottom of the sidebar
-  const profileBtn = sidebar.querySelector<HTMLElement>(
-    'button[data-testid="profile-button"], button[aria-haspopup="menu"]:has(img, [class*="avatar"], div.rounded-full), aside > div:last-child button, nav ~ div button, div.sticky.bottom-0 button, div:has(> a[href*="upgrade"]) button'
+  // Target the profile footer strictly docked at the bottom of the sidebar
+  const footer = sidebar.querySelector<HTMLElement>(
+    'div.sticky.bottom-0, aside > div:last-child, nav ~ div:last-child, div[class*="sidebar"] > div:last-child, div.p-2:has(button)'
+  );
+  const targetScope = footer || sidebar;
+
+  const profileBtn = targetScope.querySelector<HTMLElement>(
+    'button[data-testid="profile-button"], button[aria-haspopup="menu"]:has(img, [class*="avatar"], div.rounded-full), button:has(div.font-semibold:has(+ div))'
   );
   if (!profileBtn) return;
 
-  const cardContainer =
-    profileBtn.closest<HTMLElement>(
-      'div.sticky.bottom-0, aside > div:last-child, nav ~ div:last-child, div[class*="sidebar"] > div:last-child, div.p-2:has(button)'
-    ) || profileBtn.parentElement;
+  const cardContainer = footer || profileBtn.closest<HTMLElement>('div.sticky.bottom-0, aside > div:last-child, div.p-2') || profileBtn.parentElement;
 
   if (cardContainer && cardContainer !== sidebar) {
     cardContainer.setAttribute("data-cosmiclayer-profile-card", "true");
@@ -107,18 +109,12 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
 
   let sidebar = known;
 
-  // If the matched container is an inner element like <nav>, ascend to the actual full-height sidebar column
-  if (sidebar) {
-    let curr: HTMLElement = sidebar;
-    while (curr.parentElement && curr.parentElement !== document.body && curr.parentElement !== document.documentElement) {
-      const p = curr.parentElement;
-      const pRect = p.getBoundingClientRect();
-      if (pRect.left <= 60 && pRect.width <= 440 && pRect.height >= window.innerHeight * 0.5) {
-        sidebar = p;
-        curr = p;
-      } else {
-        break;
-      }
+  // If the matched container is an inner element like <nav>, ascend to the actual sidebar column
+  if (sidebar && sidebar.tagName === "NAV" && sidebar.parentElement) {
+    const parent = sidebar.parentElement;
+    const pRect = parent.getBoundingClientRect();
+    if (pRect.left <= 60 && pRect.width <= 440 && pRect.height >= window.innerHeight * 0.5) {
+      sidebar = parent;
     }
   }
 
@@ -146,7 +142,7 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
     parent = parent.parentElement;
   }
 
-  // 2. Tag sidebar container and apply translucent frosted glass
+  // 2. Tag sidebar container and apply translucent frosted glass (DO NOT touch position/height/top to preserve native flex layout)
   const rect = sidebar.getBoundingClientRect();
   const isCollapsed = rect.width < 100;
   sidebar.setAttribute("data-cosmiclayer-sidebar", "true");
@@ -161,19 +157,6 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
   sidebar.style.setProperty("-webkit-backdrop-filter", "blur(18px) saturate(160%)", "important");
   sidebar.style.setProperty("border-right", "1px solid rgba(41, 77, 97, 0.45)", "important");
   sidebar.style.setProperty("box-shadow", "4px 0 25px rgba(5, 22, 26, 0.5)", "important");
-  sidebar.style.setProperty("z-index", "50", "important");
-
-  if (!isCollapsed) {
-    sidebar.style.setProperty("position", "sticky", "important");
-    sidebar.style.setProperty("top", "0", "important");
-    sidebar.style.setProperty("height", "100vh", "important");
-    sidebar.style.setProperty("max-height", "100vh", "important");
-  } else {
-    sidebar.style.removeProperty("height");
-    sidebar.style.removeProperty("max-height");
-    sidebar.style.removeProperty("top");
-    sidebar.style.removeProperty("position");
-  }
 
   // 3. Clear opaque background from nested non-interactive structural divs so glass & wallpaper show through
   const innerDivs = sidebar.querySelectorAll<HTMLElement>("div, nav, section, ul, ol");
@@ -335,19 +318,12 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
   const preset = NAVBAR_PRESETS[nav.stylePreset] || NAVBAR_PRESETS["oceanic-teal"];
   const alpha = Math.max(30, Math.min(95, nav.opacity)) / 100;
 
-  // ChatGPT's sticky wrapper also contains conversation layout; style the native header only.
-  // Claude/Gemini keep their existing platform-specific header targets.
+  // Specific platform header selectors - never use generic div.sticky.top-0 to avoid colliding with chat thread elements
   const headerTargets = platform === "chatgpt"
-    ? 'header:not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(#stage-slideover-sidebar *)'
-    : `
-      header:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(#stage-slideover-sidebar *):not(bard-sidenav *):not(mat-sidenav *),
-      div.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(#stage-slideover-sidebar *):not(bard-sidenav *):not(mat-sidenav *),
-      div.draggable.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(#stage-slideover-sidebar *):not(bard-sidenav *):not(mat-sidenav *),
-      [data-testid="top-bar"]:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *),
-      mat-toolbar:not(bard-sidenav *),
-      .gemini-header:not(bard-sidenav *),
-      bard-app > header:not(bard-sidenav *)
-    `;
+    ? 'div.draggable.sticky.top-0 > header, div#thread-header > header, header:not(aside *):not(nav *):not(main *):not([data-testid="workspace-sidebar"] *)'
+    : platform === "claude"
+    ? 'header:not(aside *):not(nav *):not(main *)'
+    : '.gemini-header:not(bard-sidenav *), mat-toolbar:not(bard-sidenav *), bard-app > header:not(bard-sidenav *)';
   
   // Format background rgba with target opacity
   let bgColor = preset.bgRgba;
