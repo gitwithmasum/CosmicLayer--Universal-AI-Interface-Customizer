@@ -643,6 +643,24 @@ export class ChatGPTAdapter implements PlatformAdapter {
         align-items: center !important;
         gap: 8px !important;
       }
+
+      /* ChatGPT uses a sticky wrapper around its actual header.
+         Keep the wrapper in the sticky flow but let the inner header own the 56px height. */
+      div.draggable.sticky.top-0 {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        display: block !important;
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+      }
+      div.draggable.sticky.top-0 > header {
+        height: 56px !important;
+        min-height: 56px !important;
+        max-height: 56px !important;
+        box-sizing: border-box !important;
+      }
     `;
 
     ensureCosmicNavbarBadge(Boolean(settings.enabled && settings.navbar?.enabled && settings.navbar?.showCosmicBadge && settings.navbar?.platforms.chatgpt), "chatgpt");
