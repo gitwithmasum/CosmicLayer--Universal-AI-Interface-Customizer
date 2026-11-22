@@ -228,6 +228,20 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
 
   const preset = NAVBAR_PRESETS[nav.stylePreset] || NAVBAR_PRESETS["oceanic-teal"];
   const alpha = Math.max(30, Math.min(95, nav.opacity)) / 100;
+
+  // ChatGPT's sticky wrapper also contains conversation layout; style the native header only.
+  // Claude/Gemini keep their existing platform-specific header targets.
+  const headerTargets = platform === "chatgpt"
+    ? 'header:not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(#stage-slideover-sidebar *)'
+    : `
+      header:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(#stage-slideover-sidebar *):not(bard-sidenav *):not(mat-sidenav *),
+      div.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(#stage-slideover-sidebar *):not(bard-sidenav *):not(mat-sidenav *),
+      div.draggable.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(#stage-slideover-sidebar *):not(bard-sidenav *):not(mat-sidenav *),
+      [data-testid="top-bar"]:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *),
+      mat-toolbar:not(bard-sidenav *),
+      .gemini-header:not(bard-sidenav *),
+      bard-app > header:not(bard-sidenav *)
+    `;
   
   // Format background rgba with target opacity
   let bgColor = preset.bgRgba;
@@ -237,12 +251,7 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
 
   const glowLineCss = nav.showNeonGlowLine ? `
     /* Signature Glowing Neon Accent Underline / Topline across top bar and sidebar header */
-    header:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::after,
-    div.draggable.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::after,
-    div.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::after,
-    [data-testid="top-bar"]:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *)::after,
-    mat-toolbar:not(bard-sidenav *)::after,
-    .gemini-header:not(bard-sidenav *)::after,
+    ${headerTargets.split(",").map((selector) => selector.trim()).join("::after,\n    ")}::after,
     [data-cosmiclayer-sidebar="true"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::after,
     [data-testid="workspace-sidebar"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::after,
     nav[aria-label="Chat history"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::after {
@@ -258,12 +267,7 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
       ${nav.glowLinePosition === "top" ? "top: 0 !important; bottom: auto !important;" : "bottom: 0 !important; top: auto !important;"}
     }
     ${nav.glowLinePosition === "both" ? `
-    header:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::before,
-    div.draggable.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::before,
-    div.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::before,
-    [data-testid="top-bar"]:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *)::before,
-    mat-toolbar:not(bard-sidenav *)::before,
-    .gemini-header:not(bard-sidenav *)::before,
+    ${headerTargets.split(",").map((selector) => selector.trim()).join("::before,\n    ")}::before,
     [data-cosmiclayer-sidebar="true"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::before,
     [data-testid="workspace-sidebar"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::before,
     nav[aria-label="Chat history"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::before {
@@ -317,13 +321,7 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
     /* COSMICLAYER AI CHAT NAVBAR CUSTOMIZER                     */
     /* Preset: ${preset.name}                                   */
     /* ========================================================= */
-    header:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(#stage-slideover-sidebar *):not(bard-sidenav *):not(mat-sidenav *),
-    div.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(#stage-slideover-sidebar *):not(bard-sidenav *):not(mat-sidenav *),
-    div.draggable.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(#stage-slideover-sidebar *):not(bard-sidenav *):not(mat-sidenav *),
-    [data-testid="top-bar"]:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *),
-    mat-toolbar:not(bard-sidenav *),
-    .gemini-header:not(bard-sidenav *),
-    bard-app > header:not(bard-sidenav *) {
+    ${headerTargets} {
       height: 56px !important;
       min-height: 56px !important;
       max-height: 56px !important;
