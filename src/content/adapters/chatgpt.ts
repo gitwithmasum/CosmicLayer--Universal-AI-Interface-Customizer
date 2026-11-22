@@ -272,8 +272,9 @@ export class ChatGPTAdapter implements PlatformAdapter {
       aside h3,
       nav[aria-label="Chat history"] h2,
       nav[aria-label="Chat history"] h3,
-      nav[aria-label="Chat history"] div.text-xs:not(button[data-testid="profile-button"] *),
-      nav[aria-label="Chat history"] div[class*="text-token-text-tertiary"]:not(button[data-testid="profile-button"] *) {
+      nav[aria-label="Chat history"] div.text-xs,
+      aside div.text-xs.font-semibold,
+      aside div[class*="text-token-text-tertiary"] {
         font-family: var(--cosmic-font-heading, "Space Grotesk", sans-serif) !important;
         font-size: 11px !important;
         font-weight: 800 !important;
@@ -331,12 +332,6 @@ export class ChatGPTAdapter implements PlatformAdapter {
       div:has(> button[data-testid="profile-button"]),
       aside div.p-2:has(button[data-testid="profile-button"]),
       div.flex.w-full.items-center.gap-2.p-2:has(button[data-testid="profile-button"]) {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-        gap: 8px !important;
-        width: 100% !important;
-        min-width: 0 !important;
         background: rgba(5, 22, 26, 0.75) !important;
         border: 1px solid rgba(41, 77, 97, 0.45) !important;
         border-radius: 14px !important;
@@ -353,9 +348,7 @@ export class ChatGPTAdapter implements PlatformAdapter {
         align-items: center !important;
         justify-content: flex-start !important;
         gap: 10px !important;
-        width: auto !important;
-        min-width: 0 !important;
-        flex: 1 1 0% !important;
+        width: 100% !important;
         padding: 4px 2px !important;
         margin: 0 !important;
         background: transparent !important;
@@ -434,9 +427,8 @@ export class ChatGPTAdapter implements PlatformAdapter {
       aside div:has(button[data-testid="profile-button"]) a[href*="upgrade"],
       aside div:has(button[data-testid="profile-button"]) button[aria-label*="Upgrade"],
       aside button[data-testid*="upgrade"] {
-        flex: 0 0 auto !important;
-        min-width: max-content !important;
-        margin-left: 0 !important;
+        flex-shrink: 0 !important;
+        margin-left: auto !important;
         padding: 4px 10px !important;
         font-size: 12px !important;
         line-height: 16px !important;
@@ -606,61 +598,6 @@ export class ChatGPTAdapter implements PlatformAdapter {
       }
 
       ${computeNavbarCss(settings, "chatgpt")}
-
-      /* Final profile/header collision guard: keep account metadata out of generic section-heading rules. */
-      button[data-testid="profile-button"] {
-        display: flex !important;
-        align-items: center !important;
-        flex: 1 1 0% !important;
-        width: auto !important;
-        min-width: 0 !important;
-        overflow: hidden !important;
-      }
-      button[data-testid="profile-button"] > * {
-        min-width: 0 !important;
-      }
-      button[data-testid="profile-button"] div.grow,
-      button[data-testid="profile-button"] div.overflow-hidden:not([class*="avatar"]) {
-        flex: 1 1 0% !important;
-        min-width: 0 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        gap: 2px !important;
-      }
-      button[data-testid="profile-button"] div.text-xs,
-      button[data-testid="profile-button"] div[class*="text-token-text-tertiary"] {
-        display: block !important;
-        padding: 0 !important;
-        margin: 1px 0 0 !important;
-        font-size: 11px !important;
-        line-height: 14px !important;
-        letter-spacing: normal !important;
-        text-transform: none !important;
-        white-space: nowrap !important;
-      }
-      div:has(> button[data-testid="profile-button"]) {
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-      }
-
-      /* ChatGPT uses a sticky wrapper around its actual header.
-         Keep the wrapper in the sticky flow but let the inner header own the 56px height. */
-      div.draggable.sticky.top-0 {
-        height: auto !important;
-        min-height: 0 !important;
-        max-height: none !important;
-        display: block !important;
-        background: transparent !important;
-        border: 0 !important;
-        box-shadow: none !important;
-      }
-      div.draggable.sticky.top-0 > header {
-        height: 56px !important;
-        min-height: 56px !important;
-        max-height: 56px !important;
-        box-sizing: border-box !important;
-      }
     `;
 
     ensureCosmicNavbarBadge(Boolean(settings.enabled && settings.navbar?.enabled && settings.navbar?.showCosmicBadge && settings.navbar?.platforms.chatgpt), "chatgpt");
