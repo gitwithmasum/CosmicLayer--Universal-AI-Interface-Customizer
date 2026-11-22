@@ -280,6 +280,26 @@ export class GeminiAdapter implements PlatformAdapter {
         box-shadow: 0 4px 20px rgba(5, 22, 26, 0.5) !important;
       }
 
+      /* Gemini Profile & Image Layout */
+      main img,
+      .conversation-container img,
+      message-content img,
+      img[src*="googleusercontent"] {
+        max-width: 100% !important;
+        width: auto !important;
+        height: auto !important;
+        max-height: 520px !important;
+        object-fit: contain !important;
+        border-radius: 14px !important;
+        box-shadow: 0 4px 20px rgba(5, 22, 26, 0.5) !important;
+        border: 1px solid rgba(41, 77, 97, 0.45) !important;
+      }
+
+      .conversation-container,
+      chat-window {
+        padding-bottom: 140px !important;
+      }
+
       ${computeNavbarCss(settings, "gemini")}
     `;
 

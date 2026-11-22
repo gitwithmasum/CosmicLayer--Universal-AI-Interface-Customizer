@@ -318,30 +318,127 @@ export class ChatGPTAdapter implements PlatformAdapter {
         box-shadow: 0 0 16px rgba(15, 150, 156, 0.3) !important;
       }
 
-      /* User Profile Footer Card (Masum Billah, Free Plan, Upgrade) */
-      div[data-testid="profile-button"],
-      div.flex.w-full.items-center.gap-2.p-2:has(button[data-testid="profile-button"]),
-      aside div.p-2:has(button[data-testid="profile-button"]) {
-        background: rgba(5, 22, 26, 0.8) !important;
-        border: 1px solid rgba(41, 77, 97, 0.45) !important;
-        border-radius: 14px !important;
-        padding: 6px 10px !important;
-        margin-top: 6px !important;
-        box-shadow: 0 4px 16px rgba(5, 22, 26, 0.6) !important;
+      /* ========================================================= */
+      /* SIDEBAR PROFILE CARD (Avatar, Username, Plan, Upgrade)     */
+      /* ========================================================= */
+      /* Exclude profile card and buttons from generic transforms and width jumps */
+      aside [data-testid="profile-button"],
+      nav [data-testid="profile-button"],
+      div:has(> [data-testid="profile-button"]) {
+        transform: none !important;
       }
 
-      /* Upgrade Button Accent */
-      button[aria-label*="Upgrade"],
-      a[aria-label*="Upgrade"],
-      a[href*="upgrade"],
-      button[data-testid*="upgrade"],
-      aside button[aria-label*="Upgrade"] {
+      /* Profile Card Container */
+      div:has(> button[data-testid="profile-button"]),
+      aside div.p-2:has(button[data-testid="profile-button"]),
+      div.flex.w-full.items-center.gap-2.p-2:has(button[data-testid="profile-button"]) {
+        background: rgba(5, 22, 26, 0.75) !important;
+        border: 1px solid rgba(41, 77, 97, 0.45) !important;
+        border-radius: 14px !important;
+        padding: 4px 8px !important;
+        margin-top: 8px !important;
+        box-shadow: 0 4px 16px rgba(5, 22, 26, 0.5) !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Profile Button Row inside Card */
+      button[data-testid="profile-button"],
+      div[data-testid="profile-button"] {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 10px !important;
+        width: 100% !important;
+        padding: 4px 2px !important;
+        margin: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        transform: none !important;
+        box-sizing: border-box !important;
+        min-height: 44px !important;
+      }
+
+      /* Avatar Circle */
+      button[data-testid="profile-button"] img,
+      button[data-testid="profile-button"] div[class*="avatar"],
+      button[data-testid="profile-button"] div.rounded-full {
+        flex-shrink: 0 !important;
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        min-height: 34px !important;
+        border-radius: 50% !important;
+        border: 1px solid rgba(15, 150, 156, 0.6) !important;
+        box-shadow: 0 0 8px rgba(15, 150, 156, 0.35) !important;
+      }
+
+      /* Username and Plan Vertical Column Stack - No Overlap */
+      button[data-testid="profile-button"] div.grow,
+      button[data-testid="profile-button"] div.overflow-hidden:not([class*="avatar"]) {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        gap: 2px !important;
+        line-height: normal !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      /* Username (e.g. Masum Billah) */
+      button[data-testid="profile-button"] div.font-semibold,
+      button[data-testid="profile-button"] div.grow > div:first-child {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        color: #ffffff !important;
+        line-height: 16px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 120px !important;
+        display: block !important;
+      }
+
+      /* Account Plan (e.g. ChatGPT Free / Free Plan) */
+      button[data-testid="profile-button"] div[class*="text-token-text-tertiary"],
+      button[data-testid="profile-button"] div.text-xs,
+      button[data-testid="profile-button"] div.grow > div:last-child {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        font-size: 11px !important;
+        font-weight: 500 !important;
+        color: #6da5c0 !important;
+        line-height: 14px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 120px !important;
+        display: block !important;
+        margin-top: 1px !important;
+      }
+
+      /* Upgrade Button Accent (Capsule on the right) */
+      button[data-testid="profile-button"] ~ button,
+      button[data-testid="profile-button"] button,
+      button[data-testid="profile-button"] a[href*="upgrade"],
+      aside div:has(button[data-testid="profile-button"]) a[href*="upgrade"],
+      aside div:has(button[data-testid="profile-button"]) button[aria-label*="Upgrade"],
+      aside button[data-testid*="upgrade"] {
+        flex-shrink: 0 !important;
+        margin-left: auto !important;
+        padding: 4px 10px !important;
+        font-size: 12px !important;
+        line-height: 16px !important;
+        border-radius: 9999px !important;
         background: linear-gradient(105deg, #0f969c 0%, #0c7075 100%) !important;
         border: 1px solid rgba(109, 165, 192, 0.6) !important;
         color: #ffffff !important;
-        border-radius: 10px !important;
         font-weight: 700 !important;
-        box-shadow: 0 0 14px rgba(15, 150, 156, 0.4) !important;
+        box-shadow: 0 0 12px rgba(15, 150, 156, 0.4) !important;
+        white-space: nowrap !important;
       }
 
       /* Sleek Futuristic Scrollbar for Sidebar */
@@ -436,6 +533,68 @@ export class ChatGPTAdapter implements PlatformAdapter {
         border: 1px solid rgba(41, 77, 97, 0.45) !important;
         border-radius: 20px !important;
         box-shadow: 0 4px 20px rgba(5, 22, 26, 0.5) !important;
+      }
+
+      /* ========================================================= */
+      /* MAIN CHAT CONVERSATION LAYOUT & IMAGE ASPECT RATIO        */
+      /* ========================================================= */
+      /* Remove redundant blank space above conversation */
+      main div.h-14:empty,
+      main div.h-12:empty,
+      main div.pt-8:first-child,
+      div[class*="react-scroll-to-bottom"] > div > div:first-child:empty {
+        display: none !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      /* Clean 8px breathing space below sticky header */
+      main .composer-parent,
+      main [class*="conversation-thread"] {
+        padding-top: 8px !important;
+      }
+
+      /* Chat container positioning and responsive width (1280px, 1366px, 1920px) */
+      main .composer-parent > div,
+      main form {
+        max-width: 48rem !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Generated images: Maintain strict original aspect ratio */
+      main img[alt*="Generated"],
+      main img[alt*="DALL·E"],
+      main img[src*="backend-api"],
+      main div:has(> img[alt*="Generated"]) img,
+      div[data-message-author-role="assistant"] img {
+        max-width: 100% !important;
+        width: auto !important;
+        height: auto !important;
+        max-height: 520px !important;
+        object-fit: contain !important;
+        border-radius: 14px !important;
+        box-shadow: 0 4px 20px rgba(5, 22, 26, 0.5) !important;
+        border: 1px solid rgba(41, 77, 97, 0.45) !important;
+      }
+
+      /* Prevent conversation content from being hidden behind bottom input bar */
+      main div[class*="react-scroll-to-bottom"] > div,
+      main div.flex.flex-col.text-sm {
+        padding-bottom: 150px !important;
+      }
+
+      /* Inner header wrapper transparency so duplicate headers are prevented */
+      div.draggable.sticky.top-0 > header,
+      div#thread-header > div {
+        height: 100% !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 12px !important;
       }
 
       ${computeNavbarCss(settings, "chatgpt")}

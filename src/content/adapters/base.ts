@@ -156,42 +156,68 @@ export function ensureCosmicNavbarBadge(show: boolean, platform: "chatgpt" | "cl
     return;
   }
 
-  // Offset right so it never collides with action/upgrade buttons on each platform
-  const rightOffset = platform === "chatgpt" ? "210px" : platform === "gemini" ? "160px" : "70px";
-
-  if (existing) {
-    existing.style.right = rightOffset;
-    return;
+  let badge = existing;
+  if (!badge) {
+    badge = document.createElement("div");
+    badge.id = BADGE_CONTAINER_ID;
+    badge.innerHTML = `
+      <span style="width: 6px; height: 6px; border-radius: 50%; background: #0f969c; box-shadow: 0 0 8px #0f969c; display: inline-block;"></span>
+      <span style="font-weight: 800; font-size: 10px; letter-spacing: 0.08em; background: linear-gradient(135deg, #ffffff 0%, #6da5c0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">C🪐SMIC</span>
+    `;
+    badge.style.cssText = `
+      position: fixed;
+      top: 15px;
+      z-index: 45;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      background: rgba(5, 22, 26, 0.85);
+      border: 1px solid rgba(15, 150, 156, 0.55);
+      box-shadow: 0 0 14px rgba(15, 150, 156, 0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 10px;
+      pointer-events: none;
+      user-select: none;
+      transition: right 0.2s ease, opacity 0.3s ease;
+    `;
+    document.body.appendChild(badge);
   }
 
-  const badge = document.createElement("div");
-  badge.id = BADGE_CONTAINER_ID;
-  badge.innerHTML = `
-    <span style="width: 7px; height: 7px; border-radius: 50%; background: #0f969c; box-shadow: 0 0 8px #0f969c; display: inline-block;"></span>
-    <span style="font-weight: 800; font-size: 10px; letter-spacing: 0.08em; background: linear-gradient(135deg, #ffffff 0%, #6da5c0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">C🪐SMIC</span>
-  `;
-  badge.style.cssText = `
-    position: fixed;
-    top: 14px;
-    right: ${rightOffset};
-    z-index: 99999;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 3px 10px;
-    border-radius: 9999px;
-    background: rgba(5, 22, 26, 0.85);
-    border: 1px solid rgba(15, 150, 156, 0.55);
-    box-shadow: 0 0 14px rgba(15, 150, 156, 0.35);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    font-size: 10px;
-    pointer-events: none;
-    user-select: none;
-    transition: all 0.3s ease;
-  `;
-  document.body.appendChild(badge);
+  // Dynamically calculate safe right offset so it NEVER collides with action/upgrade buttons at any resolution or zoom
+  let rightPx = 280;
+  try {
+    if (platform === "chatgpt") {
+      const actionGroup = document.querySelector<HTMLElement>(
+        'header button[aria-label*="Share"], header a[href*="upgrade"], header button[data-testid*="upgrade"], div.draggable.sticky.top-0 div.flex.items-center.gap-2:last-child'
+      );
+      if (actionGroup) {
+        const rect = actionGroup.getBoundingClientRect();
+        const candidate = window.innerWidth - rect.left + 16;
+        if (candidate > 120 && candidate < window.innerWidth - 300) {
+          rightPx = Math.round(candidate);
+        }
+      }
+    } else if (platform === "claude") {
+      const userBtn = document.querySelector<HTMLElement>('header button, div:has(> a[href*="upgrade"]) button:last-child');
+      if (userBtn) {
+        const rect = userBtn.getBoundingClientRect();
+        const candidate = window.innerWidth - rect.left + 16;
+        if (candidate > 60 && candidate < 300) {
+          rightPx = Math.round(candidate);
+        }
+      }
+    } else if (platform === "gemini") {
+      rightPx = 180;
+    }
+  } catch {
+    // fallback
+  }
+
+  badge.style.right = `${rightPx}px`;
 }
 
 export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" | "claude" | "gemini"): string {
@@ -305,8 +331,8 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
       background: ${bgColor} !important;
       backdrop-filter: blur(${nav.glassBlur}px) !important;
       -webkit-backdrop-filter: blur(${nav.glassBlur}px) !important;
-      border-bottom: 1px solid ${preset.borderColor} !important;
-      box-shadow: 0 4px 20px rgba(5, 22, 26, 0.6) !important;
+      border-bottom: 1px solid rgba(15, 150, 156, 0.45) !important;
+      box-shadow: 0 4px 20px rgba(5, 22, 26, 0.6), inset 0 -1px 0 rgba(147, 51, 234, 0.25) !important;
       position: sticky !important;
       top: 0 !important;
       z-index: 35 !important;

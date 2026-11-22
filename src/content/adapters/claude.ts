@@ -279,6 +279,54 @@ export class ClaudeAdapter implements PlatformAdapter {
         box-shadow: 0 4px 20px rgba(5, 22, 26, 0.5) !important;
       }
 
+      /* Claude User Profile Footer Alignment (Avatar, Username, Plan) */
+      aside div:has(> button[aria-label*="User"]),
+      nav div:has(> button[aria-label*="User"]),
+      aside div.p-2:has(button:last-child) {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        box-sizing: border-box !important;
+      }
+
+      aside div:has(> button[aria-label*="User"]) button,
+      nav div:has(> button[aria-label*="User"]) button {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        width: 100% !important;
+        transform: none !important;
+      }
+
+      aside div:has(> button[aria-label*="User"]) button div:has(> span),
+      nav div:has(> button[aria-label*="User"]) button div:has(> span) {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+        gap: 2px !important;
+        min-width: 0 !important;
+        line-height: normal !important;
+      }
+
+      /* Claude Main Chat Layout & Aspect Ratio */
+      main img,
+      main div[data-testid*="artifact"] img,
+      main div.prose img {
+        max-width: 100% !important;
+        width: auto !important;
+        height: auto !important;
+        max-height: 520px !important;
+        object-fit: contain !important;
+        border-radius: 14px !important;
+        box-shadow: 0 4px 20px rgba(5, 22, 26, 0.5) !important;
+        border: 1px solid rgba(41, 77, 97, 0.45) !important;
+      }
+
+      main div.overflow-y-auto {
+        padding-bottom: 140px !important;
+      }
+
       ${computeNavbarCss(settings, "claude")}
     `;
 
