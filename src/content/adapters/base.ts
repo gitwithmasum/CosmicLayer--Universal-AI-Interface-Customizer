@@ -39,6 +39,8 @@ export function clearSidebarHarmonization(): void {
     existingSidebar.removeAttribute("data-cosmiclayer-sidebar");
     existingSidebar.removeAttribute("data-cosmiclayer-collapsed");
   }
+  document.querySelectorAll('[data-cosmiclayer-sidebar-header="true"]').forEach((el) => el.removeAttribute("data-cosmiclayer-sidebar-header"));
+  document.querySelectorAll('[data-cosmiclayer-sidebar-nav="true"]').forEach((el) => el.removeAttribute("data-cosmiclayer-sidebar-nav"));
   document.querySelectorAll('[data-cosmiclayer-profile-card="true"]').forEach((el) => el.removeAttribute("data-cosmiclayer-profile-card"));
   document.querySelectorAll('[data-cosmiclayer-profile-btn="true"]').forEach((el) => el.removeAttribute("data-cosmiclayer-profile-btn"));
   document.querySelectorAll('[data-cosmiclayer-profile-avatar="true"]').forEach((el) => el.removeAttribute("data-cosmiclayer-profile-avatar"));
@@ -50,22 +52,39 @@ export function clearSidebarHarmonization(): void {
 }
 
 export function harmonizeProfileCard(sidebar: HTMLElement): void {
-  // Target the profile footer strictly docked at the bottom of the sidebar
-  const footer = sidebar.querySelector<HTMLElement>(
-    'div.sticky.bottom-0, aside > div:last-child, nav ~ div:last-child, div[class*="sidebar"] > div:last-child, div.p-2:has(button)'
-  );
-  const targetScope = footer || sidebar;
-
-  const profileBtn = targetScope.querySelector<HTMLElement>(
+  const profileBtn = sidebar.querySelector<HTMLElement>(
     'button[data-testid="profile-button"], button[aria-haspopup="menu"]:has(img, [class*="avatar"], div.rounded-full), button:has(div.font-semibold:has(+ div))'
   );
   if (!profileBtn) return;
 
-  const cardContainer = footer || profileBtn.closest<HTMLElement>('div.sticky.bottom-0, aside > div:last-child, div.p-2') || profileBtn.parentElement;
+  // We want to find the exact container holding profileBtn (and potentially the Upgrade button next to it).
+  // CRITICAL: Must NEVER match:
+  // 1. The sidebar itself
+  // 2. Any element containing nav or chat list or h1 or h2 (e.g. the full-height column wrapper)
+  let cardContainer: HTMLElement = profileBtn;
+  let curr = profileBtn.parentElement;
 
-  if (cardContainer && cardContainer !== sidebar) {
+  while (curr && curr !== sidebar) {
+    // If this container contains nav or h1, it's a major layout container, NOT the profile card footer!
+    if (curr.querySelector('nav, [aria-label*="Chat"], [aria-label*="chat"], h1, h2')) {
+      break;
+    }
+    cardContainer = curr;
+    // If it's a sticky/docked bottom footer
+    if (
+      curr.classList.contains("bottom-0") ||
+      curr.getAttribute("data-testid") === "sidebar-footer" ||
+      curr.classList.contains("p-2")
+    ) {
+      break;
+    }
+    curr = curr.parentElement;
+  }
+
+  if (cardContainer && cardContainer !== sidebar && !cardContainer.querySelector('nav, [aria-label*="Chat"], [aria-label*="chat"], h1, h2')) {
     cardContainer.setAttribute("data-cosmiclayer-profile-card", "true");
   }
+
   profileBtn.setAttribute("data-cosmiclayer-profile-btn", "true");
 
   // Avatar element
@@ -177,7 +196,34 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
   // 4. Harmonize Profile Card cleanly (avatar, username, plan, crown/upgrade)
   harmonizeProfileCard(sidebar);
 
-  // 5. Tag navigation items inside sidebar (excluding profile card items)
+  // 5. Tag sidebar top header row (ChatGPT/Claude title + search + collapse icons near top)
+  const headerCandidates = sidebar.querySelectorAll<HTMLElement>(
+    'header, div.flex.items-center.justify-between, div:has(> h1), div:has(> a[href="/"])'
+  );
+  for (let i = 0; i < headerCandidates.length; i++) {
+    const candidate = headerCandidates[i];
+    if (
+      candidate !== sidebar &&
+      !candidate.hasAttribute("data-cosmiclayer-profile-card") &&
+      !candidate.closest('[data-cosmiclayer-profile-card="true"]') &&
+      !candidate.querySelector('nav, [aria-label*="Chat"], [data-testid="profile-button"]')
+    ) {
+      const rect = candidate.getBoundingClientRect();
+      const sidebarRect = sidebar.getBoundingClientRect();
+      if (rect.top <= sidebarRect.top + 80) {
+        candidate.setAttribute("data-cosmiclayer-sidebar-header", "true");
+        break;
+      }
+    }
+  }
+
+  // 6. Tag sidebar nav scroll container
+  const navCandidate = sidebar.querySelector<HTMLElement>('nav, div.overflow-y-auto');
+  if (navCandidate) {
+    navCandidate.setAttribute("data-cosmiclayer-sidebar-nav", "true");
+  }
+
+  // 7. Tag navigation items inside sidebar (excluding profile card items)
   const items = sidebar.querySelectorAll<HTMLElement>('a, button, li > div, div[role="button"]');
   items.forEach((item) => {
     if (
@@ -206,7 +252,7 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
     }
   });
 
-  // 6. Tag section headers (Pinned, Recents, Projects, etc.)
+  // 8. Tag section headers (Pinned, Recents, Projects, etc.)
   const headings = sidebar.querySelectorAll<HTMLElement>(
     'h2, h3, nav[aria-label="Chat history"] div.text-xs, nav[aria-label="Chat history"] div[class*="text-token-text-tertiary"], div.text-xs:not(button[data-testid="profile-button"] *):not([data-testid="profile-button"] *)'
   );
@@ -220,11 +266,11 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
 }
 
 export function updateCosmicNavbarBadgePosition(badge: HTMLElement, platform: "chatgpt" | "claude" | "gemini"): void {
-  let rightPx = platform === "claude" ? 240 : 280;
-
   try {
     const candidates = Array.from(
-      document.querySelectorAll<HTMLElement>("button, a")
+      document.querySelectorAll<HTMLElement>(
+        'header button, header a, header [role="button"], div.sticky.top-0 button, div.sticky.top-0 a, div.sticky.top-0 [role="button"], div#thread-header button, div#thread-header a, div#thread-header [role="button"]'
+      )
     ).filter((el) => {
       if (el.id === BADGE_CONTAINER_ID || el.closest(`#${BADGE_CONTAINER_ID}`)) return false;
       if (el.closest('[data-cosmiclayer-sidebar="true"], aside, nav')) return false;
@@ -234,7 +280,7 @@ export function updateCosmicNavbarBadgePosition(badge: HTMLElement, platform: "c
         rect.height > 0 &&
         rect.top >= 0 &&
         rect.top < 65 &&
-        rect.left > window.innerWidth * 0.4
+        rect.left > window.innerWidth * 0.35
       );
     });
 
@@ -246,16 +292,14 @@ export function updateCosmicNavbarBadgePosition(badge: HTMLElement, platform: "c
           minLeft = r.left;
         }
       }
-      const calculatedRight = window.innerWidth - minLeft + 16;
-      rightPx = Math.max(240, Math.round(calculatedRight));
+      const calculatedRight = window.innerWidth - minLeft + 14;
+      badge.style.right = `${Math.round(calculatedRight)}px`;
     } else {
-      rightPx = platform === "claude" ? 240 : 280;
+      badge.style.right = platform === "claude" ? "140px" : "160px";
     }
   } catch {
-    rightPx = platform === "claude" ? 240 : 280;
+    badge.style.right = platform === "claude" ? "140px" : "160px";
   }
-
-  badge.style.right = `${rightPx}px`;
 }
 
 export function ensureCosmicNavbarBadge(show: boolean, platform: "chatgpt" | "claude" | "gemini" = "chatgpt"): void {
@@ -319,7 +363,7 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
 
   // Specific platform header selectors - never use generic div.sticky.top-0 to avoid colliding with chat thread elements
   const headerTargets = platform === "chatgpt"
-    ? 'div.draggable.sticky.top-0 > header, div#thread-header > header, header:not(aside *):not(nav *):not(main *):not([data-testid="workspace-sidebar"] *)'
+    ? 'div.draggable.sticky.top-0 > header, div#thread-header > header, header.sticky.top-0:not(aside *):not(nav *):not(main *), div.sticky.top-0 > header:not(aside *):not(nav *):not(main *)'
     : platform === "claude"
     ? 'header:not(aside *):not(nav *):not(main *)'
     : '.gemini-header:not(bard-sidenav *), mat-toolbar:not(bard-sidenav *), bard-app > header:not(bard-sidenav *)';
@@ -333,9 +377,7 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
   const glowLineCss = nav.showNeonGlowLine ? `
     /* Signature Glowing Neon Accent Underline / Topline across top bar and sidebar header */
     ${headerTargets.split(",").map((selector) => selector.trim()).join("::after,\n    ")}::after,
-    [data-cosmiclayer-sidebar="true"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::after,
-    [data-testid="workspace-sidebar"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::after,
-    nav[aria-label="Chat history"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::after {
+    [data-cosmiclayer-sidebar-header="true"]::after {
       content: "" !important;
       position: absolute !important;
       left: 0 !important;
@@ -349,9 +391,7 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
     }
     ${nav.glowLinePosition === "both" ? `
     ${headerTargets.split(",").map((selector) => selector.trim()).join("::before,\n    ")}::before,
-    [data-cosmiclayer-sidebar="true"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::before,
-    [data-testid="workspace-sidebar"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::before,
-    nav[aria-label="Chat history"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child::before {
+    [data-cosmiclayer-sidebar-header="true"]::before {
       content: "" !important;
       position: absolute !important;
       top: 0 !important;
@@ -420,10 +460,7 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
     }
 
     /* Sidebar Top Header Row Harmonization (expanded state only) - Matches exact 56px height & border */
-    [data-cosmiclayer-sidebar="true"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
-    [data-testid="workspace-sidebar"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
-    nav[aria-label="Chat history"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
-    aside:not([data-cosmiclayer-collapsed="true"]) > div:first-child {
+    [data-cosmiclayer-sidebar-header="true"] {
       height: 56px !important;
       min-height: 56px !important;
       max-height: 56px !important;
@@ -434,6 +471,7 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
       -webkit-backdrop-filter: blur(${nav.glassBlur}px) !important;
       display: flex !important;
       align-items: center !important;
+      justify-content: space-between !important;
       padding: 0 16px !important;
       position: relative !important;
     }
@@ -448,19 +486,10 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
       background: linear-gradient(180deg, rgba(7, 46, 51, 0.40) 0%, rgba(5, 22, 26, 0.32) 100%) !important;
     }
 
-    [data-cosmiclayer-collapsed="true"] > div:first-child,
-    [data-cosmiclayer-sidebar="true"][data-cosmiclayer-collapsed="true"] > div:first-child {
-      border-bottom: none !important;
-      background: transparent !important;
-      padding: 0 !important;
-    }
-
     /* Sidebar Toggle Button (harmonizes with collapsed rail below it) */
     button[data-testid="close-sidebar-button"],
     button[aria-label*="sidebar"],
-    button[aria-label*="navigation"],
-    header button:first-child,
-    div.sticky.top-0 > div:first-child button {
+    button[aria-label*="navigation"] {
       background: rgba(15, 150, 156, 0.15) !important;
       border: 1px solid rgba(15, 150, 156, 0.4) !important;
       border-radius: 10px !important;
@@ -469,9 +498,7 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
     }
     button[data-testid="close-sidebar-button"]:hover,
     button[aria-label*="sidebar"]:hover,
-    button[aria-label*="navigation"]:hover,
-    header button:first-child:hover,
-    div.sticky.top-0 > div:first-child button:hover {
+    button[aria-label*="navigation"]:hover {
       background: rgba(15, 150, 156, 0.3) !important;
       border-color: rgba(15, 150, 156, 0.7) !important;
       box-shadow: 0 0 12px rgba(15, 150, 156, 0.45) !important;

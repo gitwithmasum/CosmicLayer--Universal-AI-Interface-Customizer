@@ -143,23 +143,33 @@ export class ChatGPTAdapter implements PlatformAdapter {
         border-top: none !important;
       }
 
+      /* Protect inner structural column wrapper so it spans full height without collapsing */
+      aside > div,
+      [data-cosmiclayer-sidebar="true"] > div,
+      div.flex.h-full.w-full.flex-col.overflow-hidden,
+      div.flex.h-full.w-full.flex-col {
+        background-color: transparent !important;
+        background: transparent !important;
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100% !important;
+        max-height: 100% !important;
+      }
+
       /* Make inner structural wrappers transparent so glass & wallpaper glow through */
       [data-cosmiclayer-sidebar="true"] div:not([data-cosmiclayer-profile-card="true"]):not([data-cosmiclayer-profile-card="true"] *):not(button):not(a),
       aside div:not([data-cosmiclayer-profile-card="true"]):not([data-cosmiclayer-profile-card="true"] *):not(button):not(a),
       nav div:not([data-cosmiclayer-profile-card="true"]):not([data-cosmiclayer-profile-card="true"] *):not(button):not(a),
       #stage-slideover-sidebar > div,
-      [data-testid="workspace-sidebar"] > div,
-      div.flex.h-full.w-full.flex-col.overflow-hidden,
-      div.flex.h-full.w-full.flex-col {
+      [data-testid="workspace-sidebar"] > div {
         background-color: transparent !important;
         background: transparent !important;
       }
 
       /* Sidebar Top Header ("ChatGPT" Title + Search + Close) - matches 56px navbar */
-      [data-cosmiclayer-sidebar="true"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
-      [data-testid="workspace-sidebar"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
-      nav[aria-label="Chat history"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
-      aside:not([data-cosmiclayer-collapsed="true"]) > div:first-child {
+      [data-cosmiclayer-sidebar-header="true"],
+      aside header,
+      nav[aria-label="Chat history"] header {
         height: 56px !important;
         min-height: 56px !important;
         max-height: 56px !important;
@@ -169,6 +179,8 @@ export class ChatGPTAdapter implements PlatformAdapter {
         padding: 0 14px !important;
         display: flex !important;
         align-items: center !important;
+        justify-content: space-between !important;
+        flex-shrink: 0 !important;
       }
 
       /* "ChatGPT" Logo / Title text in Sidebar */
@@ -177,8 +189,8 @@ export class ChatGPTAdapter implements PlatformAdapter {
       [data-cosmiclayer-sidebar="true"] h1,
       [data-cosmiclayer-sidebar="true"] a[href="/"],
       [data-testid="workspace-sidebar"] h1,
-      nav[aria-label="Chat history"] h1,
-      aside div.font-semibold:has(+ div > button) {
+      [data-cosmiclayer-sidebar-header="true"] h1,
+      [data-cosmiclayer-sidebar-header="true"] a {
         font-family: var(--cosmic-font-heading, "Space Grotesk", sans-serif) !important;
         font-weight: 800 !important;
         letter-spacing: 0.05em !important;
@@ -188,13 +200,12 @@ export class ChatGPTAdapter implements PlatformAdapter {
       }
 
       /* Top Action Icons (Search, Close Sidebar) */
-      aside button:not([data-testid="profile-button"]):not([data-cosmiclayer-profile-btn="true"]),
-      [data-cosmiclayer-sidebar="true"] > div:first-child button {
+      [data-cosmiclayer-sidebar-header="true"] button,
+      aside button:not([data-testid="profile-button"]):not([data-cosmiclayer-profile-btn="true"]) {
         border-radius: 10px !important;
         transition: all 0.2s ease !important;
       }
-      aside button:not([data-testid="profile-button"]):not([data-cosmiclayer-profile-btn="true"]):hover,
-      [data-cosmiclayer-sidebar="true"] > div:first-child button:hover {
+      [data-cosmiclayer-sidebar-header="true"] button:hover {
         background: rgba(15, 150, 156, 0.22) !important;
         box-shadow: 0 0 12px rgba(15, 150, 156, 0.35) !important;
         color: #6da5c0 !important;
@@ -344,10 +355,7 @@ export class ChatGPTAdapter implements PlatformAdapter {
       /* SIDEBAR PROFILE CARD (Avatar, Username, Plan, Upgrade)     */
       /* FUTURISTIC GLASS CONTAINER DOCKED FIRMLY AT THE BOTTOM    */
       /* ========================================================= */
-      [data-cosmiclayer-profile-card="true"],
-      aside > div.sticky.bottom-0,
-      aside > div:last-child:has(button),
-      div:has(> button[data-testid="profile-button"]) {
+      [data-cosmiclayer-profile-card="true"] {
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
@@ -364,18 +372,20 @@ export class ChatGPTAdapter implements PlatformAdapter {
         border-radius: 14px !important;
         padding: 6px 10px !important;
         margin: auto 8px 10px 8px !important;
+        margin-top: auto !important;
+        order: 9999 !important;
         box-shadow: 0 4px 20px rgba(5, 22, 26, 0.6), inset 0 1px 0 rgba(109, 165, 192, 0.25) !important;
         box-sizing: border-box !important;
         position: relative !important;
         top: auto !important;
         bottom: 0 !important;
+        flex-shrink: 0 !important;
         z-index: 10 !important;
       }
 
       /* Profile Button Row inside Card */
       [data-cosmiclayer-profile-btn="true"],
-      button[data-testid="profile-button"],
-      div[data-testid="profile-button"] {
+      button[data-testid="profile-button"] {
         display: flex !important;
         align-items: center !important;
         justify-content: flex-start !important;
@@ -557,11 +567,6 @@ export class ChatGPTAdapter implements PlatformAdapter {
         -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
         border-right: 1px solid rgba(41, 77, 97, 0.45) !important;
         box-shadow: 4px 0 35px rgba(5, 22, 26, 0.7) !important;
-        position: sticky !important;
-        top: 0 !important;
-        height: 100vh !important;
-        max-height: 100vh !important;
-        z-index: 50 !important;
       }
 
       [data-cosmiclayer-sidebar-item="true"]:hover {

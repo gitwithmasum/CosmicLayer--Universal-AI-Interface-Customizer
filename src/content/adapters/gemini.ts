@@ -133,9 +133,9 @@ export class GeminiAdapter implements PlatformAdapter {
       }
 
       /* Gemini Sidebar Top Row - matches 56px navbar */
-      bard-sidenav:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
-      mat-sidenav:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
-      .side-navigation-v2:not([data-cosmiclayer-collapsed="true"]) > div:first-child {
+      [data-cosmiclayer-sidebar-header="true"],
+      bard-sidenav:not([data-cosmiclayer-collapsed="true"]) header,
+      mat-sidenav:not([data-cosmiclayer-collapsed="true"]) header {
         height: 56px !important;
         min-height: 56px !important;
         max-height: 56px !important;

@@ -114,8 +114,7 @@ export class ClaudeAdapter implements PlatformAdapter {
       }
 
       /* Claude Sidebar Top Header (Claude title + collapse button) - exactly 56px */
-      aside > div:first-child,
-      nav > div:first-child,
+      [data-cosmiclayer-sidebar-header="true"],
       aside header,
       nav header {
         height: 56px !important;

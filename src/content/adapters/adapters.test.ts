@@ -37,6 +37,9 @@ describe("Platform Adapters Architecture", () => {
     expect(css).toContain("COSMICLAYER AI CHAT NAVBAR CUSTOMIZER");
     expect(css).toContain("backdrop-filter: blur(20px)");
     expect(css).toContain("Concept 4 Stretchy Glowing Capsule for Model Selector");
+    expect(css).toContain('[data-cosmiclayer-sidebar-header="true"]');
+    expect(css).not.toContain("aside:not([data-cosmiclayer-collapsed=\"true\"]) > div:first-child");
+    expect(css).not.toContain('[data-cosmiclayer-sidebar="true"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child');
   });
 
   it("computeNavbarCss returns empty string when navbar disabled", () => {
