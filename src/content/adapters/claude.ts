@@ -113,6 +113,11 @@ export class ClaudeAdapter implements PlatformAdapter {
         -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
         border-right: 1px solid rgba(41, 77, 97, 0.45) !important;
         box-shadow: 4px 0 35px rgba(5, 22, 26, 0.7) !important;
+        position: sticky !important;
+        top: 0 !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        z-index: 50 !important;
       }
 
       /* Make structural wrappers inside sidebar transparent */
@@ -210,11 +215,16 @@ export class ClaudeAdapter implements PlatformAdapter {
       /* UNIVERSAL DATA-ATTRIBUTE SIDEBAR RULES                    */
       /* ========================================================= */
       [data-cosmiclayer-sidebar="true"] {
-        background: rgba(7, 46, 51, 0.78) !important;
-        backdrop-filter: blur(24px) !important;
-        -webkit-backdrop-filter: blur(24px) !important;
+        background: linear-gradient(180deg, rgba(7, 46, 51, 0.40) 0%, rgba(5, 22, 26, 0.32) 100%) !important;
+        backdrop-filter: blur(18px) saturate(160%) !important;
+        -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
         border-right: 1px solid rgba(41, 77, 97, 0.45) !important;
         box-shadow: 4px 0 35px rgba(5, 22, 26, 0.7) !important;
+        position: sticky !important;
+        top: 0 !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        z-index: 50 !important;
       }
 
       [data-cosmiclayer-sidebar-item="true"]:hover {

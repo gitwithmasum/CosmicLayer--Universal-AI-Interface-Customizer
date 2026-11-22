@@ -73,12 +73,25 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
   }
 
   // 2. Tag sidebar container and apply translucent frosted glass
+  const rect = sidebar.getBoundingClientRect();
+  const isCollapsed = rect.width < 100;
   sidebar.setAttribute("data-cosmiclayer-sidebar", "true");
+  if (isCollapsed) {
+    sidebar.setAttribute("data-cosmiclayer-collapsed", "true");
+  } else {
+    sidebar.removeAttribute("data-cosmiclayer-collapsed");
+  }
+
   sidebar.style.setProperty("background", "linear-gradient(180deg, rgba(7, 46, 51, 0.40) 0%, rgba(5, 22, 26, 0.32) 100%)", "important");
   sidebar.style.setProperty("backdrop-filter", "blur(18px) saturate(160%)", "important");
   sidebar.style.setProperty("-webkit-backdrop-filter", "blur(18px) saturate(160%)", "important");
   sidebar.style.setProperty("border-right", "1px solid rgba(41, 77, 97, 0.45)", "important");
   sidebar.style.setProperty("box-shadow", "4px 0 25px rgba(5, 22, 26, 0.5)", "important");
+  sidebar.style.setProperty("z-index", "50", "important");
+  sidebar.style.setProperty("position", "sticky", "important");
+  sidebar.style.setProperty("top", "0", "important");
+  sidebar.style.setProperty("height", "100vh", "important");
+  sidebar.style.setProperty("max-height", "100vh", "important");
 
   // 3. Clear opaque background from nested non-interactive structural divs so glass & wallpaper show through
   const innerDivs = sidebar.querySelectorAll<HTMLElement>("div, nav, section, ul, ol");
@@ -189,13 +202,13 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
   }
 
   const glowLineCss = nav.showNeonGlowLine ? `
-    /* Signature Glowing Neon Accent Underline / Topline */
-    header::after,
-    div.draggable.sticky.top-0::after,
-    div.sticky.top-0::after,
-    [data-testid="top-bar"]::after,
-    mat-toolbar::after,
-    .gemini-header::after {
+    /* Signature Glowing Neon Accent Underline / Topline (strictly outside sidebar) */
+    header:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::after,
+    div.draggable.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::after,
+    div.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::after,
+    [data-testid="top-bar"]:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *)::after,
+    mat-toolbar:not(bard-sidenav *)::after,
+    .gemini-header:not(bard-sidenav *)::after {
       content: "" !important;
       position: absolute !important;
       left: 0 !important;
@@ -204,16 +217,16 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
       background: ${nav.glowLineColor || preset.accentGradient} !important;
       box-shadow: 0 0 14px ${preset.glowColor} !important;
       pointer-events: none !important;
-      z-index: 50 !important;
+      z-index: 36 !important;
       ${nav.glowLinePosition === "top" ? "top: 0 !important; bottom: auto !important;" : "bottom: 0 !important; top: auto !important;"}
     }
     ${nav.glowLinePosition === "both" ? `
-    header::before,
-    div.draggable.sticky.top-0::before,
-    div.sticky.top-0::before,
-    [data-testid="top-bar"]::before,
-    mat-toolbar::before,
-    .gemini-header::before {
+    header:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::before,
+    div.draggable.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::before,
+    div.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(bard-sidenav *)::before,
+    [data-testid="top-bar"]:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *)::before,
+    mat-toolbar:not(bard-sidenav *)::before,
+    .gemini-header:not(bard-sidenav *)::before {
       content: "" !important;
       position: absolute !important;
       top: 0 !important;
@@ -223,7 +236,7 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
       background: ${nav.glowLineColor || preset.accentGradient} !important;
       box-shadow: 0 0 14px ${preset.glowColor} !important;
       pointer-events: none !important;
-      z-index: 50 !important;
+      z-index: 36 !important;
     }
     ` : ""}
   ` : "";
@@ -264,13 +277,13 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
     /* COSMICLAYER AI CHAT NAVBAR CUSTOMIZER                     */
     /* Preset: ${preset.name}                                   */
     /* ========================================================= */
-    header,
-    div.sticky.top-0,
-    div.draggable.sticky.top-0,
-    [data-testid="top-bar"],
-    mat-toolbar,
-    .gemini-header,
-    bard-app > header {
+    header:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(#stage-slideover-sidebar *):not(bard-sidenav *):not(mat-sidenav *),
+    div.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(#stage-slideover-sidebar *):not(bard-sidenav *):not(mat-sidenav *),
+    div.draggable.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *):not([data-testid="workspace-sidebar"] *):not(#stage-slideover-sidebar *):not(bard-sidenav *):not(mat-sidenav *),
+    [data-testid="top-bar"]:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *),
+    mat-toolbar:not(bard-sidenav *),
+    .gemini-header:not(bard-sidenav *),
+    bard-app > header:not(bard-sidenav *) {
       background: ${bgColor} !important;
       backdrop-filter: blur(${nav.glassBlur}px) !important;
       -webkit-backdrop-filter: blur(${nav.glassBlur}px) !important;
@@ -278,29 +291,36 @@ export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" |
       box-shadow: 0 4px 20px rgba(5, 22, 26, 0.6) !important;
       position: sticky !important;
       top: 0 !important;
-      z-index: 40 !important;
+      z-index: 35 !important;
     }
 
-    /* Sidebar Top Header Row Harmonization */
-    [data-testid="workspace-sidebar"] > div:first-child,
-    nav[aria-label="Chat history"] > div:first-child,
-    div:has(> [data-testid="close-sidebar-button"]) {
+    /* Sidebar Top Header Row Harmonization (expanded state only) */
+    [data-cosmiclayer-sidebar="true"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
+    [data-testid="workspace-sidebar"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
+    nav[aria-label="Chat history"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child {
       border-bottom: 1px solid ${preset.borderColor} !important;
-      background: rgba(5, 22, 26, 0.4) !important;
+      background: rgba(5, 22, 26, 0.35) !important;
     }
 
-    /* Header Action Buttons */
-    header button:not([data-testid="model-switcher-dropdown"]):not([aria-label*="Model"]):not([aria-label*="Gemini"]),
-    div.sticky.top-0 button:not([data-testid="model-switcher-dropdown"]):not([aria-label*="Model"]):not([aria-label*="Gemini"]),
-    mat-toolbar button:not([aria-label*="Gemini"]) {
+    /* Collapsed rail connects cleanly without horizontal cuts */
+    [data-cosmiclayer-collapsed="true"] > div:first-child,
+    [data-cosmiclayer-sidebar="true"][data-cosmiclayer-collapsed="true"] > div:first-child {
+      border-bottom: none !important;
+      background: transparent !important;
+    }
+
+    /* Header Action Buttons (strictly outside sidebar) */
+    header:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *) button:not([data-testid="model-switcher-dropdown"]):not([aria-label*="Model"]):not([aria-label*="Gemini"]),
+    div.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *) button:not([data-testid="model-switcher-dropdown"]):not([aria-label*="Model"]):not([aria-label*="Gemini"]),
+    mat-toolbar:not(bard-sidenav *) button:not([aria-label*="Gemini"]) {
       background: rgba(255, 255, 255, 0.05) !important;
       border: 1px solid ${preset.borderColor} !important;
       border-radius: 10px !important;
       transition: all 0.2s ease !important;
     }
-    header button:not([data-testid="model-switcher-dropdown"]):not([aria-label*="Model"]):not([aria-label*="Gemini"]):hover,
-    div.sticky.top-0 button:not([data-testid="model-switcher-dropdown"]):not([aria-label*="Model"]):not([aria-label*="Gemini"]):hover,
-    mat-toolbar button:not([aria-label*="Gemini"]):hover {
+    header:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *) button:not([data-testid="model-switcher-dropdown"]):not([aria-label*="Model"]):not([aria-label*="Gemini"]):hover,
+    div.sticky.top-0:not([data-cosmiclayer-sidebar="true"] *):not(aside *):not(nav *) button:not([data-testid="model-switcher-dropdown"]):not([aria-label*="Model"]):not([aria-label*="Gemini"]):hover,
+    mat-toolbar:not(bard-sidenav *) button:not([aria-label*="Gemini"]):hover {
       background: rgba(15, 150, 156, 0.2) !important;
       border-color: rgba(15, 150, 156, 0.6) !important;
       box-shadow: 0 0 12px rgba(15, 150, 156, 0.35) !important;
