@@ -272,9 +272,9 @@ export class ChatGPTAdapter implements PlatformAdapter {
       aside h3,
       nav[aria-label="Chat history"] h2,
       nav[aria-label="Chat history"] h3,
-      nav[aria-label="Chat history"] div.text-xs,
-      aside div.text-xs.font-semibold,
-      aside div[class*="text-token-text-tertiary"] {
+      nav[aria-label="Chat history"] div.text-xs:not(button[data-testid="profile-button"] *),
+      aside div.text-xs.font-semibold:not(button[data-testid="profile-button"] *),
+      aside div[class*="text-token-text-tertiary"]:not(button[data-testid="profile-button"] *) {
         font-family: var(--cosmic-font-heading, "Space Grotesk", sans-serif) !important;
         font-size: 11px !important;
         font-weight: 800 !important;
@@ -331,7 +331,8 @@ export class ChatGPTAdapter implements PlatformAdapter {
       /* Profile Card Container */
       div:has(> button[data-testid="profile-button"]),
       aside div.p-2:has(button[data-testid="profile-button"]),
-      div.flex.w-full.items-center.gap-2.p-2:has(button[data-testid="profile-button"]) {
+      div.flex.w-full.items-center.gap-2.p-2:has(button[data-testid="profile-button"]),
+      aside div:has(> [data-testid="profile-button"]) {
         background: rgba(5, 22, 26, 0.75) !important;
         border: 1px solid rgba(41, 77, 97, 0.45) !important;
         border-radius: 14px !important;
@@ -375,7 +376,9 @@ export class ChatGPTAdapter implements PlatformAdapter {
 
       /* Username and Plan Vertical Column Stack - No Overlap */
       button[data-testid="profile-button"] div.grow,
-      button[data-testid="profile-button"] div.overflow-hidden:not([class*="avatar"]) {
+      button[data-testid="profile-button"] div.overflow-hidden:not([class*="avatar"]),
+      div[data-testid="profile-button"] div.grow,
+      div[data-testid="profile-button"] div.overflow-hidden:not([class*="avatar"]) {
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
@@ -390,7 +393,9 @@ export class ChatGPTAdapter implements PlatformAdapter {
 
       /* Username (e.g. Masum Billah) */
       button[data-testid="profile-button"] div.font-semibold,
-      button[data-testid="profile-button"] div.grow > div:first-child {
+      button[data-testid="profile-button"] div.grow > div:first-child,
+      div[data-testid="profile-button"] div.font-semibold,
+      div[data-testid="profile-button"] div.grow > div:first-child {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
         font-size: 13px !important;
         font-weight: 600 !important;
@@ -406,7 +411,10 @@ export class ChatGPTAdapter implements PlatformAdapter {
       /* Account Plan (e.g. ChatGPT Free / Free Plan) */
       button[data-testid="profile-button"] div[class*="text-token-text-tertiary"],
       button[data-testid="profile-button"] div.text-xs,
-      button[data-testid="profile-button"] div.grow > div:last-child {
+      button[data-testid="profile-button"] div.grow > div:last-child,
+      div[data-testid="profile-button"] div[class*="text-token-text-tertiary"],
+      div[data-testid="profile-button"] div.text-xs,
+      div[data-testid="profile-button"] div.grow > div:last-child {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
         font-size: 11px !important;
         font-weight: 500 !important;
@@ -513,26 +521,29 @@ export class ChatGPTAdapter implements PlatformAdapter {
         font-weight: 700 !important;
       }
 
-      /* ChatGPT Bottom Outer Bar transparency so wallpaper flows to bottom */
-      div[class*="bottom-0"],
-      div[class*="bg-token-main-surface-primary"],
-      footer,
-      main > div:last-child {
-        background-color: transparent !important;
-        background: transparent !important;
-      }
-
-      /* Bottom Input Box Harmonization (Ask ChatGPT) */
-      form:has(textarea),
-      div:has(> #prompt-textarea),
-      #prompt-textarea,
-      div.m-auto:has(textarea) {
+      /* Keep native ChatGPT bottom layout intact; style only the composer shell. */
+      form:has(#prompt-textarea),
+      div:has(> #prompt-textarea) {
         background: rgba(5, 22, 26, 0.65) !important;
         backdrop-filter: blur(20px) !important;
         -webkit-backdrop-filter: blur(20px) !important;
         border: 1px solid rgba(41, 77, 97, 0.45) !important;
         border-radius: 20px !important;
         box-shadow: 0 4px 20px rgba(5, 22, 26, 0.5) !important;
+        box-sizing: border-box !important;
+        min-width: 0 !important;
+      }
+
+      /* Do not impose container styling or dimensions on the editable textbox itself. */
+      #prompt-textarea {
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
       }
 
       /* ========================================================= */
@@ -551,8 +562,7 @@ export class ChatGPTAdapter implements PlatformAdapter {
       }
 
       /* Clean 8px breathing space below sticky header */
-      main .composer-parent,
-      main [class*="conversation-thread"] {
+      main .composer-parent {
         padding-top: 8px !important;
       }
 
