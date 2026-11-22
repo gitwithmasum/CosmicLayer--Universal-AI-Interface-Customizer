@@ -72,7 +72,9 @@ export class ChatGPTAdapter implements PlatformAdapter {
       html,
       body,
       .dark,
-      [data-theme="dark"] {
+      [data-theme="dark"],
+      div.dark,
+      div.light {
         --cosmic-accent: ${settings.accentColor || theme.accentColor};
         --cosmic-accent-secondary: ${theme.secondaryAccent};
         --cosmic-bg-layer: ${bgString};
@@ -80,10 +82,16 @@ export class ChatGPTAdapter implements PlatformAdapter {
         --cosmic-filter: ${filterString};
         --cosmic-overlay: ${settings.overlayColor};
         --cosmic-glass-blur: ${settings.glassBlur}px;
-        --token-sidebar-surface-primary: rgba(7, 46, 51, 0.78) !important;
-        --token-sidebar-surface-secondary: rgba(12, 112, 117, 0.45) !important;
-        --token-sidebar-surface-tertiary: rgba(15, 150, 156, 0.55) !important;
+        --token-sidebar-surface-primary: rgba(7, 46, 51, 0.45) !important;
+        --sidebar-surface-primary: rgba(7, 46, 51, 0.45) !important;
+        --token-sidebar-surface-secondary: rgba(12, 112, 117, 0.4) !important;
+        --sidebar-surface-secondary: rgba(12, 112, 117, 0.4) !important;
+        --token-sidebar-surface-tertiary: rgba(15, 150, 156, 0.5) !important;
+        --sidebar-surface-tertiary: rgba(15, 150, 156, 0.5) !important;
         --token-main-surface-primary: transparent !important;
+        --main-surface-primary: transparent !important;
+        --token-main-surface-secondary: transparent !important;
+        --main-surface-secondary: transparent !important;
       }
 
       html {
@@ -103,7 +111,6 @@ export class ChatGPTAdapter implements PlatformAdapter {
       }
 
       /* Non-destructive background harmonizer for ChatGPT main canvas */
-      /* Leaves markdown text, code blocks, and conversation turns untouched */
       body,
       #root,
       #__next,
@@ -117,8 +124,9 @@ export class ChatGPTAdapter implements PlatformAdapter {
       aside,
       #stage-slideover-sidebar,
       [data-testid="workspace-sidebar"],
-      nav[aria-label="Chat history"],
-      div[data-testid="sidebar-container"] {
+      [data-cosmiclayer-sidebar="true"],
+      div[data-testid="sidebar-container"],
+      div[class*="bg-token-sidebar-surface-primary"] {
         background: linear-gradient(180deg, rgba(7, 46, 51, 0.40) 0%, rgba(5, 22, 26, 0.32) 100%) !important;
         backdrop-filter: blur(18px) saturate(160%) !important;
         -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
@@ -142,19 +150,20 @@ export class ChatGPTAdapter implements PlatformAdapter {
         border-top: none !important;
       }
 
-      /* Make inner structural wrappers transparent so glass glows through */
-      aside > div,
+      /* Make inner structural wrappers transparent so glass & wallpaper glow through */
+      [data-cosmiclayer-sidebar="true"] div:not([data-cosmiclayer-profile-card="true"]):not([data-cosmiclayer-profile-card="true"] *):not(button):not(a),
+      aside div:not([data-cosmiclayer-profile-card="true"]):not([data-cosmiclayer-profile-card="true"] *):not(button):not(a),
+      nav div:not([data-cosmiclayer-profile-card="true"]):not([data-cosmiclayer-profile-card="true"] *):not(button):not(a),
       #stage-slideover-sidebar > div,
       [data-testid="workspace-sidebar"] > div,
-      nav[aria-label="Chat history"] > div,
-      nav[aria-label="Chat history"] div.overflow-y-auto,
-      div.flex.h-full.w-full.flex-col.overflow-hidden.bg-token-sidebar-surface-primary,
-      div.flex.h-full.w-full.flex-col.bg-token-sidebar-surface-primary {
+      div.flex.h-full.w-full.flex-col.overflow-hidden,
+      div.flex.h-full.w-full.flex-col {
         background-color: transparent !important;
         background: transparent !important;
       }
 
       /* Sidebar Top Header ("ChatGPT" Title + Search + Close) - matches 56px navbar */
+      [data-cosmiclayer-sidebar="true"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
       [data-testid="workspace-sidebar"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
       nav[aria-label="Chat history"]:not([data-cosmiclayer-collapsed="true"]) > div:first-child,
       aside:not([data-cosmiclayer-collapsed="true"]) > div:first-child {
@@ -172,6 +181,8 @@ export class ChatGPTAdapter implements PlatformAdapter {
       /* "ChatGPT" Logo / Title text in Sidebar */
       aside h1,
       aside a[href="/"],
+      [data-cosmiclayer-sidebar="true"] h1,
+      [data-cosmiclayer-sidebar="true"] a[href="/"],
       [data-testid="workspace-sidebar"] h1,
       nav[aria-label="Chat history"] h1,
       aside div.font-semibold:has(+ div > button) {
@@ -184,13 +195,13 @@ export class ChatGPTAdapter implements PlatformAdapter {
       }
 
       /* Top Action Icons (Search, Close Sidebar) */
-      aside button,
-      [data-testid="workspace-sidebar"] button:not([data-testid="profile-button"]) {
+      aside button:not([data-testid="profile-button"]):not([data-cosmiclayer-profile-btn="true"]),
+      [data-cosmiclayer-sidebar="true"] > div:first-child button {
         border-radius: 10px !important;
         transition: all 0.2s ease !important;
       }
-      aside button:hover,
-      [data-testid="workspace-sidebar"] button:not([data-testid="profile-button"]):hover {
+      aside button:not([data-testid="profile-button"]):not([data-cosmiclayer-profile-btn="true"]):hover,
+      [data-cosmiclayer-sidebar="true"] > div:first-child button:hover {
         background: rgba(15, 150, 156, 0.22) !important;
         box-shadow: 0 0 12px rgba(15, 150, 156, 0.35) !important;
         color: #6da5c0 !important;
@@ -198,8 +209,11 @@ export class ChatGPTAdapter implements PlatformAdapter {
 
       /* ========================================================= */
       /* UPPER NAV ITEMS: New chat, Images, Scheduled, Library,    */
-      /* Plugins, Explore                                          */
+      /* Plugins, Explore, Pinned, Projects                        */
       /* ========================================================= */
+      [data-cosmiclayer-sidebar="true"] a,
+      [data-cosmiclayer-sidebar="true"] button:not([data-cosmiclayer-profile-btn="true"]):not([data-cosmiclayer-profile-upgrade="true"]),
+      [data-cosmiclayer-sidebar="true"] li div[role="button"],
       nav[aria-label="Chat history"] a,
       nav[aria-label="Chat history"] button,
       aside nav a,
@@ -219,6 +233,9 @@ export class ChatGPTAdapter implements PlatformAdapter {
       }
 
       /* Hover effect on all navigation items */
+      [data-cosmiclayer-sidebar="true"] a:hover,
+      [data-cosmiclayer-sidebar="true"] button:not([data-cosmiclayer-profile-btn="true"]):not([data-cosmiclayer-profile-upgrade="true"]):hover,
+      [data-cosmiclayer-sidebar="true"] li div[role="button"]:hover,
       nav[aria-label="Chat history"] a:hover,
       nav[aria-label="Chat history"] button:hover,
       aside nav a:hover,
@@ -233,9 +250,13 @@ export class ChatGPTAdapter implements PlatformAdapter {
       }
 
       /* ========================================================= */
-      /* ACTIVE / SELECTED ITEM (e.g. "Plugins" in screenshot)     */
+      /* ACTIVE / SELECTED ITEM (e.g. "Plugins")                   */
       /* CONCEPT 4: ELASTIC STRETCHY GLOWING CAPSULE               */
       /* ========================================================= */
+      [data-cosmiclayer-sidebar="true"] a[aria-current="page"],
+      [data-cosmiclayer-sidebar="true"] [data-active="true"],
+      [data-cosmiclayer-sidebar="true"] [class*="bg-token-sidebar-surface-secondary"],
+      [data-cosmiclayer-active-item="true"],
       nav[aria-label="Chat history"] li a[aria-current="page"],
       nav[aria-label="Chat history"] a.bg-token-sidebar-surface-secondary,
       nav[aria-label="Chat history"] .bg-token-sidebar-surface-secondary,
@@ -257,6 +278,8 @@ export class ChatGPTAdapter implements PlatformAdapter {
         transform: scale(1.01) !important;
       }
 
+      [data-cosmiclayer-active-item="true"] *,
+      [data-cosmiclayer-sidebar="true"] [class*="bg-token-sidebar-surface-secondary"] *,
       nav[aria-label="Chat history"] li a[aria-current="page"] *,
       nav[aria-label="Chat history"] a.bg-token-sidebar-surface-secondary *,
       nav[aria-label="Chat history"] .bg-token-sidebar-surface-secondary *,
@@ -268,13 +291,16 @@ export class ChatGPTAdapter implements PlatformAdapter {
       /* ========================================================= */
       /* SECTION HEADERS: "Pinned", "Projects", "Today", etc.     */
       /* ========================================================= */
+      [data-cosmiclayer-sidebar="true"] h2,
+      [data-cosmiclayer-sidebar="true"] h3,
+      [data-cosmiclayer-section-header="true"],
       aside h2,
       aside h3,
       nav[aria-label="Chat history"] h2,
       nav[aria-label="Chat history"] h3,
-      nav[aria-label="Chat history"] div.text-xs:not(button[data-testid="profile-button"] *),
-      aside div.text-xs.font-semibold:not(button[data-testid="profile-button"] *),
-      aside div[class*="text-token-text-tertiary"]:not(button[data-testid="profile-button"] *) {
+      nav[aria-label="Chat history"] div.text-xs:not(button[data-testid="profile-button"] *):not([data-cosmiclayer-profile-card="true"] *),
+      aside div.text-xs.font-semibold:not(button[data-testid="profile-button"] *):not([data-cosmiclayer-profile-card="true"] *),
+      aside div[class*="text-token-text-tertiary"]:not(button[data-testid="profile-button"] *):not([data-cosmiclayer-profile-card="true"] *) {
         font-family: var(--cosmic-font-heading, "Space Grotesk", sans-serif) !important;
         font-size: 11px !important;
         font-weight: 800 !important;
@@ -287,6 +313,9 @@ export class ChatGPTAdapter implements PlatformAdapter {
         gap: 6px !important;
       }
 
+      [data-cosmiclayer-sidebar="true"] h2::before,
+      [data-cosmiclayer-sidebar="true"] h3::before,
+      [data-cosmiclayer-section-header="true"]::before,
       aside h2::before,
       aside h3::before,
       nav[aria-label="Chat history"] h2::before,
@@ -303,8 +332,7 @@ export class ChatGPTAdapter implements PlatformAdapter {
       /* Project folders & workspace containers */
       nav[aria-label="Chat history"] div:has(> button > div),
       aside div:has(> button > div),
-      nav[aria-label="Chat history"] button[aria-label*="Project"],
-      aside button[aria-label*="Project"] {
+      [data-cosmiclayer-sidebar="true"] div:has(> button > div) {
         border-radius: 12px !important;
         background: rgba(12, 112, 117, 0.15) !important;
         border: 1px solid rgba(41, 77, 97, 0.45) !important;
@@ -312,7 +340,8 @@ export class ChatGPTAdapter implements PlatformAdapter {
       }
 
       nav[aria-label="Chat history"] div:has(> button > div):hover,
-      aside div:has(> button > div):hover {
+      aside div:has(> button > div):hover,
+      [data-cosmiclayer-sidebar="true"] div:has(> button > div):hover {
         background: rgba(15, 150, 156, 0.25) !important;
         border-color: rgba(15, 150, 156, 0.6) !important;
         box-shadow: 0 0 16px rgba(15, 150, 156, 0.3) !important;
@@ -320,61 +349,91 @@ export class ChatGPTAdapter implements PlatformAdapter {
 
       /* ========================================================= */
       /* SIDEBAR PROFILE CARD (Avatar, Username, Plan, Upgrade)     */
+      /* FUTURISTIC GLASS CONTAINER MATCHING TARGET DESIGN          */
       /* ========================================================= */
-      /* Exclude profile card and buttons from generic transforms and width jumps */
-      aside [data-testid="profile-button"],
-      nav [data-testid="profile-button"],
-      div:has(> [data-testid="profile-button"]) {
-        transform: none !important;
-      }
-
-      /* Profile Card Container */
+      [data-cosmiclayer-profile-card="true"],
       div:has(> button[data-testid="profile-button"]),
       aside div.p-2:has(button[data-testid="profile-button"]),
       div.flex.w-full.items-center.gap-2.p-2:has(button[data-testid="profile-button"]),
       aside div:has(> [data-testid="profile-button"]) {
-        background: rgba(5, 22, 26, 0.75) !important;
-        border: 1px solid rgba(41, 77, 97, 0.45) !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
+        width: calc(100% - 16px) !important;
+        min-width: 0 !important;
+        background: rgba(7, 46, 51, 0.75) !important;
+        backdrop-filter: blur(16px) saturate(160%) !important;
+        -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+        border: 1px solid rgba(15, 150, 156, 0.45) !important;
         border-radius: 14px !important;
-        padding: 4px 8px !important;
-        margin-top: 8px !important;
-        box-shadow: 0 4px 16px rgba(5, 22, 26, 0.5) !important;
+        padding: 6px 10px !important;
+        margin: 8px 8px 10px 8px !important;
+        box-shadow: 0 4px 20px rgba(5, 22, 26, 0.6), inset 0 1px 0 rgba(109, 165, 192, 0.25) !important;
         box-sizing: border-box !important;
       }
 
       /* Profile Button Row inside Card */
+      [data-cosmiclayer-profile-btn="true"],
       button[data-testid="profile-button"],
       div[data-testid="profile-button"] {
         display: flex !important;
         align-items: center !important;
         justify-content: flex-start !important;
         gap: 10px !important;
-        width: 100% !important;
-        padding: 4px 2px !important;
+        width: auto !important;
+        min-width: 0 !important;
+        flex: 1 1 0% !important;
+        padding: 2px !important;
         margin: 0 !important;
         background: transparent !important;
         border: none !important;
         box-shadow: none !important;
         transform: none !important;
         box-sizing: border-box !important;
-        min-height: 44px !important;
+        min-height: 40px !important;
+        position: relative !important;
       }
 
       /* Avatar Circle */
+      [data-cosmiclayer-profile-avatar="true"],
       button[data-testid="profile-button"] img,
       button[data-testid="profile-button"] div[class*="avatar"],
       button[data-testid="profile-button"] div.rounded-full {
         flex-shrink: 0 !important;
-        width: 34px !important;
-        height: 34px !important;
-        min-width: 34px !important;
-        min-height: 34px !important;
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
         border-radius: 50% !important;
-        border: 1px solid rgba(15, 150, 156, 0.6) !important;
-        box-shadow: 0 0 8px rgba(15, 150, 156, 0.35) !important;
+        background: linear-gradient(135deg, #0f969c 0%, #072e33 100%) !important;
+        border: 2px solid rgba(15, 150, 156, 0.75) !important;
+        box-shadow: 0 0 10px rgba(15, 150, 156, 0.5) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-weight: 700 !important;
+        color: #ffffff !important;
+      }
+
+      /* Glowing Status Dot on Avatar */
+      .cosmiclayer-status-dot {
+        position: absolute !important;
+        bottom: 2px !important;
+        left: 26px !important;
+        width: 8px !important;
+        height: 8px !important;
+        border-radius: 50% !important;
+        background: #00f0ff !important;
+        box-shadow: 0 0 8px #00f0ff !important;
+        border: 2px solid #072e33 !important;
+        z-index: 2 !important;
+        pointer-events: none !important;
       }
 
       /* Username and Plan Vertical Column Stack - No Overlap */
+      [data-cosmiclayer-profile-text="true"],
       button[data-testid="profile-button"] div.grow,
       button[data-testid="profile-button"] div.overflow-hidden:not([class*="avatar"]),
       div[data-testid="profile-button"] div.grow,
@@ -392,13 +451,14 @@ export class ChatGPTAdapter implements PlatformAdapter {
       }
 
       /* Username (e.g. Masum Billah) */
+      [data-cosmiclayer-profile-name="true"],
       button[data-testid="profile-button"] div.font-semibold,
       button[data-testid="profile-button"] div.grow > div:first-child,
       div[data-testid="profile-button"] div.font-semibold,
       div[data-testid="profile-button"] div.grow > div:first-child {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-        font-size: 13px !important;
-        font-weight: 600 !important;
+        font-size: 13.5px !important;
+        font-weight: 700 !important;
         color: #ffffff !important;
         line-height: 16px !important;
         white-space: nowrap !important;
@@ -409,6 +469,7 @@ export class ChatGPTAdapter implements PlatformAdapter {
       }
 
       /* Account Plan (e.g. ChatGPT Free / Free Plan) */
+      [data-cosmiclayer-profile-plan="true"],
       button[data-testid="profile-button"] div[class*="text-token-text-tertiary"],
       button[data-testid="profile-button"] div.text-xs,
       button[data-testid="profile-button"] div.grow > div:last-child,
@@ -429,15 +490,17 @@ export class ChatGPTAdapter implements PlatformAdapter {
       }
 
       /* Upgrade Button Accent (Capsule on the right) */
+      [data-cosmiclayer-profile-upgrade="true"],
       button[data-testid="profile-button"] ~ button,
       button[data-testid="profile-button"] button,
       button[data-testid="profile-button"] a[href*="upgrade"],
       aside div:has(button[data-testid="profile-button"]) a[href*="upgrade"],
       aside div:has(button[data-testid="profile-button"]) button[aria-label*="Upgrade"],
       aside button[data-testid*="upgrade"] {
-        flex-shrink: 0 !important;
-        margin-left: auto !important;
-        padding: 4px 10px !important;
+        flex: 0 0 auto !important;
+        min-width: max-content !important;
+        margin-left: 0 !important;
+        padding: 5px 12px !important;
         font-size: 12px !important;
         line-height: 16px !important;
         border-radius: 9999px !important;
@@ -447,6 +510,13 @@ export class ChatGPTAdapter implements PlatformAdapter {
         font-weight: 700 !important;
         box-shadow: 0 0 12px rgba(15, 150, 156, 0.4) !important;
         white-space: nowrap !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+      }
+      [data-cosmiclayer-profile-upgrade="true"]:hover {
+        background: linear-gradient(105deg, #13b5bc 0%, #0f969c 100%) !important;
+        box-shadow: 0 0 18px rgba(15, 150, 156, 0.7) !important;
+        transform: scale(1.04) !important;
       }
 
       /* Sleek Futuristic Scrollbar for Sidebar */
@@ -576,6 +646,7 @@ export class ChatGPTAdapter implements PlatformAdapter {
       }
 
       /* Generated images: Maintain strict original aspect ratio */
+      main img,
       main img[alt*="Generated"],
       main img[alt*="DALL·E"],
       main img[src*="backend-api"],
@@ -589,12 +660,18 @@ export class ChatGPTAdapter implements PlatformAdapter {
         border-radius: 14px !important;
         box-shadow: 0 4px 20px rgba(5, 22, 26, 0.5) !important;
         border: 1px solid rgba(41, 77, 97, 0.45) !important;
+        display: block !important;
+        margin: 12px 0 !important;
       }
 
-      /* Prevent conversation content from being hidden behind bottom input bar */
+      /* Prevent conversation content and generated images from being hidden behind bottom input bar */
+      main div.overflow-y-auto,
       main div[class*="react-scroll-to-bottom"] > div,
+      main [class*="conversation"],
+      main [data-testid*="conversation"],
+      main div.flex-1.overflow-y-auto,
       main div.flex.flex-col.text-sm {
-        padding-bottom: 150px !important;
+        padding-bottom: 240px !important;
       }
 
       /* Inner header wrapper transparency so duplicate headers are prevented */
@@ -608,6 +685,29 @@ export class ChatGPTAdapter implements PlatformAdapter {
       }
 
       ${computeNavbarCss(settings, "chatgpt")}
+
+      /* Final profile/header collision guard: keep account metadata out of generic section-heading rules. */
+      [data-cosmiclayer-profile-card="true"] * {
+        box-sizing: border-box !important;
+      }
+
+      /* ChatGPT uses a sticky wrapper around its actual header.
+         Keep the wrapper in the sticky flow but let the inner header own the 56px height. */
+      div.draggable.sticky.top-0 {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        display: block !important;
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+      }
+      div.draggable.sticky.top-0 > header {
+        height: 56px !important;
+        min-height: 56px !important;
+        max-height: 56px !important;
+        box-sizing: border-box !important;
+      }
     `;
 
     ensureCosmicNavbarBadge(Boolean(settings.enabled && settings.navbar?.enabled && settings.navbar?.showCosmicBadge && settings.navbar?.platforms.chatgpt), "chatgpt");
@@ -637,9 +737,13 @@ export class ChatGPTAdapter implements PlatformAdapter {
             this.injectStylesAndLayer(this.currentSettings);
           } else {
             findAndHarmonizeSidebar();
+            ensureCosmicNavbarBadge(
+              Boolean(this.currentSettings.navbar?.enabled && this.currentSettings.navbar?.showCosmicBadge && this.currentSettings.navbar?.platforms.chatgpt),
+              "chatgpt"
+            );
           }
         }
-      }, 500);
+      }, 350);
     });
 
     this.observer.observe(document.documentElement, {

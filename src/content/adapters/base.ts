@@ -37,6 +37,65 @@ export function clearSidebarHarmonization(): void {
   const existingSidebar = document.querySelector('[data-cosmiclayer-sidebar="true"]');
   if (existingSidebar) {
     existingSidebar.removeAttribute("data-cosmiclayer-sidebar");
+    existingSidebar.removeAttribute("data-cosmiclayer-collapsed");
+  }
+  document.querySelectorAll('[data-cosmiclayer-profile-card="true"]').forEach((el) => el.removeAttribute("data-cosmiclayer-profile-card"));
+  document.querySelectorAll('[data-cosmiclayer-profile-btn="true"]').forEach((el) => el.removeAttribute("data-cosmiclayer-profile-btn"));
+  document.querySelectorAll('[data-cosmiclayer-profile-avatar="true"]').forEach((el) => el.removeAttribute("data-cosmiclayer-profile-avatar"));
+  document.querySelectorAll('[data-cosmiclayer-profile-text="true"]').forEach((el) => el.removeAttribute("data-cosmiclayer-profile-text"));
+  document.querySelectorAll('[data-cosmiclayer-profile-name="true"]').forEach((el) => el.removeAttribute("data-cosmiclayer-profile-name"));
+  document.querySelectorAll('[data-cosmiclayer-profile-plan="true"]').forEach((el) => el.removeAttribute("data-cosmiclayer-profile-plan"));
+  document.querySelectorAll('[data-cosmiclayer-profile-upgrade="true"]').forEach((el) => el.removeAttribute("data-cosmiclayer-profile-upgrade"));
+  document.querySelectorAll(".cosmiclayer-status-dot").forEach((el) => el.remove());
+}
+
+export function harmonizeProfileCard(sidebar: HTMLElement): void {
+  // Look for the user profile container or button at the bottom of the sidebar
+  const profileBtn = sidebar.querySelector<HTMLElement>(
+    'button[data-testid="profile-button"], button[aria-haspopup="menu"]:has(img, [class*="avatar"], div.rounded-full), aside > div:last-child button, nav ~ div button, div.sticky.bottom-0 button, div:has(> a[href*="upgrade"]) button'
+  );
+  if (!profileBtn) return;
+
+  const cardContainer =
+    profileBtn.closest<HTMLElement>(
+      'div.sticky.bottom-0, aside > div:last-child, nav ~ div:last-child, div[class*="sidebar"] > div:last-child, div.p-2:has(button)'
+    ) || profileBtn.parentElement;
+
+  if (cardContainer && cardContainer !== sidebar) {
+    cardContainer.setAttribute("data-cosmiclayer-profile-card", "true");
+  }
+  profileBtn.setAttribute("data-cosmiclayer-profile-btn", "true");
+
+  // Avatar element
+  const avatar = profileBtn.querySelector<HTMLElement>('img, [class*="avatar"], div.rounded-full');
+  if (avatar) {
+    avatar.setAttribute("data-cosmiclayer-profile-avatar", "true");
+    const parent = avatar.parentElement;
+    if (parent && !parent.querySelector(".cosmiclayer-status-dot")) {
+      const dot = document.createElement("span");
+      dot.className = "cosmiclayer-status-dot";
+      parent.style.setProperty("position", "relative", "important");
+      parent.appendChild(dot);
+    }
+  }
+
+  // Text column: look for element containing username and plan
+  const divChildren = Array.from(profileBtn.querySelectorAll<HTMLElement>("div"));
+  for (const d of divChildren) {
+    if (d.children.length === 2 && !d.querySelector("img, svg, button")) {
+      d.setAttribute("data-cosmiclayer-profile-text", "true");
+      (d.children[0] as HTMLElement).setAttribute("data-cosmiclayer-profile-name", "true");
+      (d.children[1] as HTMLElement).setAttribute("data-cosmiclayer-profile-plan", "true");
+      break;
+    }
+  }
+
+  // Upgrade or crown action button
+  const upgradeBtn = cardContainer?.querySelector<HTMLElement>(
+    'button[data-testid*="upgrade"], a[href*="upgrade"], button[aria-label*="Upgrade"], button:not([data-cosmiclayer-profile-btn="true"])'
+  );
+  if (upgradeBtn) {
+    upgradeBtn.setAttribute("data-cosmiclayer-profile-upgrade", "true");
   }
 }
 
@@ -47,6 +106,21 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
   );
 
   let sidebar = known;
+
+  // If the matched container is an inner element like <nav>, ascend to the actual full-height sidebar column
+  if (sidebar) {
+    let curr: HTMLElement = sidebar;
+    while (curr.parentElement && curr.parentElement !== document.body && curr.parentElement !== document.documentElement) {
+      const p = curr.parentElement;
+      const pRect = p.getBoundingClientRect();
+      if (pRect.left <= 60 && pRect.width <= 440 && pRect.height >= window.innerHeight * 0.5) {
+        sidebar = p;
+        curr = p;
+      } else {
+        break;
+      }
+    }
+  }
 
   // Strategy 2: Search elements docked on left edge (handles both full 260px sidebar and 60px collapsed icon rail)
   if (!sidebar) {
@@ -108,23 +182,32 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
       child.getAttribute("role") === "button" ||
       child.tagName === "BUTTON" ||
       child.tagName === "A" ||
-      child.hasAttribute("data-cosmiclayer-active-item")
+      child.hasAttribute("data-cosmiclayer-profile-card") ||
+      child.closest('[data-cosmiclayer-profile-card="true"]')
     ) {
       return;
     }
-    const bg = window.getComputedStyle(child).backgroundColor;
-    if (bg && bg !== "transparent" && bg !== "rgba(0, 0, 0, 0)") {
-      child.style.setProperty("background-color", "transparent", "important");
-      child.style.setProperty("background", "transparent", "important");
-    }
+    child.style.setProperty("background-color", "transparent", "important");
+    child.style.setProperty("background", "transparent", "important");
   });
 
-  // 4. Tag navigation items inside sidebar
+  // 4. Harmonize Profile Card cleanly (avatar, username, plan, crown/upgrade)
+  harmonizeProfileCard(sidebar);
+
+  // 5. Tag navigation items inside sidebar (excluding profile card items)
   const items = sidebar.querySelectorAll<HTMLElement>('a, button, li > div, div[role="button"]');
   items.forEach((item) => {
+    if (
+      item.closest('[data-cosmiclayer-profile-card="true"]') ||
+      item.hasAttribute("data-cosmiclayer-profile-btn") ||
+      item.hasAttribute("data-cosmiclayer-profile-upgrade") ||
+      item.closest('[data-testid="profile-button"]')
+    ) {
+      return;
+    }
+
     item.setAttribute("data-cosmiclayer-sidebar-item", "true");
 
-    // Clean up default gray active classes
     const isCurrent =
       item.getAttribute("aria-current") === "page" ||
       item.getAttribute("data-active") === "true" ||
@@ -140,13 +223,57 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
     }
   });
 
-  // 5. Tag section headers (Pinned, Recents, Projects, etc.)
-  const headings = sidebar.querySelectorAll<HTMLElement>("h2, h3, div.text-xs, div[class*='text-text-500'], div[class*='text-token-text-tertiary']");
+  // 6. Tag section headers (Pinned, Recents, Projects, etc.)
+  const headings = sidebar.querySelectorAll<HTMLElement>(
+    'h2, h3, nav[aria-label="Chat history"] div.text-xs, nav[aria-label="Chat history"] div[class*="text-token-text-tertiary"], div.text-xs:not(button[data-testid="profile-button"] *):not([data-testid="profile-button"] *)'
+  );
   headings.forEach((heading) => {
-    heading.setAttribute("data-cosmiclayer-section-header", "true");
+    if (!heading.closest('[data-cosmiclayer-profile-card="true"]')) {
+      heading.setAttribute("data-cosmiclayer-section-header", "true");
+    }
   });
 
   return sidebar;
+}
+
+export function updateCosmicNavbarBadgePosition(badge: HTMLElement, platform: "chatgpt" | "claude" | "gemini"): void {
+  let rightPx = 280;
+
+  try {
+    const candidates = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        'header button, header a, div.draggable.sticky.top-0 button, div.draggable.sticky.top-0 a, [data-testid="top-bar"] button, [data-testid="top-bar"] a'
+      )
+    ).filter((el) => {
+      if (el.id === BADGE_CONTAINER_ID || el.closest(`#${BADGE_CONTAINER_ID}`)) return false;
+      const rect = el.getBoundingClientRect();
+      return (
+        rect.width > 0 &&
+        rect.height > 0 &&
+        rect.top >= 0 &&
+        rect.top < 65 &&
+        rect.left > window.innerWidth * 0.4
+      );
+    });
+
+    if (candidates.length > 0) {
+      let minLeft = window.innerWidth;
+      for (const btn of candidates) {
+        const r = btn.getBoundingClientRect();
+        if (r.left < minLeft) {
+          minLeft = r.left;
+        }
+      }
+      const calculatedRight = window.innerWidth - minLeft + 16;
+      rightPx = Math.max(240, Math.round(calculatedRight));
+    } else {
+      rightPx = platform === "claude" ? 180 : 280;
+    }
+  } catch {
+    rightPx = 280;
+  }
+
+  badge.style.right = `${rightPx}px`;
 }
 
 export function ensureCosmicNavbarBadge(show: boolean, platform: "chatgpt" | "claude" | "gemini" = "chatgpt"): void {
@@ -161,7 +288,7 @@ export function ensureCosmicNavbarBadge(show: boolean, platform: "chatgpt" | "cl
     badge = document.createElement("div");
     badge.id = BADGE_CONTAINER_ID;
     badge.innerHTML = `
-      <span style="width: 6px; height: 6px; border-radius: 50%; background: #0f969c; box-shadow: 0 0 8px #0f969c; display: inline-block;"></span>
+      <span style="width: 6px; height: 6px; border-radius: 50%; background: #00f0ff; box-shadow: 0 0 8px #00f0ff; display: inline-block;"></span>
       <span style="font-weight: 800; font-size: 10px; letter-spacing: 0.08em; background: linear-gradient(135deg, #ffffff 0%, #6da5c0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">C🪐SMIC</span>
     `;
     badge.style.cssText = `
@@ -185,39 +312,18 @@ export function ensureCosmicNavbarBadge(show: boolean, platform: "chatgpt" | "cl
       transition: right 0.2s ease, opacity 0.3s ease;
     `;
     document.body.appendChild(badge);
+
+    window.addEventListener(
+      "resize",
+      () => {
+        const b = document.getElementById(BADGE_CONTAINER_ID);
+        if (b) updateCosmicNavbarBadgePosition(b, platform);
+      },
+      { passive: true }
+    );
   }
 
-  // Dynamically calculate safe right offset so it NEVER collides with action/upgrade buttons at any resolution or zoom
-  let rightPx = 280;
-  try {
-    if (platform === "chatgpt") {
-      const actionGroup = document.querySelector<HTMLElement>(
-        'header button[aria-label*="Share"], header a[href*="upgrade"], header button[data-testid*="upgrade"], div.draggable.sticky.top-0 div.flex.items-center.gap-2:last-child'
-      );
-      if (actionGroup) {
-        const rect = actionGroup.getBoundingClientRect();
-        const candidate = window.innerWidth - rect.left + 16;
-        if (candidate > 120 && candidate < window.innerWidth - 300) {
-          rightPx = Math.round(candidate);
-        }
-      }
-    } else if (platform === "claude") {
-      const userBtn = document.querySelector<HTMLElement>('header button, div:has(> a[href*="upgrade"]) button:last-child');
-      if (userBtn) {
-        const rect = userBtn.getBoundingClientRect();
-        const candidate = window.innerWidth - rect.left + 16;
-        if (candidate > 60 && candidate < 300) {
-          rightPx = Math.round(candidate);
-        }
-      }
-    } else if (platform === "gemini") {
-      rightPx = 180;
-    }
-  } catch {
-    // fallback
-  }
-
-  badge.style.right = `${rightPx}px`;
+  updateCosmicNavbarBadgePosition(badge, platform);
 }
 
 export function computeNavbarCss(settings: CosmicSettings, platform: "chatgpt" | "claude" | "gemini"): string {

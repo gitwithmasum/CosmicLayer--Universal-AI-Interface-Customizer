@@ -328,6 +328,10 @@ export class GeminiAdapter implements PlatformAdapter {
             this.injectStylesAndLayer(this.currentSettings);
           } else {
             findAndHarmonizeSidebar();
+            ensureCosmicNavbarBadge(
+              Boolean(this.currentSettings.navbar?.enabled && this.currentSettings.navbar?.showCosmicBadge && this.currentSettings.navbar?.platforms.gemini),
+              "gemini"
+            );
           }
         }
       }, 500);

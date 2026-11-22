@@ -355,6 +355,10 @@ export class ClaudeAdapter implements PlatformAdapter {
             this.injectStylesAndLayer(this.currentSettings);
           } else {
             findAndHarmonizeSidebar();
+            ensureCosmicNavbarBadge(
+              Boolean(this.currentSettings.navbar?.enabled && this.currentSettings.navbar?.showCosmicBadge && this.currentSettings.navbar?.platforms.claude),
+              "claude"
+            );
           }
         }
       }, 500);
