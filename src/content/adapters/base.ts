@@ -141,7 +141,9 @@ export function findAndHarmonizeSidebar(): HTMLElement | null {
   });
 
   // 5. Tag section headers (Pinned, Recents, Projects, etc.)
-  const headings = sidebar.querySelectorAll<HTMLElement>("h2, h3, div.text-xs, div[class*='text-text-500'], div[class*='text-token-text-tertiary']");
+  const headings = sidebar.querySelectorAll<HTMLElement>(
+    'h2, h3, nav[aria-label="Chat history"] div.text-xs, nav[aria-label="Chat history"] div[class*="text-token-text-tertiary"], div.text-xs:not(button[data-testid="profile-button"] *):not([data-testid="profile-button"] *)'
+  );
   headings.forEach((heading) => {
     heading.setAttribute("data-cosmiclayer-section-header", "true");
   });
